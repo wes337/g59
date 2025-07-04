@@ -1,103 +1,145 @@
+"use client";
+import { useState } from "react";
 import Image from "next/image";
+import gsap from "gsap";
+import { useGSAP } from "@gsap/react";
+import { InertiaPlugin } from "gsap/all";
+
+gsap.registerPlugin(useGSAP, InertiaPlugin);
+
+const SLIDES = [
+  {
+    name: "$uicideboy$",
+    icon: "/images/artists/sb-icon.png",
+    bg: "/images/backgrounds/slide-1.jpg",
+  },
+  {
+    name: "chetta",
+    icon: "/images/artists/chetta-icon.png",
+    bg: "/images/backgrounds/bg-grunge-1.jpg",
+  },
+  {
+    name: "germ",
+    icon: "/images/artists/germ-icon.png",
+    bg: "/images/backgrounds/bg-grunge-2.jpg",
+  },
+];
 
 export default function Home() {
-  return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm/6 text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-[family-name:var(--font-geist-mono)] font-semibold">
-              src/app/page.js
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+  const [currentSlide, setCurrentSlide] = useState(0);
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
-        </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
+  useGSAP(() => {
+    for (let i = 0; i < SLIDES.length; i++) {
+      const id = `#slide-${i}`;
+      gsap.set(`${id} .bg`, {
+        xPercent: -300,
+      });
+      gsap.set(`${id} .icon`, {
+        yPercent: 300,
+      });
+      gsap.set(`${id} .icon`, { xPercent: 300 });
+      gsap.set(`${id} .name`, {
+        xPercent: -500,
+        yPercent: -500,
+      });
+    }
+  });
+
+  useGSAP(() => {
+    const currentId = `#slide-${currentSlide}`;
+    gsap.to(`${currentId} .bg`, { xPercent: -50, ease: "back.inOut" });
+    gsap.to(`${currentId} .icon`, {
+      xPercent: -50,
+      yPercent: 0,
+      ease: "back.out",
+    });
+    gsap.to(`${currentId} .name`, {
+      xPercent: 0,
+      yPercent: -50,
+      ease: "sine.inOut",
+    });
+
+    for (let i = 0; i < SLIDES.length; i++) {
+      if (i === currentSlide) {
+        continue;
+      }
+
+      const id = `#slide-${i}`;
+      gsap.to(`${id} .bg`, {
+        xPercent: -300,
+        ease: "back.inOut",
+      });
+      gsap.to(`${id} .icon`, { yPercent: -300, ease: "back.in", delay: 0.5 });
+      gsap.to(`${id} .icon`, { xPercent: 300, ease: "back.in" });
+      gsap.to(`${id} .name`, {
+        xPercent: -500,
+        yPercent: -500,
+        ease: "sine.inOut",
+      });
+    }
+  }, [currentSlide]);
+
+  const gotoNextSlide = () => {
+    setCurrentSlide((currentSlide) => {
+      const nextSlide = currentSlide + 1;
+
+      if (nextSlide > SLIDES.length - 1) {
+        return 0;
+      }
+
+      return nextSlide;
+    });
+  };
+
+  return (
+    <div>
+      <Image
+        className="fixed top-0 left-0 w-full h-full z-0 pointer-events-none opacity-25 object-cover object-bottom"
+        src={`/images/backgrounds/bg-2.jpg`}
+        alt=""
+        width={3840}
+        height={2160}
+      />
+      {SLIDES.map((slide, index) => {
+        return (
+          <Slide
+            key={slide.name}
+            index={index}
+            slide={slide}
+            onClick={gotoNextSlide}
           />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+        );
+      })}
+    </div>
+  );
+}
+
+function Slide(props) {
+  return (
+    <div id={`slide-${props.index}`} onClick={props.onClick}>
+      <div className="bg fixed top-[50%] left-[50%] w-[66vw] h-[66vh] translate-[-50%] opacity-75 select-none">
+        <Image
+          className="w-full h-full object-cover"
+          src={props.slide.bg}
+          alt=""
+          width={3840}
+          height={2160}
+        />
+      </div>
+      <div className="icon fixed top-[50%] left-[66%] w-[66vw] h-[66vh] translate-x-[-50%] translate-y-[-40%] drop-shadow-[0_4px_8px_rgb(0_0_0_/_0.75)] select-none">
+        <Image
+          className="w-full h-full object-contain"
+          src={props.slide.icon}
+          alt=""
+          width={2000}
+          height={2000}
+        />
+      </div>
+      <div className="name fixed top-[50%] left-[33%] translate-x-[-33%] translate-y-[-50%] drop-shadow-lg invisible md:visible">
+        <h2 className="text-[7rem] text-shadow-[0_4px_8px_rgb(0_0_0_/_0.75)]">
+          {props.slide.name}
+        </h2>
+      </div>
     </div>
   );
 }
