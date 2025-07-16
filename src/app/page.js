@@ -4,26 +4,9 @@ import Image from "next/image";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import { InertiaPlugin } from "gsap/all";
+import { SLIDES } from "./data";
 
 gsap.registerPlugin(useGSAP, InertiaPlugin);
-
-const SLIDES = [
-  {
-    name: "$uicideboy$",
-    icon: "/images/artists/sb-icon.png",
-    bg: "/images/backgrounds/slide-1.jpg",
-  },
-  {
-    name: "chetta",
-    icon: "/images/artists/chetta-icon.png",
-    bg: "/images/backgrounds/bg-grunge-1.jpg",
-  },
-  {
-    name: "germ",
-    icon: "/images/artists/germ-icon.png",
-    bg: "/images/backgrounds/bg-grunge-2.jpg",
-  },
-];
 
 export default function Home() {
   const [currentSlide, setCurrentSlide] = useState(0);
@@ -42,6 +25,10 @@ export default function Home() {
         xPercent: -500,
         yPercent: -500,
       });
+
+      gsap.set(`${id} .socials`, {
+        yPercent: -5000,
+      });
     }
   });
 
@@ -56,6 +43,10 @@ export default function Home() {
     gsap.to(`${currentId} .name`, {
       xPercent: 0,
       yPercent: -50,
+      ease: "sine.inOut",
+    });
+    gsap.to(`${currentId} .socials`, {
+      yPercent: 0,
       ease: "sine.inOut",
     });
 
@@ -74,6 +65,11 @@ export default function Home() {
       gsap.to(`${id} .name`, {
         xPercent: -500,
         yPercent: -500,
+        ease: "sine.inOut",
+      });
+
+      gsap.to(`${id} .socials`, {
+        yPercent: -5000,
         ease: "sine.inOut",
       });
     }
@@ -139,6 +135,23 @@ function Slide(props) {
         <h2 className="text-[7rem] text-shadow-[0_4px_8px_rgb(0_0_0_/_0.75)]">
           {props.slide.name}
         </h2>
+      </div>
+      <div className="socials flex gap-8 fixed top-[64%] left-[33%] translate-x-[-33%] translate-y-[-40%]">
+        <button className="size-10 drop-shadow-lg cursor-pointer hover:scale-[1.1]">
+          <img src={`/images/icons/youtube-icon.png`} alt="YouTube" />
+        </button>
+        <button className="size-10 drop-shadow-lg cursor-pointer hover:scale-[1.1]">
+          <img src={`/images/icons/ig-icon.png`} alt="Instagram" />
+        </button>
+        <button className="size-10 drop-shadow-lg cursor-pointer hover:scale-[1.1]">
+          <img src={`/images/icons/spotify-icon.png`} alt="Spotify" />
+        </button>
+        <button className="size-10 drop-shadow-lg cursor-pointer hover:scale-[1.1]">
+          <img src={`/images/icons/tt-icon.png`} alt="TikTok" />
+        </button>
+        <button className="size-10 drop-shadow-lg cursor-pointer hover:scale-[1.1]">
+          <img src={`/images/icons/soundcloud-icon.png`} alt="Soundcloud" />
+        </button>
       </div>
     </div>
   );
