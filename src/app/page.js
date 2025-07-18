@@ -11,9 +11,12 @@ import { randomNumberBetween } from "./utils";
 
 gsap.registerPlugin(useGSAP, Observer, InertiaPlugin);
 
+const NUMBER_OF_BACKGROUNDS = 4;
+
 export default function Home() {
   const animating = useRef(false);
   const [currentSlide, setCurrentSlide] = useState(0);
+  const [currentBackground, setCurrentBackground] = useState(0);
 
   useGSAP(() => {
     Observer.create({
@@ -102,6 +105,7 @@ export default function Home() {
       rotate: randomNumberBetween(-1, -80),
       ease: "elastic",
     });
+    setCurrentBackground(randomNumberBetween(0, NUMBER_OF_BACKGROUNDS - 1));
   }, [currentSlide]);
 
   const gotoNextSlide = useCallback(() => {
@@ -142,7 +146,7 @@ export default function Home() {
 
   return (
     <div>
-      <Background />
+      <Background currentBackground={currentBackground} />
       {SLIDES.map((slide, index) => {
         return (
           <Slide
@@ -166,7 +170,7 @@ export default function Home() {
 function Slide(props) {
   return (
     <div id={`slide-${props.index}`} onClick={props.onClick}>
-      <div className="bg fixed top-[50%] left-[50%] w-[66vw] h-[66vh] brightness-75 select-none">
+      <div className="bg fixed top-[50%] left-[50%] w-[66vw] h-[66vh] brightness-60 select-none">
         <Image
           className="w-full h-full object-cover"
           src={props.slide.bg}
@@ -186,7 +190,7 @@ function Slide(props) {
       </div>
       <div className="name fixed top-[25%] left-[50%] md:top-[50%] md:left-[33%] xl:top-[48%] drop-shadow-lg z-3">
         <h2
-          className={`text-[4rem] md:text-[7rem] lg:text-[8rem] text-shadow-[0_4px_8px_rgb(0_0_0_/_0.75)] hover:scale-[1.1] transition-all duration-200`}
+          className={`text-white text-[4rem] md:text-[7rem] lg:text-[8rem] text-shadow-[0_4px_8px_rgb(0_0_0_/_0.75)] hover:scale-[1.1] transition-all duration-200`}
         >
           {props.slide.name}
         </h2>
@@ -213,7 +217,7 @@ function Slide(props) {
           src={`/images/icons/soundcloud-icon.png`}
         />
       </div>
-      <div className="photos fixed top-[70%] md:top-[72%] left-[50%] w-[100vw] md:w-[64vw] h-[100px] z-5 shadow-[0px_40px_0px_#e4e4e4] md:shadow-[0px_72px_0px_#e4e4e4]">
+      <div className="photos flex flex-nowrap fixed top-[70%] md:top-[72%] left-[50%] w-full md:w-[64vw] h-[100px] z-5 shadow-[0px_40px_0px_#e4e4e4] md:shadow-[0px_72px_0px_#e4e4e4]">
         <PhotoSelector />
       </div>
     </div>
@@ -239,47 +243,37 @@ function SocialMediaButton(props) {
 
 function PhotoSelector(props) {
   const Photo = () => (
-    <Image
-      className="w-full h-full object-contain p-2 select-none drop-shadow-lg hover:scale-[1.2] transition-all duration-200"
-      src={`/images/artists/test-tn.png`}
-      width={500}
-      height={350}
-      alt=""
-    />
-
-    // <button
-    //   className="group relative cursor-pointer w-full h-full drop-shadow-lg hover:scale-[1.2] transition-all duration-200 select-none"
-    //   onClick={(event) => event.stopPropagation()}
-    // >
-    //   <Image
-    //     className="w-full h-full object-contain p-2 select-none"
-    //     src={`/images/artists/test-tn.png`}
-    //     width={500}
-    //     height={350}
-    //     alt=""
-    //   />
-    //   <Image
-    //     className="absolute top-0 z-[-1] w-full h-full object-contain select-none transition-all duration-250 scale-[0.1] group-hover:scale-[1]"
-    //     src={`/images/wires-hover.png`}
-    //     width={1000}
-    //     height={412}
-    //     alt=""
-    //   />
-    // </button>
+    <button
+      className="group cursor-pointer translate-y-[48px] md:translate-y-[64px] w-[100px] md:w-full shrink-0 md:shrink-1 md:grow-1 drop-shadow-lg hover:scale-[1.2] transition-all duration-200 select-none"
+      onClick={(event) => event.stopPropagation()}
+    >
+      <Image
+        className="w-full h-full object-contain p-2 select-none"
+        src={`/images/artists/test-tn.png`}
+        width={500}
+        height={350}
+        alt=""
+      />
+      <Image
+        className="absolute top-0 z-[-1] w-full h-full object-contain select-none transition-all duration-100 scale-[0.1] group-hover:scale-[1]"
+        src={`/images/wires-hover.png`}
+        width={1000}
+        height={412}
+        alt=""
+      />
+    </button>
   );
 
   return (
     <>
-      <div className="flex w-full h-[64px] md:h-[100px] translate-y-[80px] md:translate-y-[64px] drop-shadow-[0_4px_8px_rgb(0_0_0_/_0.75)]">
-        <Photo />
-        <Photo />
-        <Photo />
-        <Photo />
-        <Photo />
-        <Photo />
-        <Photo />
-        <Photo />
-      </div>
+      <Photo />
+      <Photo />
+      <Photo />
+      <Photo />
+      <Photo />
+      <Photo />
+      <Photo />
+      <Photo />
     </>
   );
 }
