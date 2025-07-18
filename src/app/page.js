@@ -25,7 +25,7 @@ export default function Home() {
       onDown: () => {
         gotoPreviousSlide();
       },
-      tolerance: 10,
+      tolerance: 5,
     });
   }, []);
 
@@ -43,6 +43,7 @@ export default function Home() {
     gsap.to(`${currentId} .icon`, {
       xPercent: -50,
       yPercent: -40,
+      scale: 1,
       ease: "back.out",
     });
     gsap.to(`${currentId} .name`, {
@@ -55,13 +56,10 @@ export default function Home() {
       xPercent: -50,
       ease: "sine.inOut",
     });
-    gsap.to(`.wire-1`, {
-      rotate: randomNumberBetween(1, 80),
-      ease: "elastic",
-    });
-    gsap.to(`.wire-3`, {
-      rotate: randomNumberBetween(-1, -80),
-      ease: "elastic",
+    gsap.to(`${currentId} .photos`, {
+      yPercent: 0,
+      xPercent: -50,
+      ease: "sine.inOut",
     });
 
     // Hide all the other slides
@@ -75,6 +73,7 @@ export default function Home() {
         xPercent: -300,
         ease: "back.inOut",
       });
+      gsap.to(`${id} .icon`, { scale: 2, ease: "back.in" });
       gsap.to(`${id} .icon`, { yPercent: -300, ease: "back.in", delay: 0.5 });
       gsap.to(`${id} .icon`, { xPercent: 300, ease: "back.in" });
       gsap.to(`${id} .name`, {
@@ -82,12 +81,26 @@ export default function Home() {
         yPercent: -500,
         ease: "sine.inOut",
       });
-
       gsap.to(`${id} .socials`, {
         yPercent: -5000,
         ease: "sine.inOut",
       });
+      gsap.to(`${id} .photos`, {
+        yPercent: 0,
+        xPercent: 500,
+        ease: "sine.inOut",
+      });
     }
+
+    // Rotate barbed wires randomly
+    gsap.to(`.wire-1`, {
+      rotate: randomNumberBetween(1, 80),
+      ease: "elastic",
+    });
+    gsap.to(`.wire-3`, {
+      rotate: randomNumberBetween(-1, -80),
+      ease: "elastic",
+    });
   }, [currentSlide]);
 
   const gotoNextSlide = useCallback(() => {
@@ -167,9 +180,9 @@ function Slide(props) {
           height={2160}
         />
       </div>
-      <div className="icon fixed top-[52%] left-[50%] md:top-[50%] md:left-[66%] w-[80vw] h-[80vh] md:w-[66vw] md:h-[66vh] drop-shadow-[0_4px_8px_rgb(0_0_0_/_0.75)] select-none z-5">
+      <div className="icon fixed top-[50%] left-[50%] md:top-[45%] md:left-[66%] w-[90vw] h-[80vh] md:w-[66vw] md:h-[66vh] drop-shadow-[0_4px_8px_rgb(0_0_0_/_0.75)] select-none z-5">
         <Image
-          className="w-full h-full object-contain hover:scale-[1.05] transition-all duration-200 select-none"
+          className="w-full h-full object-contain hover:scale-[1.05] transition-all duration-200 select-none drop-shadow-xl"
           src={props.slide.icon}
           alt=""
           width={2000}
@@ -183,7 +196,7 @@ function Slide(props) {
           {props.slide.name}
         </h2>
       </div>
-      <div className="socials flex gap-4 md:gap-8 fixed top-[33%] left-[50%] md:top-[58%] md:left-[33%] z-10">
+      <div className="socials flex gap-4 md:gap-8 fixed top-[32%] left-[50%] md:top-[58%] md:left-[33%] z-10">
         <SocialMediaButton
           name="YouTube"
           href="https://www.youtube.com"
@@ -205,6 +218,9 @@ function Slide(props) {
           src={`/images/icons/soundcloud-icon.png`}
         />
       </div>
+      <div className="photos fixed top-[70%] md:top-[72%] left-[50%] w-[100vw] md:w-[64vw] h-[100px] z-5 shadow-[0px_40px_0px_#e4e4e4] md:shadow-[0px_72px_0px_#e4e4e4]">
+        <PhotoSelector />
+      </div>
     </div>
   );
 }
@@ -223,5 +239,51 @@ function SocialMediaButton(props) {
         height={512}
       />
     </Link>
+  );
+}
+
+function PhotoSelector(props) {
+  const Photo = () => (
+    <Image
+      className="w-full h-full object-contain p-2 select-none drop-shadow-lg hover:scale-[1.2] transition-all duration-200"
+      src={`/images/artists/test-tn.png`}
+      width={500}
+      height={350}
+      alt=""
+    />
+    // <button
+    //   className="group relative cursor-pointer w-full h-full drop-shadow-lg hover:scale-[1.2] transition-all duration-200 select-none"
+    //   onClick={(event) => event.stopPropagation()}
+    // >
+    //   <Image
+    //     className="w-full h-full object-contain p-2 select-none"
+    //     src={`/images/artists/test-tn.png`}
+    //     width={500}
+    //     height={350}
+    //     alt=""
+    //   />
+    //   <Image
+    //     className="absolute top-0 z-[-1] w-full h-full object-contain select-none transition-all duration-250 scale-[0.1] group-hover:scale-[1]"
+    //     src={`/images/wires-hover.png`}
+    //     width={1000}
+    //     height={412}
+    //     alt=""
+    //   />
+    // </button>
+  );
+
+  return (
+    <>
+      <div className="flex w-full h-[64px] md:h-[100px] translate-y-[80px] md:translate-y-[64px] drop-shadow-[0_4px_8px_rgb(0_0_0_/_0.75)]">
+        <Photo />
+        <Photo />
+        <Photo />
+        <Photo />
+        <Photo />
+        <Photo />
+        <Photo />
+        <Photo />
+      </div>
+    </>
   );
 }
