@@ -1,38 +1,33 @@
 "use client";
-import { useState } from "react";
+import { useState, useRef, useCallback } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
-import { InertiaPlugin } from "gsap/all";
+import { InertiaPlugin, Observer } from "gsap/all";
 import { SLIDES } from "./data";
 import { randomNumberBetween } from "./utils";
 
-gsap.registerPlugin(useGSAP, InertiaPlugin);
+gsap.registerPlugin(useGSAP, Observer, InertiaPlugin);
 
 export default function Home() {
+  const animating = useRef(false);
   const [currentSlide, setCurrentSlide] = useState(0);
 
-  // useGSAP(() => {
-  //   for (let i = 0; i < SLIDES.length; i++) {
-  //     const id = `#slide-${i}`;
-  //     gsap.set(`${id} .bg`, {
-  //       xPercent: -300,
-  //     });
-  //     gsap.set(`${id} .icon`, {
-  //       yPercent: 300,
-  //     });
-  //     gsap.set(`${id} .icon`, { xPercent: 300 });
-  //     gsap.set(`${id} .name`, {
-  //       xPercent: -500,
-  //       yPercent: -500,
-  //     });
-
-  //     gsap.set(`${id} .socials`, {
-  //       yPercent: -5000,
-  //     });
-  //   }
-  // });
+  useGSAP(() => {
+    Observer.create({
+      type: "wheel,touch,pointer",
+      preventDefault: true,
+      wheelSpeed: -1,
+      onUp: () => {
+        gotoNextSlide();
+      },
+      onDown: () => {
+        gotoPreviousSlide();
+      },
+      tolerance: 10,
+    });
+  }, []);
 
   useGSAP(() => {
     // Position the current slide in the center
@@ -41,6 +36,9 @@ export default function Home() {
       xPercent: -50,
       yPercent: -50,
       ease: "back.inOut",
+      onComplete: () => {
+        animating.current = false;
+      },
     });
     gsap.to(`${currentId} .icon`, {
       xPercent: -50,
@@ -57,12 +55,10 @@ export default function Home() {
       xPercent: -50,
       ease: "sine.inOut",
     });
-
     gsap.to(`.wire-1`, {
       rotate: randomNumberBetween(1, 80),
       ease: "elastic",
     });
-
     gsap.to(`.wire-3`, {
       rotate: randomNumberBetween(-1, -80),
       ease: "elastic",
@@ -94,7 +90,13 @@ export default function Home() {
     }
   }, [currentSlide]);
 
-  const gotoNextSlide = () => {
+  const gotoNextSlide = useCallback(() => {
+    if (animating.current) {
+      return;
+    }
+
+    animating.current = true;
+
     setCurrentSlide((currentSlide) => {
       const nextSlide = currentSlide + 1;
 
@@ -104,7 +106,25 @@ export default function Home() {
 
       return nextSlide;
     });
-  };
+  }, []);
+
+  const gotoPreviousSlide = useCallback(() => {
+    if (animating.current) {
+      return;
+    }
+
+    animating.current = true;
+
+    setCurrentSlide((currentSlide) => {
+      const previousSlide = currentSlide - 1;
+
+      if (previousSlide < 0) {
+        return SLIDES.length - 1;
+      }
+
+      return previousSlide;
+    });
+  }, []);
 
   return (
     <div>
@@ -128,9 +148,6 @@ export default function Home() {
       <div className="wire-1 fixed z-0 bottom-0 md:bottom-[-10%] w-[300vw] md:w-full drop-shadow-lg pointer-events-none">
         <Image src={`/images/wire-1.png`} width={3840} height={2160} alt="" />
       </div>
-      {/* <div className="wire-2 fixed z-[0] bottom-[33%] md:bottom-[20%] w-[200vw] md:w-full drop-shadow-lg pointer-events-none">
-        <Image src={`/images/wire-2.png`} width={3840} height={2160} alt="" />
-      </div> */}
       <div className="wire-3 fixed z-[-1] bottom-[20%] md:bottom-0 w-[200vw] md:w-full drop-shadow-lg pointer-events-none">
         <Image src={`/images/wire-3.png`} width={3840} height={2160} alt="" />
       </div>
@@ -152,7 +169,7 @@ function Slide(props) {
       </div>
       <div className="icon fixed top-[52%] left-[50%] md:top-[50%] md:left-[66%] w-[80vw] h-[80vh] md:w-[66vw] md:h-[66vh] drop-shadow-[0_4px_8px_rgb(0_0_0_/_0.75)] select-none z-5">
         <Image
-          className="w-full h-full object-contain hover:scale-[1.05] transition-all duration-200"
+          className="w-full h-full object-contain hover:scale-[1.05] transition-all duration-200 select-none"
           src={props.slide.icon}
           alt=""
           width={2000}
