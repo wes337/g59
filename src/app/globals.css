@@ -20,3 +20,13 @@ body {
   color: var(--foreground);
   font-family: "kraut", Arial, Helvetica, sans-serif;
 }
+
+@keyframes spinner {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.spinner {
+  animation: spinner 10s linear infinite;
+}

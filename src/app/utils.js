@@ -1,5 +1,9 @@
 import gsap from "gsap";
 
+export const randomNumberBetween = (min, max) => {
+  return Math.floor(Math.random() * (max - min + 1) + min);
+};
+
 /*
 This helper function makes a group of elements animate along the x-axis in a seamless, responsive loop.
 
