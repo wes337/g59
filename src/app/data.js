@@ -2,16 +2,16 @@ export const SLIDES = [
   {
     name: "$uicideboy$",
     icon: "/images/artists/sb-icon.png",
-    bg: "/images/backgrounds/slide-1.jpg",
+    bg: "/images/backgrounds/grunge-0.png",
   },
   {
     name: "chetta",
     icon: "/images/artists/chetta-icon.png",
-    bg: "/images/backgrounds/bg-grunge-1.jpg",
+    bg: "/images/backgrounds/grunge-1.png",
   },
   {
     name: "germ",
     icon: "/images/artists/germ-icon.png",
-    bg: "/images/backgrounds/bg-grunge-2.jpg",
+    bg: "/images/backgrounds/grunge-2.png",
   },
 ];

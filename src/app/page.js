@@ -5,6 +5,7 @@ import Image from "next/image";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import { InertiaPlugin, Observer } from "gsap/all";
+import { Background } from "@/components/background";
 import { SLIDES } from "./data";
 import { randomNumberBetween } from "./utils";
 
@@ -141,13 +142,7 @@ export default function Home() {
 
   return (
     <div>
-      <Image
-        className="fixed top-0 left-0 w-full h-full z-0 pointer-events-none opacity-25 object-cover object-bottom"
-        src={`/images/backgrounds/bg-2.jpg`}
-        alt=""
-        width={3840}
-        height={2160}
-      />
+      <Background />
       {SLIDES.map((slide, index) => {
         return (
           <Slide
@@ -251,6 +246,7 @@ function PhotoSelector(props) {
       height={350}
       alt=""
     />
+
     // <button
     //   className="group relative cursor-pointer w-full h-full drop-shadow-lg hover:scale-[1.2] transition-all duration-200 select-none"
     //   onClick={(event) => event.stopPropagation()}
