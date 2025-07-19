@@ -1,5 +1,6 @@
 "use client";
 import { useState, useRef, useCallback, useEffect } from "react";
+import { createPortal } from "react-dom";
 import Link from "next/link";
 import Image from "next/image";
 import gsap from "gsap";
@@ -179,6 +180,12 @@ export default function Home() {
             index={index}
             slide={slide}
             onClick={gotoNextSlide}
+            onOpenPhoto={() => {
+              animating.current = true;
+            }}
+            onClosePhoto={() => {
+              animating.current = false;
+            }}
           />
         );
       })}
@@ -215,12 +222,12 @@ function Slide(props) {
       </div>
       <div className="name fixed top-[25%] left-[50%] md:top-[50%] md:left-[33%] xl:top-[48%] drop-shadow-lg z-6">
         <h2
-          className={`text-white text-[4rem] md:text-[7rem] lg:text-[8rem] text-shadow-[0_4px_8px_rgb(0_0_0_/_0.75)] hover:scale-[1.1] transition-all duration-200 whitespace-nowrap`}
+          className={`text-white text-[4rem] md:text-[7rem] lg:text-[7rem] xl:text-[8rem] text-shadow-[0_4px_8px_rgb(0_0_0_/_0.75)] hover:scale-[1.1] transition-all duration-200 whitespace-nowrap`}
         >
           {props.slide.name}
         </h2>
       </div>
-      <div className="socials flex gap-4 md:gap-8 fixed top-[32%] left-[50%] md:top-[58%] md:left-[33%] z-10">
+      <div className="socials flex gap-4 md:gap-8 lg:gap-10 fixed top-[32%] left-[50%] md:top-[58%] md:left-[33%] z-10">
         <SocialMediaButton
           name="YouTube"
           href="https://www.youtube.com"
@@ -243,7 +250,10 @@ function Slide(props) {
         />
       </div>
       <div className="photos flex flex-nowrap fixed top-[70%] md:top-[72%] left-[50%] w-full md:w-[64vw] h-[100px] z-5 shadow-[0px_40px_0px_#e4e4e4] md:shadow-[0px_72px_0px_#e4e4e4]">
-        <PhotoSelector />
+        <PhotoSelector
+          onOpen={() => props.onOpenPhoto()}
+          onClose={() => props.onClosePhoto()}
+        />
       </div>
     </div>
   );
@@ -252,7 +262,7 @@ function Slide(props) {
 function SocialMediaButton(props) {
   return (
     <Link
-      className="size-8 md:size-10 drop-shadow-lg cursor-pointer hover:scale-[1.1] transition-all duration-200"
+      className="size-8 md:size-10 xl:size-12 drop-shadow-lg cursor-pointer hover:scale-[1.1] transition-all duration-200"
       href={props.href}
     >
       <Image
@@ -267,10 +277,22 @@ function SocialMediaButton(props) {
 }
 
 function PhotoSelector(props) {
-  const Photo = () => (
+  const [currentPhoto, setCurrentPhoto] = useState(-1);
+
+  const closePhoto = (event) => {
+    event.stopPropagation();
+    setCurrentPhoto(-1);
+    props.onClose();
+  };
+
+  const Photo = (index) => (
     <button
       className="group cursor-pointer translate-y-[48px] md:translate-y-[64px] w-[100px] md:w-full shrink-0 md:shrink-1 md:grow-1 drop-shadow-lg hover:scale-[1.2] transition-all duration-200 select-none"
-      onClick={(event) => event.stopPropagation()}
+      onClick={(event) => {
+        event.stopPropagation();
+        setCurrentPhoto(index);
+        props.onOpen();
+      }}
     >
       <Image
         className="w-full h-full object-contain p-2 select-none"
@@ -291,14 +313,46 @@ function PhotoSelector(props) {
 
   return (
     <>
-      <Photo />
-      <Photo />
-      <Photo />
-      <Photo />
-      <Photo />
-      <Photo />
-      <Photo />
-      <Photo />
+      {currentPhoto != -1 &&
+        createPortal(
+          <div className="fixed flex items-center justify-center top-0 left-0 w-full h-full z-20 bg-black/75">
+            <Image
+              className="w-[80%] h-[80%] object-contain"
+              src={`/images/photos/test.png`}
+              width={1920}
+              height={1080}
+              alt=""
+            />
+            <Image
+              className="absolute w-full h-full object-contain"
+              src={`/images/frame-white.png`}
+              width={1920}
+              height={1080}
+              alt=""
+            />
+            <button
+              className="hidden md:block cursor-pointer absolute top-[12%] right-[12%] text-[4rem] text-yellow-500"
+              onClick={closePhoto}
+            >
+              X
+            </button>
+            <button
+              className="block md:hidden cursor-pointer absolute top-0 right-0 m-8 text-[2rem] text-yellow-500"
+              onClick={closePhoto}
+            >
+              Close
+            </button>
+          </div>,
+          document.body
+        )}
+      <Photo index={0} />
+      <Photo index={1} />
+      <Photo index={2} />
+      <Photo index={3} />
+      <Photo index={4} />
+      <Photo index={5} />
+      <Photo index={6} />
+      <Photo index={7} />
     </>
   );
 }

@@ -17,21 +17,21 @@ export const SLIDES = [
   {
     name: "duckboy",
     icon: "/images/artists/db2-icon.png",
-    bg: "/images/backgrounds/grunge-0.png",
+    bg: "/images/backgrounds/grunge-4.png",
   },
   {
     name: "lonely boy",
     icon: "/images/artists/lonelyboy-icon.png",
-    bg: "/images/backgrounds/grunge-1.png",
+    bg: "/images/backgrounds/grunge-3.png",
   },
   {
     name: "night lovell",
     icon: "/images/artists/nightlovell-icon.png",
-    bg: "/images/backgrounds/grunge-2.png",
+    bg: "/images/backgrounds/grunge-0.png",
   },
   {
     name: "shakewell",
     icon: "/images/artists/sw2-icon.png",
-    bg: "/images/backgrounds/grunge-0.png",
+    bg: "/images/backgrounds/grunge-2.png",
   },
 ];
