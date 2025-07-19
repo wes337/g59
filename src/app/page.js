@@ -5,9 +5,9 @@ import Image from "next/image";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import { InertiaPlugin, Observer } from "gsap/all";
+import { SLIDES } from "@/data";
+import { randomNumberBetween } from "@/utils";
 import { Background } from "@/components/background";
-import { SLIDES } from "./data";
-import { randomNumberBetween } from "./utils";
 
 gsap.registerPlugin(useGSAP, Observer, InertiaPlugin);
 
@@ -213,9 +213,9 @@ function Slide(props) {
           height={2000}
         />
       </div>
-      <div className="name fixed top-[25%] left-[50%] md:top-[50%] md:left-[33%] xl:top-[48%] drop-shadow-lg z-3">
+      <div className="name fixed top-[25%] left-[50%] md:top-[50%] md:left-[33%] xl:top-[48%] drop-shadow-lg z-6">
         <h2
-          className={`text-white text-[4rem] md:text-[7rem] lg:text-[8rem] text-shadow-[0_4px_8px_rgb(0_0_0_/_0.75)] hover:scale-[1.1] transition-all duration-200`}
+          className={`text-white text-[4rem] md:text-[7rem] lg:text-[8rem] text-shadow-[0_4px_8px_rgb(0_0_0_/_0.75)] hover:scale-[1.1] transition-all duration-200 whitespace-nowrap`}
         >
           {props.slide.name}
         </h2>

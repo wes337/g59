@@ -16,7 +16,7 @@ export const SLIDES = [
   },
   {
     name: "duckboy",
-    icon: "/images/artists/duckboy-icon.png",
+    icon: "/images/artists/db2-icon.png",
     bg: "/images/backgrounds/grunge-0.png",
   },
   {
@@ -26,12 +26,12 @@ export const SLIDES = [
   },
   {
     name: "night lovell",
-    icon: "/images/artists/nl-icon.png",
+    icon: "/images/artists/nightlovell-icon.png",
     bg: "/images/backgrounds/grunge-2.png",
   },
   {
     name: "shakewell",
-    icon: "/images/artists/shakewell-icon.png",
+    icon: "/images/artists/sw2-icon.png",
     bg: "/images/backgrounds/grunge-0.png",
   },
 ];
