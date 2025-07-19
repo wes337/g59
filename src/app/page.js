@@ -1,5 +1,5 @@
 "use client";
-import { useState, useRef, useCallback } from "react";
+import { useState, useRef, useCallback, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import gsap from "gsap";
@@ -17,6 +17,67 @@ export default function Home() {
   const animating = useRef(false);
   const [currentSlide, setCurrentSlide] = useState(0);
   const [currentBackground, setCurrentBackground] = useState(0);
+  const intervalRef = useRef();
+
+  const gotoNextSlide = useCallback(() => {
+    if (animating.current) {
+      return;
+    }
+
+    animating.current = true;
+
+    restartSlideInterval();
+
+    setCurrentSlide((currentSlide) => {
+      const nextSlide = currentSlide + 1;
+
+      if (nextSlide > SLIDES.length - 1) {
+        return 0;
+      }
+
+      return nextSlide;
+    });
+  }, []);
+
+  const gotoPreviousSlide = useCallback(() => {
+    if (animating.current) {
+      return;
+    }
+
+    animating.current = true;
+
+    restartSlideInterval();
+
+    setCurrentSlide((currentSlide) => {
+      const previousSlide = currentSlide - 1;
+
+      if (previousSlide < 0) {
+        return SLIDES.length - 1;
+      }
+
+      return previousSlide;
+    });
+  }, []);
+
+  const restartSlideInterval = useCallback(() => {
+    if (intervalRef.current) {
+      clearInterval(intervalRef.current);
+    }
+
+    intervalRef.current = setInterval(() => {
+      gotoNextSlide();
+    }, 8000);
+  }, []);
+
+  useEffect(() => {
+    restartSlideInterval();
+
+    return () => {
+      if (intervalRef.current) {
+        clearInterval(intervalRef.current);
+      }
+    };
+  }, []);
 
   useGSAP(() => {
     Observer.create({
@@ -107,42 +168,6 @@ export default function Home() {
     });
     setCurrentBackground(randomNumberBetween(0, NUMBER_OF_BACKGROUNDS - 1));
   }, [currentSlide]);
-
-  const gotoNextSlide = useCallback(() => {
-    if (animating.current) {
-      return;
-    }
-
-    animating.current = true;
-
-    setCurrentSlide((currentSlide) => {
-      const nextSlide = currentSlide + 1;
-
-      if (nextSlide > SLIDES.length - 1) {
-        return 0;
-      }
-
-      return nextSlide;
-    });
-  }, []);
-
-  const gotoPreviousSlide = useCallback(() => {
-    if (animating.current) {
-      return;
-    }
-
-    animating.current = true;
-
-    setCurrentSlide((currentSlide) => {
-      const previousSlide = currentSlide - 1;
-
-      if (previousSlide < 0) {
-        return SLIDES.length - 1;
-      }
-
-      return previousSlide;
-    });
-  }, []);
 
   return (
     <div>

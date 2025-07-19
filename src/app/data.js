@@ -26,7 +26,7 @@ export const SLIDES = [
   },
   {
     name: "night lovell",
-    icon: "/images/artists/nightlovell-icon.png",
+    icon: "/images/artists/nl-icon.png",
     bg: "/images/backgrounds/grunge-2.png",
   },
   {
