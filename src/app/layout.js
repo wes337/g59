@@ -16,8 +16,7 @@ const geistMono = Geist_Mono({
 
 export const metadata = {
   title: "G59 Records",
-  description:
-    "G*59 RECORD$ // SUICIDEBOYS | RVMIRXZ | FOULPLAY | MAX BECK | CRYSTAL METH.",
+  description: "G*59 RECORD$ // SUICIDEBOYS | CHETTA | GERM | NIGHT LOVELL.",
 };
 
 export default function RootLayout({ children }) {
