@@ -127,6 +127,11 @@ export default function Home() {
       xPercent: -50,
       ease: "sine.inOut",
     });
+    gsap.to(`${currentId} .bio`, {
+      yPercent: 0,
+      xPercent: -50,
+      ease: "sine.inOut",
+    });
 
     // Hide all the other slides
     for (let i = 0; i < SLIDES.length; i++) {
@@ -154,6 +159,11 @@ export default function Home() {
       gsap.to(`${id} .photos`, {
         yPercent: 0,
         xPercent: 500,
+        ease: "sine.inOut",
+      });
+      gsap.to(`${id} .bio`, {
+        yPercent: 0,
+        xPercent: -500,
         ease: "sine.inOut",
       });
     }
@@ -248,6 +258,11 @@ function Slide(props) {
           href="https://www.soundcloud.com"
           src={`/images/icons/soundcloud-icon.png`}
         />
+      </div>
+      <div className="bio flex items-center justify-center text-center md:p-4 fixed top-[71%] md:top-[66%] left-[50%] w-full md:w-[32vw] md:left-[33%] h-[64px] z-5 drop-shadow-lg bg-black/33 md:bg-transparent">
+        <div className="text-lg md:text-[2rem] text-shadow-[0_4px_4px_rgb(0_0_0_/_0.75)] whitespace-nowrap">
+          {props.slide.bio}
+        </div>
       </div>
       <div className="photos flex flex-nowrap fixed top-[70%] md:top-[72%] left-[50%] w-full md:w-[64vw] h-[100px] z-5 shadow-[0px_40px_0px_#e4e4e4] md:shadow-[0px_72px_0px_#e4e4e4]">
         <PhotoSelector
