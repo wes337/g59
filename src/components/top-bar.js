@@ -46,7 +46,7 @@ export function TopBar() {
 function NavLink(props) {
   return (
     <Link
-      className="group relative text-4xl tracking-wide hover:scale-[1.1] transition-all duration-200 drop-shadow-lg hover:text-yellow-500"
+      className="group relative text-4xl tracking-wide hover:scale-[1.1] transition-all duration-200 drop-shadow-lg hover:text-red-700"
       href={props.href}
     >
       <span className="z-1">{props.label}</span>

@@ -5,6 +5,11 @@
   src: url("/fonts/kraut.ttf") format("truetype");
 }
 
+@font-face {
+  font-family: "stencil";
+  src: url("/fonts/stencil.ttf") format("truetype");
+}
+
 :root {
   --background: #000000;
   --foreground: #ededed;
@@ -13,6 +18,9 @@
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+  --font-kraut: "kraut", sans-serif;
+  --font-stencil: "stencil", sans-serif;
+  --font-sans: var(--font-geist-sans);
 }
 
 html,
