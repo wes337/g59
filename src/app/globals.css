@@ -45,3 +45,8 @@ body {
 .spinner {
   animation: spinner 10s linear infinite;
 }
+
+.light {
+  background: white;
+  color: black;
+}

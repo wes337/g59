@@ -347,13 +347,13 @@ function PhotoSelector(props) {
               alt=""
             />
             <button
-              className="hidden md:block cursor-pointer absolute top-[12%] right-[12%] text-[4rem] text-red-700"
+              className="hidden md:block cursor-pointer absolute top-[12%] right-[12%] text-[4rem] text-yellow-300"
               onClick={closePhoto}
             >
               X
             </button>
             <button
-              className="block md:hidden cursor-pointer absolute top-0 right-0 m-8 text-[2rem] text-red-700"
+              className="block md:hidden cursor-pointer absolute top-0 right-0 m-8 text-[2rem] text-yellow-300"
               onClick={closePhoto}
             >
               Close

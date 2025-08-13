@@ -80,7 +80,7 @@ export default async function ToursPage() {
                   </Link>
                 )}
                 <Link
-                  className="flex items-center justify-center font-kraut lowercase p-3 bg-gray-300/10 text-white w-full md:w-[100px] h-[40px] text-center text-2xl leading-none tracking-wider relative  text-shadow-[0_4px_8px_rgb(0_0_0_/_0.75)]"
+                  className="flex items-center justify-center font-kraut lowercase p-3 bg-gray-300/10 text-yellow-200 hover:text-yellow-300 w-full md:w-[100px] h-[40px] text-center text-2xl leading-none tracking-wider relative  text-shadow-[0_4px_8px_rgb(0_0_0_/_0.75)]"
                   href={`https://link.seated.com/${tour.id}`}
                   target="_blank"
                 >
