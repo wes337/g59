@@ -10,6 +10,7 @@ export default function Product({ product }) {
   const [randomGrunge, setRandomGrunge] = useState(0);
 
   useEffect(() => {
+    window.scrollTo({ top: 0, left: 0 });
     setRandomGrunge(randomNumberBetween(0, 4));
   }, []);
 
@@ -17,14 +18,14 @@ export default function Product({ product }) {
     <div className="flex flex-col w-full md:flex-row gap-8 md:bg-black/75">
       <div className="relative w-full h-[50vh] md:w-[52.5vw] md:h-[70vh]">
         <Image
-          className="absolute top-0 left-0 w-full scale-x-[1.2] translate-y-[-44px] pointer-events-none md:hidden"
+          className="absolute top-0 left-0 w-full scale-x-[1.2] translate-y-[-48px] z-[-1] pointer-events-none md:hidden"
           src={`/images/wires-line.png`}
           width={1000}
           height={273}
           alt=""
         />
         <Image
-          className="absolute bottom-0 left-0 w-full scale-x-[-1.2] scale-y-[-1] translate-y-[44px] pointer-events-none md:hidden"
+          className="absolute bottom-0 left-0 w-full scale-x-[-1.2] scale-y-[-1] translate-y-[48px] z-[-1] pointer-events-none md:hidden"
           src={`/images/wires-line.png`}
           width={1000}
           height={273}

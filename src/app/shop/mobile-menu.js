@@ -1,17 +1,29 @@
 "use client";
 
 import Link from "next/link";
+import { usePathname, useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
 import { createPortal } from "react-dom";
-import { MdMenu, MdClose } from "react-icons/md";
+import { MdMenu, MdClose, MdArrowBack } from "react-icons/md";
 
 export default function MobileMenu({ menuItems }) {
+  const router = useRouter();
+  const pathname = usePathname();
   const [open, setOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
+  const [back, setBack] = useState("");
 
   useEffect(() => {
     setMounted(true);
   }, []);
+
+  useEffect(() => {
+    if (["/", "/shop"].includes(pathname)) {
+      setBack("");
+    } else {
+      setBack("/shop");
+    }
+  }, [pathname]);
 
   useEffect(() => {
     if (open) {
@@ -39,6 +51,14 @@ export default function MobileMenu({ menuItems }) {
 
   return (
     <div className="flex sm:hidden">
+      {back && (
+        <button
+          className="fixed top-0 left-0 m-2 text-white z-10 drop-shadow-[2px_2px_0px_black] bg-black/50 cursor-pointer"
+          onClick={() => router.back()}
+        >
+          <MdArrowBack size={40} />
+        </button>
+      )}
       <button
         className="fixed top-0 right-0 m-2 text-white z-10 drop-shadow-[2px_2px_0px_black] bg-black/50 cursor-pointer"
         onClick={() => setOpen(true)}

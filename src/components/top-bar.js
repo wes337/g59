@@ -77,14 +77,14 @@ function NavLink(props) {
   return (
     <Link
       className={`group relative text-3xl md:text-4xl tracking-wide hover:scale-[1.1] transition-all duration-200 drop-shadow-lg hover:text-yellow-300 ${
-        pathname === props.href ? "text-yellow-200" : ""
-      }`}
+        pathname.includes(props.href) ? "text-yellow-200" : ""
+      } translate-y-[-12px] md:translate-y-[0]`}
       href={props.href}
     >
       <span className="z-1">{props.label}</span>
       <Image
         className={`absolute z-[-1] top-0 left-0 w-full h-full scale-y-[1.2] scale-x-[1.5] opacity-0 ${
-          pathname === props.href ? "opacity-50" : ""
+          pathname.includes(props.href) ? "opacity-50" : ""
         } drop-shadow-lg group-hover:opacity-50 transition-all duration-100`}
         src={`/images/border-hover.png`}
         alt=""
