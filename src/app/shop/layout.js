@@ -1,6 +1,6 @@
-import Image from "next/image";
 import { Background } from "@/components/background";
 import Menu from "./menu";
+import Wire from "@/components/wire";
 
 export default function RootLayout({ children }) {
   return (
@@ -11,9 +11,9 @@ export default function RootLayout({ children }) {
         </div>
         {children}
       </div>
-      <div className="wire-3 fixed z-[-1] bottom-[20%] md:bottom-0 w-[200vw] md:w-full drop-shadow-lg pointer-events-none">
-        <Image src={`/images/wire-3.png`} width={3840} height={2160} alt="" />
-      </div>
+      <Wire wire={1} />
+      <Wire wire={2} />
+      <Wire wire={3} />
       <Background currentBackground={3} />
     </>
   );

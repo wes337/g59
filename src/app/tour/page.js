@@ -1,6 +1,7 @@
 import axios from "axios";
 import { Background } from "@/components/background";
 import Tour from "./tour";
+import Wire from "@/components/wire";
 
 async function getTours() {
   const response = await axios.get(
@@ -31,6 +32,9 @@ export default async function ToursPage() {
         })}
       </div>
       <Background currentBackground={0} />
+      <Wire wire={1} />
+      <Wire wire={2} />
+      <Wire wire={3} />
     </>
   );
 }
