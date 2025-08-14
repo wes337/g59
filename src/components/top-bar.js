@@ -5,6 +5,8 @@ import { usePathname } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
 
+const TOP_BAR_HEIGHT = 172;
+
 export function TopBar() {
   const [scroll, setScroll] = useState(0);
   const [hover, setHover] = useState(false);
@@ -26,7 +28,7 @@ export function TopBar() {
     <>
       <div
         className={`fixed top-0 left-0 flex items-center justify-center w-full h-[148px] z-10 gap-8 transition-all duration-200 ${
-          scroll >= 180 ? "top-[-25%]" : ""
+          scroll >= TOP_BAR_HEIGHT ? "top-[-25%]" : ""
         }`}
       >
         <NavLink label="Tour" href="/tour" />
@@ -35,7 +37,7 @@ export function TopBar() {
       </div>
       <div
         className={`fixed top-0 left-[50%] translate-x-[-50%] w-auto h-[148px] z-15 overflow-hidden transition-all duration-200 ${
-          scroll >= 180 ? "scale-[0.8] top-[-5%]" : ""
+          scroll >= TOP_BAR_HEIGHT ? "scale-[0.8] top-[-5%]" : ""
         }`}
         onPointerEnter={() => setHover(true)}
         onPointerLeave={() => setHover(false)}
@@ -54,12 +56,12 @@ export function TopBar() {
       </div>
       <Image
         className={`fixed h-[64px] w-auto top-[70px] left-[50%] translate-x-[-50%] drop-shadow-lg spinner z-16 pointer-events-none transition-all duration-200 ${
-          hover && scroll < 180 ? "scale-[1.1]" : ""
+          hover && scroll < TOP_BAR_HEIGHT ? "scale-[1.1]" : ""
         } ${
-          scroll >= 180
+          scroll >= TOP_BAR_HEIGHT
             ? "scale-[0.8] translate-y-[-70%] min-[1900px]:translate-y-[-82.5%] min-[2000px]:translate-y-[-70px]"
             : ""
-        } ${hover && scroll >= 180 ? "scale-[0.85]" : ""}`}
+        } ${hover && scroll >= TOP_BAR_HEIGHT ? "scale-[0.85]" : ""}`}
         src={`/images/chain-skull.png`}
         alt=""
         width={547}

@@ -182,7 +182,7 @@ export default function Home() {
   }, [currentSlide]);
 
   return (
-    <div>
+    <div className="select-none">
       <Background currentBackground={currentBackground} />
       {SLIDES.map((slide, index) => {
         return (
@@ -212,7 +212,11 @@ export default function Home() {
 
 function Slide(props) {
   return (
-    <div id={`slide-${props.index}`} onClick={props.onClick}>
+    <div
+      id={`slide-${props.index}`}
+      className="select-none"
+      onClick={props.onClick}
+    >
       <div className="bg fixed top-[50%] left-[50%] w-[66vw] h-[66vh] brightness-60 select-none">
         <Image
           className="w-full h-full object-cover"

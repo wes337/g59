@@ -16,6 +16,7 @@ export default function Wire({ wire }) {
   return (
     <div className="wire-3 fixed z-[-1] bottom-[20%] md:bottom-0 w-[200vw] md:w-full drop-shadow-lg pointer-events-none">
       <Image
+        className="pointer-events-none"
         style={{
           transform: `rotate(${rotate}deg)`,
           transition: "all 0.2s cubic-bezier(0.68, -0.55, 0.265, 1.55)",

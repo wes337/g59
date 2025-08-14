@@ -59,7 +59,7 @@ export default function MobileMenu({ menuItems }) {
           >
             <MdClose size={48} />
           </button>
-          <div className="mt-[180px]">
+          <div className="mt-[172px]">
             {menuItems.map((menuItem) => {
               return (
                 <Link

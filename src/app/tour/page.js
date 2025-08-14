@@ -25,7 +25,7 @@ export default async function ToursPage() {
 
   return (
     <>
-      <div className="md:w-[95vw] md:max-w-[1100px] m-auto mt-[180px] flex flex-col gap-6 z-10 relative">
+      <div className="md:w-[95vw] md:max-w-[1100px] m-auto mt-[172px] flex flex-col gap-6 z-10 relative">
         <div className="absolute w-full h-full bg-black z-0" />
         {tours.map((tour, index) => {
           return <Tour key={tour.id} tour={tour} index={index} />;

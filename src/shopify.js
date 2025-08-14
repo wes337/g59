@@ -80,9 +80,7 @@ export default class Shopify {
       soldOut: !data.product.variants.edges.some(
         ({ node }) => node.availableForSale
       ),
-      price: `$${Number(data.product.priceRange.minVariantPrice.amount).toFixed(
-        2
-      )}`,
+      price: data.product.priceRange.minVariantPrice.amount,
       currencyCode: data.product.priceRange.minVariantPrice.currencyCode,
       variants:
         data.product.variants?.edges?.length > 0

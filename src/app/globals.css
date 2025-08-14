@@ -25,7 +25,6 @@
 
 html,
 body {
-  user-select: none;
   touch-action: manipulation;
   overscroll-behavior: none;
   overflow-x: hidden;
