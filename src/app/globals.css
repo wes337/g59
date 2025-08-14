@@ -28,12 +28,21 @@ body {
   user-select: none;
   touch-action: manipulation;
   overscroll-behavior: none;
+  overflow-x: hidden;
+}
+
+@media screen and (min-width: 40rem) {
+  body {
+    scrollbar-gutter: stable;
+  }
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
   font-family: "kraut", Arial, Helvetica, sans-serif;
+  min-height: 100vh;
+  overflow-y: hidden;
 }
 
 @keyframes spinner {
@@ -46,7 +55,6 @@ body {
   animation: spinner 10s linear infinite;
 }
 
-.light {
-  background: white;
-  color: black;
+.noScroll {
+  overflow: hidden !important;
 }

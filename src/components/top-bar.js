@@ -74,7 +74,7 @@ function NavLink(props) {
 
   return (
     <Link
-      className={`group relative text-4xl tracking-wide hover:scale-[1.1] transition-all duration-200 drop-shadow-lg hover:text-yellow-300 ${
+      className={`group relative text-3xl md:text-4xl tracking-wide hover:scale-[1.1] transition-all duration-200 drop-shadow-lg hover:text-yellow-300 ${
         pathname === props.href ? "text-yellow-200" : ""
       }`}
       href={props.href}
