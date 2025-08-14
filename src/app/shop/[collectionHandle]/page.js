@@ -4,7 +4,7 @@ import Products from "../products";
 // export const dynamic = "force-dynamic";
 
 export default async function Page({ params }) {
-  const { handle } = await params;
+  const { collectionHandle } = await params;
 
-  return <Products handle={handle} />;
+  return <Products handle={collectionHandle} />;
 }

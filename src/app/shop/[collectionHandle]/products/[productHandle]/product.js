@@ -5,7 +5,7 @@ import Image from "next/image";
 import { formatPriceInUSD, randomNumberBetween } from "@/utils";
 import SizeChartIcon from "@/components/size-chart-icon";
 
-export default function Product({ product }) {
+export default function Product({ product, collectionHandle }) {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [randomGrunge, setRandomGrunge] = useState(0);
 

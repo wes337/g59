@@ -14,7 +14,7 @@ export default function MenuItems({ menuItems }) {
   useGSAP(() => {
     menuItems.forEach((_, i) => {
       const id = `#menu-item-${i}`;
-      const delay = i * 0.02;
+      const delay = i * 0.1;
 
       gsap.fromTo(
         `${id}`,
@@ -27,7 +27,7 @@ export default function MenuItems({ menuItems }) {
   return (
     <div className="hidden sm:flex flex-col text-right items-end bg-black/75">
       {menuItems.map((menuItem, index) => {
-        let active = pathname === `/shop/${menuItem.resource.handle}`;
+        let active = pathname.includes(`/shop/${menuItem.resource.handle}`);
 
         if (pathname === "/shop" && menuItem.resource.handle === "all") {
           active = true;

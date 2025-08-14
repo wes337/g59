@@ -8,7 +8,7 @@ import Link from "next/link";
 
 gsap.registerPlugin(useGSAP);
 
-export default function Product({ product, index }) {
+export default function Product({ product, collection, index }) {
   useGSAP(() => {
     const id = `#product-${index}`;
     const delay = index * 0.02;
@@ -20,13 +20,11 @@ export default function Product({ product, index }) {
     );
   }, [index]);
 
-  console.log(product);
-
   return (
     <div id={`product-${index}`}>
       <Link
         className="hidden sm:flex group overflow-hidden relative bg-gray-200"
-        href={`/shop/products/${product.handle}`}
+        href={`/shop/${collection.handle}/products/${product.handle}`}
       >
         <Image
           className="group-hover:scale-[1.1] group-hover:opacity-50 transition-all duration-200"
@@ -42,16 +40,16 @@ export default function Product({ product, index }) {
           {formatPriceInUSD(product.price)}
         </div>
       </Link>
-      <MobileProduct product={product} />
+      <MobileProduct product={product} collection={collection} />
     </div>
   );
 }
 
-function MobileProduct({ product }) {
+function MobileProduct({ product, collection }) {
   return (
     <Link
       className="group overflow-hidden bg-gray-200 sm:hidden"
-      href={`/shop/products/${product.handle}`}
+      href={`/shop/${collection.handle}/products/${product.handle}`}
     >
       <div className="relative">
         <Image src={product.images[0]} width={1500} height={1800} alt="" />
