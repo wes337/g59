@@ -21,6 +21,18 @@ export default function Home() {
   const [currentBackground, setCurrentBackground] = useState(0);
   const intervalRef = useRef();
 
+  const changeSlide = useCallback((index) => {
+    if (animating.current) {
+      return;
+    }
+
+    animating.current = true;
+
+    restartSlideInterval();
+
+    setCurrentSlide(index);
+  }, []);
+
   const gotoNextSlide = useCallback(() => {
     if (animating.current) {
       return;
@@ -62,13 +74,12 @@ export default function Home() {
   }, []);
 
   const restartSlideInterval = useCallback(() => {
-    if (intervalRef.current) {
-      clearInterval(intervalRef.current);
-    }
-
-    intervalRef.current = setInterval(() => {
-      gotoNextSlide();
-    }, 8000);
+    // if (intervalRef.current) {
+    //   clearInterval(intervalRef.current);
+    // }
+    // intervalRef.current = setInterval(() => {
+    //   gotoNextSlide();
+    // }, 25000);
   }, []);
 
   useEffect(() => {
@@ -123,11 +134,11 @@ export default function Home() {
       xPercent: -50,
       ease: "sine.inOut",
     });
-    gsap.to(`${currentId} .photos`, {
-      yPercent: 0,
-      xPercent: -50,
-      ease: "sine.inOut",
-    });
+    // gsap.to(`${currentId} .photos`, {
+    //   yPercent: 0,
+    //   xPercent: -50,
+    //   ease: "sine.inOut",
+    // });
     gsap.to(`${currentId} .bio`, {
       yPercent: 0,
       xPercent: -50,
@@ -157,11 +168,11 @@ export default function Home() {
         yPercent: -5000,
         ease: "sine.inOut",
       });
-      gsap.to(`${id} .photos`, {
-        yPercent: 0,
-        xPercent: 500,
-        ease: "sine.inOut",
-      });
+      // gsap.to(`${id} .photos`, {
+      //   yPercent: 0,
+      //   xPercent: 500,
+      //   ease: "sine.inOut",
+      // });
       gsap.to(`${id} .bio`, {
         yPercent: 0,
         xPercent: -500,
@@ -190,7 +201,7 @@ export default function Home() {
             key={slide.name}
             index={index}
             slide={slide}
-            onClick={gotoNextSlide}
+            onClick={() => {}}
             onOpenPhoto={() => {
               animating.current = true;
             }}
@@ -200,6 +211,7 @@ export default function Home() {
           />
         );
       })}
+      <Selector currentSlide={currentSlide} changeSlide={changeSlide} />
       <div className="wire-1 fixed z-0 bottom-0 md:bottom-[-10%] w-[300vw] md:w-full drop-shadow-lg pointer-events-none">
         <Image src={`/images/wire-1.png`} width={3840} height={2160} alt="" />
       </div>
@@ -269,12 +281,12 @@ function Slide(props) {
           {props.slide.bio}
         </div>
       </div>
-      <div className="photos flex flex-nowrap fixed top-[70%] md:top-[72%] left-[50%] w-full md:w-[64vw] h-[100px] z-5 shadow-[0px_40px_0px_#e4e4e4] md:shadow-[0px_72px_0px_#e4e4e4]">
+      {/* <div className="photos flex flex-nowrap fixed top-[70%] md:top-[72%] left-[50%] w-full md:w-[64vw] h-[100px] z-5 shadow-[0px_40px_0px_#e4e4e4] md:shadow-[0px_72px_0px_#e4e4e4]">
         <PhotoSelector
           onOpen={() => props.onOpenPhoto()}
           onClose={() => props.onClosePhoto()}
         />
-      </div>
+      </div> */}
     </div>
   );
 }
@@ -282,17 +294,60 @@ function Slide(props) {
 function SocialMediaButton(props) {
   return (
     <Link
-      className="size-8 md:size-10 xl:size-12 drop-shadow-lg cursor-pointer hover:scale-[1.1] transition-all duration-200"
+      className="size-8 md:size-10 xl:size-12 cursor-pointer hover:scale-[1.1] transition-all duration-200"
       href={props.href}
     >
       <Image
-        className="drop-shadow-lg"
+        className="drop-shadow-[2px_2px_2px_#00000080]"
         src={props.src}
         alt={props.name}
         width={512}
         height={512}
       />
     </Link>
+  );
+}
+
+function Selector(props) {
+  return (
+    <div className="selector flex flex-nowrap fixed top-[75%] md:top-[78%] left-[50%] translate-x-[-50%] w-full md:w-[64vw] h-[100px] z-5">
+      <div className="absolute bg-[#e4e4e4] h-[48px] md:h-[72px] bottom-0 w-full" />
+      {SLIDES.map((slide, index) => {
+        const active = props.currentSlide === index;
+
+        return (
+          <button
+            key={slide.name}
+            className={`relative group cursor-pointer w-[100px] md:w-full drop-shadow-lg translate-y-[15%] md:translate-y-[0%] hover:scale-[1.2] active:scale-[1.1] transition-all duration-200 select-none ${
+              active
+                ? "scale-[1.15] md:scale-[1.25]"
+                : "opacity-50 md:opacity-90"
+            }`}
+            onClick={() => props.changeSlide(index)}
+          >
+            <div className="absolute bg-black w-[66%] h-[66%] z-[-1] left-[50%] translate-x-[-50%] translate-y-[25%] md:translate-y-[40%]" />
+            <Image
+              className={`w-full h-full object-contain p-1 md:p-2 select-none drop-shadow-[2px_0px_0px_#e4e4e4] ${
+                active ? "drop-shadow-[2px_2px_0px_white]" : ""
+              }`}
+              src={slide.icon}
+              width={500}
+              height={350}
+              alt=""
+            />
+            <Image
+              className={`absolute top-0 z-[-1] w-full h-full object-contain select-none transition-all duration-100 scale-[0.1] group-hover:scale-[1] ${
+                active ? "scale-[1] -rotate-20" : ""
+              }`}
+              src={`/images/wires-hover.png`}
+              width={1000}
+              height={412}
+              alt=""
+            />
+          </button>
+        );
+      })}
+    </div>
   );
 }
 
