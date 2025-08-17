@@ -53,14 +53,14 @@ export default function MobileMenu({ menuItems }) {
     <div className="flex md:hidden">
       {back && (
         <button
-          className="fixed top-0 left-0 m-2 text-white z-10 drop-shadow-[2px_2px_0px_black] bg-black/50 cursor-pointer"
+          className="fixed top-0 left-0 m-2 text-white z-25 drop-shadow-[2px_2px_0px_black] bg-black/50 cursor-pointer"
           onClick={() => router.back()}
         >
           <MdArrowBack size={40} />
         </button>
       )}
       <button
-        className="fixed top-0 right-0 m-2 text-white z-10 drop-shadow-[2px_2px_0px_black] bg-black/50 cursor-pointer"
+        className="fixed top-0 right-0 m-2 text-white z-25 drop-shadow-[2px_2px_0px_black] bg-black/50 cursor-pointer"
         onClick={() => setOpen(true)}
       >
         <MdMenu size={40} />

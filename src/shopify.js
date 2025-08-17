@@ -29,6 +29,10 @@ export default class Shopify {
           handle
           description
           descriptionHtml
+          sizeChart: metafield(namespace: "custom", key: "size_guide") {
+            value
+            type
+          }
           priceRange {
             minVariantPrice {
               amount
@@ -67,6 +71,8 @@ export default class Shopify {
       }
     );
 
+    const sizeChart = await Shopify.getSizeChart(data.product);
+
     const product = {
       id: data.product.id,
       handle: data.product.handle,
@@ -82,6 +88,7 @@ export default class Shopify {
       ),
       price: data.product.priceRange.minVariantPrice.amount,
       currencyCode: data.product.priceRange.minVariantPrice.currencyCode,
+      sizeChart,
       variants:
         data.product.variants?.edges?.length > 0
           ? data.product.variants.edges.map(({ node }) => ({
@@ -217,6 +224,32 @@ export default class Shopify {
     }
 
     return products;
+  }
+
+  static async getSizeChart(product) {
+    let sizeChartId =
+      product &&
+      product.sizeChart &&
+      product.sizeChart.value &&
+      product.sizeChart.type === "page_reference"
+        ? product.sizeChart.value
+        : null;
+
+    if (!sizeChartId) {
+      return null;
+    }
+
+    sizeChartId = sizeChartId.replace("OnlineStorePage", "Page");
+    const page = await Shopify.getPage(sizeChartId);
+
+    if (!page) {
+      return null;
+    }
+
+    const match = page.body.match(/<img[^>]+src=["']([^"']+)["']/);
+    const src = match ? match[1] : null;
+
+    return src;
   }
 
   static async getCart(cartId) {
@@ -960,5 +993,136 @@ export default class Shopify {
     }
 
     return collectionProducts;
+  }
+
+  static async getPage(pageId) {
+    const cachedPage = await Cache.getItem(`page:${pageId}`);
+
+    if (cachedPage) {
+      return cachedPage;
+    }
+
+    const { data } = await Shopify.client.request(
+      `query PageQuery($pageId: ID!) {
+      page(id: $pageId) {
+          id
+          title
+          handle
+          body
+          bodySummary
+          seo {
+            title
+            description
+          }
+          createdAt
+          updatedAt
+        }
+      }`,
+      {
+        variables: { pageId },
+      }
+    );
+
+    if (!data.page) {
+      return null;
+    }
+
+    const page = {
+      id: data.page.id,
+      title: data.page.title,
+      handle: data.page.handle,
+      body: data.page.body,
+      bodySummary: data.page.bodySummary,
+      seo: data.page.seo
+        ? {
+            title: data.page.seo.title || null,
+            description: data.page.seo.description || null,
+          }
+        : null,
+      createdAt: data.page.createdAt,
+      updatedAt: data.page.updatedAt,
+    };
+
+    if (page) {
+      Cache.setItem(`page:${pageId}`, page, 120);
+    }
+
+    return page;
+  }
+
+  static async getPages(first = 100, after = null) {
+    const cachedPages = await Cache.getItem(
+      `pages:${first}${after ? `:${after}` : ""}`
+    );
+
+    if (cachedPages) {
+      return cachedPages;
+    }
+
+    const { data } = await Shopify.client.request(
+      `query PagesQuery($first: Int!, $after: String) {
+      pages(first: $first, after: $after) {
+          pageInfo {
+            hasNextPage
+            endCursor
+          }
+          edges {
+            node {
+              id
+              title
+              handle
+              body
+              bodySummary
+              seo {
+                title
+                description
+              }
+              createdAt
+              updatedAt
+            }
+          }
+        }
+      }`,
+      {
+        variables: { first, after },
+      }
+    );
+
+    if (!data.pages) {
+      return { results: [], hasMore: false };
+    }
+
+    const results = data.pages.edges
+      .map(({ node }) => ({
+        id: node.id,
+        handle: node.handle,
+        title: node.title,
+        body: node.body,
+        bodySummary: node.bodySummary,
+        seo: node.seo
+          ? {
+              title: node.seo.title || null,
+              description: node.seo.description || null,
+            }
+          : null,
+        createdAt: node.createdAt,
+        updatedAt: node.updatedAt,
+      }))
+      .filter(Boolean);
+
+    const hasMore = data.pages.pageInfo?.hasNextPage || false;
+    const endCursor = data.pages.pageInfo?.endCursor || null;
+
+    const pages = {
+      results,
+      hasMore,
+      endCursor,
+    };
+
+    if (pages && pages.results && pages.results.length > 0) {
+      Cache.setItem(`pages:${first}${after ? `:${after}` : ""}`, pages, 120);
+    }
+
+    return pages;
   }
 }

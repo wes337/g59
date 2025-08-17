@@ -16,6 +16,7 @@ const NUMBER_OF_BACKGROUNDS = 4;
 
 export default function Home() {
   const animating = useRef(false);
+  const timeout = useRef();
   const [currentSlide, setCurrentSlide] = useState(0);
   const [currentBackground, setCurrentBackground] = useState(0);
 
@@ -88,7 +89,15 @@ export default function Home() {
       yPercent: -50,
       ease: "back.inOut",
       onComplete: () => {
+        if (timeout.current) {
+          clearTimeout(timeout.current);
+        }
+
         animating.current = false;
+
+        timeout.current = setTimeout(() => {
+          animating.current = false;
+        }, 600);
       },
     });
     gsap.to(`${currentId} .icon`, {
@@ -220,24 +229,38 @@ function Slide(props) {
       <div className="socials flex gap-4 md:gap-8 lg:gap-10 fixed top-[32%] left-[50%] md:top-[58%] md:left-[33%] z-10">
         <SocialMediaButton
           name="YouTube"
-          href="https://www.youtube.com"
+          href={props.slide.youtube}
           src={`/images/icons/youtube-icon.png`}
         />
         <SocialMediaButton
           name="Instagram"
-          href="https://www.instagram.com"
+          href={props.slide.ig}
           src={`/images/icons/ig-icon.png`}
         />
         <SocialMediaButton
           name="Spotify"
-          href="https://www.spotify.com"
+          href={props.slide.spotify}
           src={`/images/icons/spotify-icon.png`}
         />
         <SocialMediaButton
           name="SoundCloud"
-          href="https://www.soundcloud.com"
+          href={props.slide.soundcloud}
           src={`/images/icons/soundcloud-icon.png`}
         />
+        {props.slide.x && (
+          <SocialMediaButton
+            name="X"
+            href={props.slide.x}
+            src={`/images/icons/x-icon.png`}
+          />
+        )}
+        {props.slide.tiktok && (
+          <SocialMediaButton
+            name="TikTok"
+            href={props.slide.tiktok}
+            src={`/images/icons/tt-icon.png`}
+          />
+        )}
       </div>
       <div className="bio flex items-center justify-center text-center md:p-4 fixed top-[71%] md:top-[66%] left-[50%] w-full md:w-[32vw] md:left-[33%] h-[64px] z-5 drop-shadow-lg bg-black/33 md:bg-transparent">
         <div className="text-lg md:text-[2rem] text-shadow-[0_4px_4px_rgb(0_0_0_/_0.75)] whitespace-nowrap">
