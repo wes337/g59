@@ -1,7 +1,6 @@
 "use client";
 
-import { useState, useRef, useCallback, useEffect } from "react";
-import { createPortal } from "react-dom";
+import { useState, useRef, useCallback } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import gsap from "gsap";
@@ -19,7 +18,6 @@ export default function Home() {
   const animating = useRef(false);
   const [currentSlide, setCurrentSlide] = useState(0);
   const [currentBackground, setCurrentBackground] = useState(0);
-  const intervalRef = useRef();
 
   const changeSlide = useCallback((index) => {
     if (animating.current) {
@@ -27,8 +25,6 @@ export default function Home() {
     }
 
     animating.current = true;
-
-    restartSlideInterval();
 
     setCurrentSlide(index);
   }, []);
@@ -39,8 +35,6 @@ export default function Home() {
     }
 
     animating.current = true;
-
-    restartSlideInterval();
 
     setCurrentSlide((currentSlide) => {
       const nextSlide = currentSlide + 1;
@@ -60,8 +54,6 @@ export default function Home() {
 
     animating.current = true;
 
-    restartSlideInterval();
-
     setCurrentSlide((currentSlide) => {
       const previousSlide = currentSlide - 1;
 
@@ -71,25 +63,6 @@ export default function Home() {
 
       return previousSlide;
     });
-  }, []);
-
-  const restartSlideInterval = useCallback(() => {
-    // if (intervalRef.current) {
-    //   clearInterval(intervalRef.current);
-    // }
-    // intervalRef.current = setInterval(() => {
-    //   gotoNextSlide();
-    // }, 25000);
-  }, []);
-
-  useEffect(() => {
-    restartSlideInterval();
-
-    return () => {
-      if (intervalRef.current) {
-        clearInterval(intervalRef.current);
-      }
-    };
   }, []);
 
   useGSAP(() => {
@@ -134,11 +107,6 @@ export default function Home() {
       xPercent: -50,
       ease: "sine.inOut",
     });
-    // gsap.to(`${currentId} .photos`, {
-    //   yPercent: 0,
-    //   xPercent: -50,
-    //   ease: "sine.inOut",
-    // });
     gsap.to(`${currentId} .bio`, {
       yPercent: 0,
       xPercent: -50,
@@ -168,11 +136,6 @@ export default function Home() {
         yPercent: -5000,
         ease: "sine.inOut",
       });
-      // gsap.to(`${id} .photos`, {
-      //   yPercent: 0,
-      //   xPercent: 500,
-      //   ease: "sine.inOut",
-      // });
       gsap.to(`${id} .bio`, {
         yPercent: 0,
         xPercent: -500,
@@ -281,12 +244,6 @@ function Slide(props) {
           {props.slide.bio}
         </div>
       </div>
-      {/* <div className="photos flex flex-nowrap fixed top-[70%] md:top-[72%] left-[50%] w-full md:w-[64vw] h-[100px] z-5 shadow-[0px_40px_0px_#e4e4e4] md:shadow-[0px_72px_0px_#e4e4e4]">
-        <PhotoSelector
-          onOpen={() => props.onOpenPhoto()}
-          onClose={() => props.onClosePhoto()}
-        />
-      </div> */}
     </div>
   );
 }
@@ -348,86 +305,5 @@ function Selector(props) {
         );
       })}
     </div>
-  );
-}
-
-function PhotoSelector(props) {
-  const [currentPhoto, setCurrentPhoto] = useState(-1);
-
-  const closePhoto = (event) => {
-    event.stopPropagation();
-    setCurrentPhoto(-1);
-    props.onClose();
-  };
-
-  const Photo = (index) => (
-    <button
-      className="group cursor-pointer translate-y-[48px] md:translate-y-[64px] w-[100px] md:w-full shrink-0 md:shrink-1 md:grow-1 drop-shadow-lg hover:scale-[1.2] transition-all duration-200 select-none"
-      onClick={(event) => {
-        event.stopPropagation();
-        setCurrentPhoto(index);
-        props.onOpen();
-      }}
-    >
-      <Image
-        className="w-full h-full object-contain p-2 select-none"
-        src={`/images/artists/test-tn.png`}
-        width={500}
-        height={350}
-        alt=""
-      />
-      <Image
-        className="absolute top-0 z-[-1] w-full h-full object-contain select-none transition-all duration-100 scale-[0.1] group-hover:scale-[1]"
-        src={`/images/wires-hover.png`}
-        width={1000}
-        height={412}
-        alt=""
-      />
-    </button>
-  );
-
-  return (
-    <>
-      {currentPhoto != -1 &&
-        createPortal(
-          <div className="fixed flex items-center justify-center top-0 left-0 w-full h-full z-20 bg-black/75">
-            <Image
-              className="w-[80%] h-[80%] object-contain"
-              src={`/images/photos/test.png`}
-              width={1920}
-              height={1080}
-              alt=""
-            />
-            <Image
-              className="absolute w-full h-full object-contain"
-              src={`/images/frame-white.png`}
-              width={1920}
-              height={1080}
-              alt=""
-            />
-            <button
-              className="hidden md:block cursor-pointer absolute top-[12%] right-[12%] text-[4rem] text-yellow-300"
-              onClick={closePhoto}
-            >
-              X
-            </button>
-            <button
-              className="block md:hidden cursor-pointer absolute top-0 right-0 m-8 text-[2rem] text-yellow-300"
-              onClick={closePhoto}
-            >
-              Close
-            </button>
-          </div>,
-          document.body
-        )}
-      <Photo index={0} />
-      <Photo index={1} />
-      <Photo index={2} />
-      <Photo index={3} />
-      <Photo index={4} />
-      <Photo index={5} />
-      <Photo index={6} />
-      <Photo index={7} />
-    </>
   );
 }

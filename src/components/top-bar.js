@@ -8,6 +8,7 @@ import Link from "next/link";
 const TOP_BAR_HEIGHT = 172;
 
 export function TopBar() {
+  const pathname = usePathname();
   const [scroll, setScroll] = useState(0);
   const [hover, setHover] = useState(false);
 
@@ -43,7 +44,12 @@ export function TopBar() {
         onPointerLeave={() => setHover(false)}
       >
         <div className="h-full w-full flex items-center justify-center hover:scale-[1.1] transition-all duration-200 drop-shadow-lg">
-          <Link className="h-full w-auto" href="/">
+          <Link
+            className="h-full w-auto"
+            href={
+              pathname.includes("/shop") && pathname !== "/shop" ? "/shop" : "/"
+            }
+          >
             <Image
               className="w-full h-full object-contain"
               src={`/images/chain-base.png`}

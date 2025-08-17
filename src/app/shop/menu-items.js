@@ -25,7 +25,7 @@ export default function MenuItems({ menuItems }) {
   }, [menuItems]);
 
   return (
-    <div className="hidden sm:flex flex-col text-right items-end bg-black/75">
+    <div className="hidden md:flex flex-col text-right items-end bg-black/75">
       {menuItems.map((menuItem, index) => {
         let active = pathname.includes(`/shop/${menuItem.resource.handle}`);
 

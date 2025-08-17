@@ -6,10 +6,16 @@ export const SLIDES = [
     bio: `Ruby Da Cherry & $crim, founders of the grey.`,
   },
   {
-    name: "chetta",
-    icon: "/images/artists/chetta-icon.png",
-    bg: "/images/backgrounds/grunge-1.png",
-    bio: `guess who, bitch.`,
+    name: "night lovell",
+    icon: "/images/artists/nightlovell-icon.png",
+    bg: "/images/backgrounds/grunge-0.png",
+    bio: `dark night rises.`,
+  },
+  {
+    name: "shakewell",
+    icon: "/images/artists/sw2-icon.png",
+    bg: "/images/backgrounds/grunge-2.png",
+    bio: `shameless, smg warrior.`,
   },
   {
     name: "germ",
@@ -17,6 +23,13 @@ export const SLIDES = [
     bg: "/images/backgrounds/grunge-2.png",
     bio: `fire spitta, wood grain whipper.`,
   },
+  {
+    name: "chetta",
+    icon: "/images/artists/chetta-icon.png",
+    bg: "/images/backgrounds/grunge-1.png",
+    bio: `guess who, bitch.`,
+  },
+
   {
     name: "duckboy",
     icon: "/images/artists/db2-icon.png",
@@ -28,17 +41,5 @@ export const SLIDES = [
     icon: "/images/artists/lonelyboy-icon.png",
     bg: "/images/backgrounds/grunge-3.png",
     bio: `such a lonely boy.`,
-  },
-  {
-    name: "night lovell",
-    icon: "/images/artists/nightlovell-icon.png",
-    bg: "/images/backgrounds/grunge-0.png",
-    bio: `dark night rises.`,
-  },
-  {
-    name: "shakewell",
-    icon: "/images/artists/sw2-icon.png",
-    bg: "/images/backgrounds/grunge-2.png",
-    bio: `shameless, smg warrior.`,
   },
 ];

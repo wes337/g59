@@ -50,7 +50,7 @@ export default function MobileMenu({ menuItems }) {
   }
 
   return (
-    <div className="flex sm:hidden">
+    <div className="flex md:hidden">
       {back && (
         <button
           className="fixed top-0 left-0 m-2 text-white z-10 drop-shadow-[2px_2px_0px_black] bg-black/50 cursor-pointer"
