@@ -117,7 +117,7 @@ export default function Product({ product }) {
             <div className="text-5xl text-shadow-[4px_4px_0px_black]">
               {formatPriceInUSD(product.price)}
             </div>
-            <div className="relative p-4">
+            <div className="relative py-4">
               <div
                 className="font-sans"
                 dangerouslySetInnerHTML={{ __html: product.descriptionHtml }}

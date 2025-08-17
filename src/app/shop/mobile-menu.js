@@ -110,11 +110,36 @@ export default function MobileMenu({ menuItems }) {
             })}
           </div>
           <div
-            className={`fixed left-0 w-full text-center text-sm lowercase opacity-75 ${
+            className={`fixed left-0 w-full text-center text-sm lowercase ${
               open ? "bottom-[32px]" : "bottom-[-100px]"
             } transition-all duration-200`}
           >
-            Copyright © 2025 G59 Records, Inc. All Rights Reserved
+            <div className="flex gap-4 items-center justify-center m-auto text-center">
+              <Link
+                className="text-yellow-100 text-shadow-[2px_2px_0px_black] hover:text-yellow-300"
+                href="/shop/policies/terms-of-service"
+                onClick={() => setOpen(false)}
+              >
+                Terms
+              </Link>
+              <Link
+                className="text-yellow-100 text-shadow-[2px_2px_0px_black] hover:text-yellow-300"
+                href="/shop/policies/privacy-policy"
+                onClick={() => setOpen(false)}
+              >
+                Privacy
+              </Link>
+              <Link
+                className="text-yellow-100 text-shadow-[2px_2px_0px_black] hover:text-yellow-300"
+                href="/shop/policies/refund-policy"
+                onClick={() => setOpen(false)}
+              >
+                Refunds
+              </Link>
+            </div>
+            <div className="opacity-75">
+              Copyright © 2025 G59 Records, Inc. All Rights Reserved
+            </div>
           </div>
         </div>,
         document?.body

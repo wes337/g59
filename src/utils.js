@@ -10,3 +10,9 @@ const currencyFormatter = new Intl.NumberFormat("en-US", {
 export function formatPriceInUSD(amount) {
   return currencyFormatter.format(amount);
 }
+
+export function toCamelCase(text) {
+  return text.replace(/-([a-z])/g, (t) => {
+    return t[1].toUpperCase();
+  });
+}

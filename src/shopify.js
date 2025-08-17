@@ -1125,4 +1125,35 @@ export default class Shopify {
 
     return pages;
   }
+
+  static async getPolicies() {
+    const { data } = await Shopify.client.request(
+      `{
+        shop {
+          privacyPolicy {
+            handle
+            title
+            body
+          }
+          refundPolicy {
+            handle
+            title
+            body
+          }
+          shippingPolicy {
+            handle
+            title
+            body
+          }
+          termsOfService {
+            handle
+            title
+            body
+          }
+        }
+      }`
+    );
+
+    return data.shop;
+  }
 }
