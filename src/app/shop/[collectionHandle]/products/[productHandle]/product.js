@@ -89,6 +89,7 @@ export default function Product({ product }) {
             {product.images.map((image, index) => {
               return (
                 <Image
+                  key={image}
                   className={`absolute top-0 left-0 w-full h-full object-contain m-auto z-1 ${
                     currentImageIndex === index ? "opacity-100" : "opacity-0"
                   } transition-all duration-200`}
