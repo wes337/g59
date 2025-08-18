@@ -19,6 +19,7 @@ export default function MobileMenu({ menuItems }) {
 
   useEffect(() => {
     setBack(pathname.includes("/shop/") && pathname.includes("/products/"));
+    setOpen(false);
   }, [pathname]);
 
   useEffect(() => {
