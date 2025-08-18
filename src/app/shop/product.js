@@ -9,6 +9,10 @@ import Link from "next/link";
 gsap.registerPlugin(useGSAP);
 
 export default function Product({ product, collection, index }) {
+  const soldOut = !product.variants.some(
+    ({ availableForSale }) => !!availableForSale
+  );
+
   useGSAP(() => {
     const id = `#product-${index}`;
     const delay = index * 0.02;
@@ -26,6 +30,11 @@ export default function Product({ product, collection, index }) {
         className="hidden sm:flex group overflow-hidden relative bg-gray-200"
         href={`/shop/${collection.handle}/products/${product.handle}`}
       >
+        {soldOut && (
+          <div className="absolute top-0 right-0 z-1 text-black lowercase m-2 text-lg tracking-wide bg-black/10 px-2 opacity-75 group-hover:opacity-100">
+            Sold Out
+          </div>
+        )}
         <Image
           className="group-hover:scale-[1.1] group-hover:opacity-50 transition-all duration-200"
           src={product.images[0]}
@@ -46,11 +55,20 @@ export default function Product({ product, collection, index }) {
 }
 
 function MobileProduct({ product, collection }) {
+  const soldOut = !product.variants.some(
+    ({ availableForSale }) => !!availableForSale
+  );
+
   return (
     <Link
       className="group overflow-hidden bg-gray-200 sm:hidden"
       href={`/shop/${collection.handle}/products/${product.handle}`}
     >
+      {soldOut && (
+        <div className="absolute top-0 right-0 z-1 text-black lowercase m-2 text-lg tracking-wide bg-black/10 px-2 opacity-75 group-hover:opacity-100">
+          Sold Out
+        </div>
+      )}
       <div className="relative">
         <Image src={product.images[0]} width={1500} height={1800} alt="" />
         <Image

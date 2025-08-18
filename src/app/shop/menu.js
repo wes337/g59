@@ -5,10 +5,11 @@ import MenuItems from "./menu-items";
 async function getMenuItems() {
   const menu = await Shopify.getMenu();
 
-  return (
+  const menuItems =
     menu.items.find(({ id }) => id === "gid://shopify/MenuItem/728439456111")
-      ?.items || []
-  );
+      ?.items || [];
+
+  return menuItems;
 }
 
 export default async function Menu() {

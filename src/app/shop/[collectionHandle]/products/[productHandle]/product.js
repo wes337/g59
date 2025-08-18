@@ -4,13 +4,20 @@ import { useState, useEffect } from "react";
 import { createPortal } from "react-dom";
 import Image from "next/image";
 import { formatPriceInUSD, randomNumberBetween } from "@/utils";
-import { MdClose } from "react-icons/md";
+import { MdClose, MdZoomIn } from "react-icons/md";
 import SizeChartIcon from "@/components/size-chart-icon";
 
 export default function Product({ product }) {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [randomGrunge, setRandomGrunge] = useState(0);
+  const [showFullImage, setShowFullImage] = useState(false);
   const [showSizeChart, setShowSizeChart] = useState(false);
+  const [selectedVariant, setSelectedVariant] = useState(null);
+  const [showSizeError, setShowSizeError] = useState(false);
+
+  const soldOut = !product.variants.some(
+    ({ availableForSale }) => !!availableForSale
+  );
 
   useEffect(() => {
     window.scrollTo({ top: 0, left: 0 });
@@ -41,11 +48,30 @@ export default function Product({ product }) {
     });
   };
 
+  const onAddToCart = () => {
+    if (soldOut) {
+      return;
+    }
+
+    if (!selectedVariant) {
+      setShowSizeError(true);
+      return;
+    }
+
+    console.log(product);
+  };
+
   return (
     <>
       <div className="flex flex-col w-full md:w-auto">
         <div className="flex flex-col w-full md:flex-row gap-8 md:bg-black/75">
           <div className="relative w-full h-[50vh] md:w-[52.5vw] md:h-[70vh] md:bg-white/10">
+            <button
+              className="absolute cursor-pointer top-0 right-0 m-2 drop-shadow-[2px_2px_0px_black] bg-black/25 z-6 hover:text-yellow-300 hover:bg-black/50"
+              onClick={() => setShowFullImage(true)}
+            >
+              <MdZoomIn size={40} />
+            </button>
             {product.images.length > 1 && (
               <>
                 <button
@@ -117,6 +143,64 @@ export default function Product({ product }) {
             <div className="text-5xl text-shadow-[4px_4px_0px_black]">
               {formatPriceInUSD(product.price)}
             </div>
+            {soldOut && (
+              <div className="lowercase tracking-wide text-4xl mt-4 text-center bg-white/10 w-full md:max-w-[400px] p-2 text-shadow-[4px_4px_0px_black]">
+                Sold Out
+              </div>
+            )}
+            {!soldOut && product.variants.length > 1 && (
+              <div>
+                <div className="lowercase text-md text-shadow-[2px_2px_0px_black] mb-1">
+                  Select Size
+                </div>
+                <div className="flex gap-2 md:max-w-[400px]">
+                  {product.variants.map((variant) => {
+                    const soldOut = !variant.availableForSale;
+                    const selected = selectedVariant === variant.id;
+
+                    return (
+                      <button
+                        key={variant.id}
+                        className={`font-bold border-1 border-transparent flex items-center justify-center text-center text-lg text-shadow-[2px_2px_0px_black] tracking-tighter leading-none font-sans p-2 w-full ${
+                          selected
+                            ? "bg-white/25 border-white/50"
+                            : "bg-white/10"
+                        } ${
+                          soldOut ? "opacity-33" : "cursor-pointer"
+                        } hover:scale-[1.1]`}
+                        onClick={() => {
+                          if (soldOut) {
+                            return;
+                          }
+
+                          setSelectedVariant(variant.id);
+                          setShowSizeError(false);
+                        }}
+                      >
+                        {variant.title}
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+            )}
+            {!soldOut && (
+              <div>
+                <button
+                  className="cursor-pointer w-full md:max-w-[400px] flex items-center font-sans text-3xl text-center justify-center gap-2 bg-white/10 p-4 drop-shadow-[2px_2px_0px_black] hover:scale-[1.05]"
+                  onClick={onAddToCart}
+                >
+                  <span className="uppercase font-bold text-shadow-[2px_2px_0px_black]">
+                    Add to Cart
+                  </span>
+                </button>
+              </div>
+            )}
+            {showSizeError && (
+              <div className="text-red-500 bg-red-500/10 p-1 md:p-0 text-center md:bg-transparent md:text-left font-bold font-sans text-lg">
+                Please select a size!
+              </div>
+            )}
             <div className="relative py-4">
               <div
                 className="font-sans"
@@ -150,6 +234,25 @@ export default function Product({ product }) {
               alt=""
               width={1836}
               height={995}
+            />
+          </div>,
+          document?.body
+        )}
+      {showFullImage &&
+        createPortal(
+          <div className="fixed top-0 left-0 w-full h-full z-50 overflow-y-auto">
+            <button
+              className="drop-shadow-[2px_2px_0px_black] bg-black/50 cursor-pointer fixed top-0 right-0 bg-black/75 p-4"
+              onClick={() => setShowFullImage(false)}
+            >
+              <MdClose size={48} />
+            </button>
+            <Image
+              className="w-full min-h-screen object-cover"
+              src={product.images[currentImageIndex]}
+              alt=""
+              width={1500}
+              height={1800}
             />
           </div>,
           document?.body
