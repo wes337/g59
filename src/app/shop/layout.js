@@ -1,8 +1,9 @@
 import { Background } from "@/components/background";
 import Menu from "./menu";
 import Wire from "@/components/wire";
+import Cart from "@/components/cart";
 
-export default function RootLayout({ children }) {
+export default function ShopLayout({ children }) {
   return (
     <>
       <div className="flex mt-[172px] m-auto w-[90vw] sm:w-[66vw] max-w-[900px] md:max-w-[1200px] xl:w-[75vw] xl:max-w-[1200px] relative z-10">
@@ -15,6 +16,7 @@ export default function RootLayout({ children }) {
       <Wire wire={2} />
       <Wire wire={3} />
       <Background currentBackground={3} />
+      <Cart />
     </>
   );
 }

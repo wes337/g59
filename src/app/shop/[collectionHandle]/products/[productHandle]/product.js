@@ -48,7 +48,7 @@ export default function Product({ product }) {
     });
   };
 
-  const onAddToCart = () => {
+  const onAddToCart = async () => {
     if (soldOut) {
       return;
     }
@@ -58,7 +58,12 @@ export default function Product({ product }) {
       return;
     }
 
-    console.log(product);
+    const event = new CustomEvent("addtocart", { detail: selectedVariant });
+    document.dispatchEvent(event);
+
+    if (product.variants.length > 1) {
+      setSelectedVariant(null);
+    }
   };
 
   return (

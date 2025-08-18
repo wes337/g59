@@ -11,24 +11,22 @@ export default function MobileMenu({ menuItems }) {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
-  const [back, setBack] = useState("");
+  const [back, setBack] = useState(false);
 
   useEffect(() => {
     setMounted(true);
   }, []);
 
   useEffect(() => {
-    if (["/", "/shop"].includes(pathname)) {
-      setBack("");
-    } else {
-      setBack("/shop");
-    }
+    setBack(pathname.includes("/shop/") && pathname.includes("/products/"));
   }, [pathname]);
 
   useEffect(() => {
     if (open) {
+      document.documentElement.classList.add("noScroll");
       document.body.classList.add("noScroll");
     } else {
+      document.documentElement.classList.remove("noScroll");
       document.body.classList.remove("noScroll");
     }
   }, [open]);
@@ -51,23 +49,24 @@ export default function MobileMenu({ menuItems }) {
 
   return (
     <div className="flex md:hidden">
-      {back && (
+      {back ? (
         <button
           className="fixed top-0 left-0 m-2 text-white z-25 drop-shadow-[2px_2px_0px_black] bg-black/50 cursor-pointer"
           onClick={() => router.back()}
         >
           <MdArrowBack size={40} />
         </button>
+      ) : (
+        <button
+          className="fixed top-0 left-0 m-2 text-white z-25 drop-shadow-[2px_2px_0px_black] bg-black/50 cursor-pointer"
+          onClick={() => setOpen(true)}
+        >
+          <MdMenu size={40} />
+        </button>
       )}
-      <button
-        className="fixed top-0 right-0 m-2 text-white z-25 drop-shadow-[2px_2px_0px_black] bg-black/50 cursor-pointer"
-        onClick={() => setOpen(true)}
-      >
-        <MdMenu size={40} />
-      </button>
       {createPortal(
         <div
-          className={`fixed top-0 w-full h-full z-10 bg-black sm:hidden ${
+          className={`fixed top-0 w-full h-full z-11 bg-black sm:hidden ${
             open ? "left-0" : "left-[-200%]"
           } transition-all duration-200`}
         >
