@@ -103,6 +103,31 @@ export default function Cart() {
     return null;
   }
 
+  const onRemoveFromCart = async (cartItem) => {
+    if (!cart) {
+      return;
+    }
+
+    if (cartItem.quantity === 1) {
+      await Shopify.removeFromCart(cart.id, [cartItem.id]);
+    } else {
+      await Shopify.updateQuantity(cart.id, cartItem.id, cartItem.quantity - 1);
+    }
+
+    const cartItems = await Shopify.getCartItems(cart.id);
+    setCartItems(cartItems);
+  };
+
+  const onClickCheckout = () => {
+    if (!cart) {
+      return;
+    }
+
+    Cache.removeItem("cartId");
+
+    window.location.href = cart.checkoutUrl;
+  };
+
   return (
     <>
       <button
@@ -155,11 +180,46 @@ export default function Cart() {
             >
               <MdClose size={48} />
             </button>
-            <div className="mt-4 px-4 text-4xl text-yellow-200">Cart</div>
-            <div className="mt-[172px] md:mt-0 p-4">
+            <div className="relative mt-4 px-4 text-4xl text-yellow-200">
+              Cart
+              <Image
+                className={`absolute z-[-1] top-0 left-0 w-[100px] h-full opacity-50 drop-shadow-lg`}
+                src={`/images/border-hover.png`}
+                alt=""
+                width={1287}
+                height={717}
+              />
+            </div>
+            <div className="mt-[100px] md:mt-0 p-4">
               {cartItems.map((cartItem) => (
-                <CartItem key={cartItem.id} cartItem={cartItem} />
+                <CartItem
+                  key={cartItem.id}
+                  cartItem={cartItem}
+                  onRemoveFromCart={() => onRemoveFromCart(cartItem)}
+                />
               ))}
+            </div>
+            <div className="absolute bottom-0 left-0 w-full flex flex-col mt-auto bg-white/5">
+              <div className="flex items-center gap-2 w-full p-4 text-white text-shadow-[2px_2px_0px_black]">
+                <div className="lowercase text-xl">Total</div>
+                <div className="font-sans ml-auto text-3xl font-bold">
+                  {formatPriceInUSD(cart.estimatedCost.totalAmount.amount)}{" "}
+                  {cart.estimatedCost.totalAmount.currencyCode}
+                </div>
+              </div>
+              <div className="lowercase text-yellow-100 mx-4 pt-4 mb-4 text-xl text-shadow-[2px_2px_0px_black] border-t-1 border-white/25">
+                Tax included and shipping calculated at checkout
+              </div>
+              <div>
+                <button
+                  className="cursor-pointer w-full flex items-center font-sans text-3xl text-center justify-center gap-2 bg-white/10 p-8 md:p-4 drop-shadow-[2px_2px_0px_black] hover:scale-[1.05]"
+                  onClick={onClickCheckout}
+                >
+                  <span className="uppercase font-bold text-yellow-300 text-shadow-[2px_2px_0px_black]">
+                    Checkout
+                  </span>
+                </button>
+              </div>
             </div>
           </div>
         </>,
@@ -169,7 +229,7 @@ export default function Cart() {
   );
 }
 
-function CartItem({ cartItem }) {
+function CartItem({ cartItem, onRemoveFromCart }) {
   return (
     <div className="flex gap-2 p-2 h-full bg-white/5">
       <div className="relative w-[100px] h-auto shadow-[2px_2px_0px_black]">
@@ -188,13 +248,16 @@ function CartItem({ cartItem }) {
         <div className="text-2xl tracking-wide">
           {formatPriceInUSD(cartItem.price)}
         </div>
-        <div className="text-xl lowercase text-yellow-300">
+        <div className="text-xl lowercase text-yellow-200 truncate">
           {cartItem.productTitle}
         </div>
         <div className="font-sans font-bold tracking-wide mt-1 uppercase opacity-75">
           Size: {cartItem.variantTitle}
         </div>
-        <button className="absolute bottom-0 right-0 p-2 bg-black/50">
+        <button
+          className="cursor-pointer absolute bottom-0 right-0 p-2 bg-black/50 hover:bg-white/5"
+          onClick={onRemoveFromCart}
+        >
           <MdDelete />
         </button>
       </div>

@@ -230,35 +230,35 @@ function Slide(props) {
         <SocialMediaButton
           name="YouTube"
           href={props.slide.youtube}
-          src={`/images/icons/yt-black.png`}
+          src={`/images/icons/youtube-icon.png`}
         />
         <SocialMediaButton
           name="Instagram"
           href={props.slide.ig}
-          src={`/images/icons/ig-black.png`}
+          src={`/images/icons/ig-icon.png`}
         />
         <SocialMediaButton
           name="Spotify"
           href={props.slide.spotify}
-          src={`/images/icons/spotify-black.png`}
+          src={`/images/icons/spotify-icon.png`}
         />
         <SocialMediaButton
           name="SoundCloud"
           href={props.slide.soundcloud}
-          src={`/images/icons/soundcloud-black.png`}
+          src={`/images/icons/soundcloud-icon.png`}
         />
         {props.slide.x && (
           <SocialMediaButton
             name="X"
             href={props.slide.x}
-            src={`/images/icons/x-black.png`}
+            src={`/images/icons/x-icon.png`}
           />
         )}
         {props.slide.tiktok && (
           <SocialMediaButton
             name="TikTok"
             href={props.slide.tiktok}
-            src={`/images/icons/tt-black.png`}
+            src={`/images/icons/tt-icon.png`}
           />
         )}
       </div>
@@ -274,19 +274,12 @@ function Slide(props) {
 function SocialMediaButton(props) {
   return (
     <Link
-      className="group relative size-8 md:size-10 xl:size-12 cursor-pointer hover:scale-[1.1] transition-all duration-200 shadow-[3px_2px_0px_white]"
+      className="relative size-8 md:size-10 xl:size-12 cursor-pointer hover:scale-[1.1] transition-all duration-200"
       href={props.href}
     >
       <Image
         className="drop-shadow-[2px_2px_2px_#00000080]"
         src={props.src}
-        alt={props.name}
-        width={512}
-        height={512}
-      />
-      <Image
-        className="absolute w-full h-full top-0 left-0 drop-shadow-[2px_2px_2px_#00000080] opacity-0 group-hover:opacity-100 group-active:opacity-100"
-        src={props.src.replace(".png", "-hover.png")}
         alt={props.name}
         width={512}
         height={512}
