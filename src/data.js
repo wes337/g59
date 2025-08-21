@@ -70,6 +70,7 @@ export const SLIDES = [
     spotify: "https://open.spotify.com/artist/7LcRxOTDhbQ19ulgIVOWpu",
     soundcloud: "https://soundcloud.com/whereyatduckboy",
     tiktok: "https://www.tiktok.com/@whereyatduckboy1",
+    web: "https://www.duckboy.net",
   },
   {
     name: "lonely boy",

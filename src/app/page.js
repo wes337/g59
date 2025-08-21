@@ -286,6 +286,13 @@ function Slide(props) {
             src={`/images/icons/tt-icon.png`}
           />
         )}
+        {props.slide.web && (
+          <SocialMediaButton
+            name="Web"
+            href={props.slide.web}
+            src={`/images/icons/web-icon.png`}
+          />
+        )}
       </div>
       <div className="bio flex items-center justify-center text-center md:p-4 fixed top-[71%] md:top-[66%] left-[50%] w-full md:w-[32vw] md:left-[33%] h-[64px] z-5 drop-shadow-lg bg-black/33 md:bg-transparent">
         <div className="text-lg md:text-[2rem] text-shadow-[0_4px_4px_rgb(0_0_0_/_0.75)] whitespace-nowrap">
