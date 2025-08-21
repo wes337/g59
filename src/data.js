@@ -26,7 +26,7 @@ export const SLIDES = [
   },
   {
     name: "shakewell",
-    icon: "/images/artists/sw2-icon.png",
+    icon: "/images/artists/sw4-icon.png",
     bg: "/images/backgrounds/grunge-2.png",
     bio: `shameless, smg warrior.`,
     youtube: "https://www.youtube.com/@shakewellmusic3699",

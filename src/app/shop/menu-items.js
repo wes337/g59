@@ -5,6 +5,7 @@ import { useGSAP } from "@gsap/react";
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
+import { isSmallScreen } from "@/utils";
 
 gsap.registerPlugin(useGSAP);
 
@@ -39,6 +40,7 @@ export default function MenuItems({ menuItems }) {
             key={menuItem.id}
             className={`flex items-center group relative lowercase text-lg xl:text-xl leading-8 cursor-pointer hover:text-yellow-300 h-[40px] w-full text-right drop-shadow-[2px_2px_0px_black]`}
             href={`/shop/${menuItem.resource.handle}`}
+            prefetch={!isSmallScreen}
           >
             <div
               className={`w-max ml-auto group-hover:bg-white/10 ${

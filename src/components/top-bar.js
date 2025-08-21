@@ -86,6 +86,7 @@ function NavLink(props) {
         pathname.includes(props.href) ? "text-yellow-200" : ""
       } translate-y-[-12px] md:translate-y-[0]`}
       href={props.href}
+      prefetch
     >
       <span className="z-1">{props.label}</span>
       <Image

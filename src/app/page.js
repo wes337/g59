@@ -19,6 +19,7 @@ export default function Home() {
   const timeout = useRef();
   const [currentSlide, setCurrentSlide] = useState(0);
   const [currentBackground, setCurrentBackground] = useState(0);
+  const [loaded, setLoaded] = useState(0);
 
   const changeSlide = useCallback((index) => {
     if (animating.current) {
@@ -165,36 +166,55 @@ export default function Home() {
   }, [currentSlide]);
 
   return (
-    <div className="select-none">
-      <Background currentBackground={currentBackground} />
-      {SLIDES.map((slide, index) => {
-        return (
-          <Slide
-            key={slide.name}
-            index={index}
-            slide={slide}
-            onClick={() => {}}
-            onOpenPhoto={() => {
-              animating.current = true;
-            }}
-            onClosePhoto={() => {
-              animating.current = false;
-            }}
-          />
-        );
-      })}
-      <Selector currentSlide={currentSlide} changeSlide={changeSlide} />
-      <div className="wire-1 fixed z-0 bottom-0 md:bottom-[-10%] w-[300vw] md:w-full drop-shadow-lg pointer-events-none">
-        <Image src={`/images/wire-1.png`} width={3840} height={2160} alt="" />
+    <>
+      <div
+        className={`fixed top-0 left-0 w-full h-full flex flex-col items-center justify-center bg-black z-20 pointer-events-none ${
+          loaded >= SLIDES.length ? "fadeOut" : ""
+        }`}
+      >
+        <Image
+          className="invert"
+          src={`/images/logo-skull.gif`}
+          width={774}
+          height={840}
+          alt="G59 Records"
+        />
+        <div className="lowercase text-yellow-100">Loading...</div>
       </div>
-      <div className="wire-3 fixed z-[-1] bottom-[20%] md:bottom-0 w-[200vw] md:w-full drop-shadow-lg pointer-events-none">
-        <Image src={`/images/wire-3.png`} width={3840} height={2160} alt="" />
+      <div className="select-none">
+        <Background currentBackground={currentBackground} />
+        {SLIDES.map((slide, index) => {
+          return (
+            <Slide
+              key={slide.name}
+              index={index}
+              slide={slide}
+              onClick={() => {}}
+              onOpenPhoto={() => {
+                animating.current = true;
+              }}
+              onClosePhoto={() => {
+                animating.current = false;
+              }}
+              onLoad={() => setLoaded((loaded) => loaded + 1)}
+            />
+          );
+        })}
+        <Selector currentSlide={currentSlide} changeSlide={changeSlide} />
+        <div className="wire-1 fixed z-0 bottom-0 md:bottom-[-10%] w-[300vw] md:w-full drop-shadow-lg pointer-events-none">
+          <Image src={`/images/wire-1.png`} width={3840} height={2160} alt="" />
+        </div>
+        <div className="wire-3 fixed z-[-1] bottom-[20%] md:bottom-0 w-[200vw] md:w-full drop-shadow-lg pointer-events-none">
+          <Image src={`/images/wire-3.png`} width={3840} height={2160} alt="" />
+        </div>
       </div>
-    </div>
+    </>
   );
 }
 
 function Slide(props) {
+  const wide = ["shakewell"].includes(props.slide.name);
+
   return (
     <div
       id={`slide-${props.index}`}
@@ -210,13 +230,18 @@ function Slide(props) {
           height={2160}
         />
       </div>
-      <div className="icon fixed top-[50%] left-[50%] md:top-[45%] md:left-[66%] w-[90vw] h-[80vh] md:w-[66vw] md:h-[66vh] drop-shadow-[0_4px_8px_rgb(0_0_0_/_0.75)] select-none z-5">
+      <div
+        className={`icon fixed top-[50%] left-[50%] md:top-[45%] md:left-[66%] ${
+          wide ? "w-[100vw] md:w-[70vw]" : "w-[90vw] md:w-[66vw]"
+        } h-[80vh] md:h-[66vh] drop-shadow-[0_4px_8px_rgb(0_0_0_/_0.75)] select-none z-5`}
+      >
         <Image
           className="w-full h-full object-contain hover:scale-[1.05] transition-all duration-200 select-none drop-shadow-xl"
           src={props.slide.icon}
           alt=""
           width={2000}
           height={2000}
+          onLoad={props.onLoad}
         />
       </div>
       <div className="name fixed top-[25%] left-[50%] md:top-[50%] md:left-[33%] xl:top-[48%] drop-shadow-lg z-6">
@@ -276,6 +301,7 @@ function SocialMediaButton(props) {
     <Link
       className="relative size-8 md:size-10 xl:size-12 cursor-pointer hover:scale-[1.1] transition-all duration-200"
       href={props.href}
+      target="_blank"
     >
       <Image
         className="drop-shadow-[2px_2px_2px_#00000080]"

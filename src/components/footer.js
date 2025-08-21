@@ -25,16 +25,14 @@ export function Footer() {
     return () => window.removeEventListener("resize", onResize);
   }, [pathname]);
 
-  if (fixed === null) {
-    return null;
-  }
-
   return (
     <>
       <div
-        className={`${
+        className={`${fixed === null ? "opacity-0" : ""} ${
           fixed ? "fixed bottom-0 left-0" : "mt-8"
-        } flex flex-col items-center justify-center w-full h-[64px] lowercase tracking-wider drop-shadow-lg text-xs md:text-sm`}
+        } flex flex-col items-center justify-center w-full h-[64px] lowercase tracking-wider drop-shadow-lg text-xs md:text-sm
+        ${pathname === "/" ? "z-25" : ""}
+        transition-all duration-200`}
       >
         {pathname.match("shop") && (
           <div className="flex gap-4">

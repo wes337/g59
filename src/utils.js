@@ -16,3 +16,17 @@ export function toCamelCase(text) {
     return t[1].toUpperCase();
   });
 }
+
+export function isSmallScreen() {
+  try {
+    const rootFontSize = parseFloat(
+      getComputedStyle(document.documentElement).fontSize
+    );
+
+    const breakpoint = 40 * rootFontSize;
+
+    return window.innerWidth < breakpoint;
+  } catch {
+    return false;
+  }
+}

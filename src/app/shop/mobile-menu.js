@@ -5,6 +5,7 @@ import { usePathname, useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
 import { createPortal } from "react-dom";
 import { MdMenu, MdClose, MdArrowBack } from "react-icons/md";
+import { isSmallScreen } from "@/utils";
 
 export default function MobileMenu({ menuItems }) {
   const router = useRouter();
@@ -97,6 +98,7 @@ export default function MobileMenu({ menuItems }) {
                   }`}
                   href={`/shop/${menuItem.resource.handle}`}
                   onClick={() => setOpen(false)}
+                  prefetch={isSmallScreen}
                 >
                   <div
                     className={`group-hover:bg-white/10 ${
@@ -126,6 +128,7 @@ export default function MobileMenu({ menuItems }) {
                 className="text-yellow-100 text-shadow-[2px_2px_0px_black] hover:text-yellow-300"
                 href="/shop/policies/privacy-policy"
                 onClick={() => setOpen(false)}
+                prefetch={isSmallScreen}
               >
                 Privacy
               </Link>
@@ -133,6 +136,7 @@ export default function MobileMenu({ menuItems }) {
                 className="text-yellow-100 text-shadow-[2px_2px_0px_black] hover:text-yellow-300"
                 href="/shop/policies/refund-policy"
                 onClick={() => setOpen(false)}
+                prefetch={isSmallScreen}
               >
                 Refunds
               </Link>

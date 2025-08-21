@@ -29,6 +29,7 @@ export default function Product({ product, collection, index }) {
       <Link
         className="hidden sm:flex group overflow-hidden relative bg-gray-200"
         href={`/shop/${collection.handle}/products/${product.handle}`}
+        prefetch
       >
         {soldOut && (
           <div className="absolute top-0 right-0 z-1 text-black lowercase m-2 text-lg tracking-wide bg-black/10 px-2 opacity-75 group-hover:opacity-100">
@@ -63,6 +64,7 @@ function MobileProduct({ product, collection }) {
     <Link
       className="group overflow-hidden bg-gray-200 sm:hidden"
       href={`/shop/${collection.handle}/products/${product.handle}`}
+      prefetch
     >
       {soldOut && (
         <div className="absolute top-0 right-0 z-1 text-black lowercase m-2 text-lg tracking-wide bg-black/10 px-2 opacity-75 group-hover:opacity-100">
