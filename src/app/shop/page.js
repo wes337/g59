@@ -1,5 +1,11 @@
+import Script from "next/script";
 import Products from "./products";
 
 export default async function ShopPage() {
-  return <Products handle="all" />;
+  return (
+    <>
+      <Products handle="all" />
+      <Script src="https://static.klaviyo.com/onsite/js/Tvwean/klaviyo.js" />
+    </>
+  );
 }
