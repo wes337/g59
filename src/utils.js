@@ -30,3 +30,8 @@ export function isSmallScreen() {
     return false;
   }
 }
+
+export function isValidEmail(email) {
+  const emailRegex = new RegExp(/[^@ \t\r\n]+@[^@ \t\r\n]+\.[^@ \t\r\n]+/, "g");
+  return emailRegex.test(email.toLowerCase());
+}

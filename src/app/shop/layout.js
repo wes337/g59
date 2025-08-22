@@ -2,6 +2,7 @@ import { Background } from "@/components/background";
 import Menu from "./menu";
 import Wire from "@/components/wire";
 import Cart from "@/components/cart";
+import MailingList from "@/components/mailing-list";
 
 export default function ShopLayout({ children }) {
   return (
@@ -17,6 +18,7 @@ export default function ShopLayout({ children }) {
       <Wire wire={3} />
       <Background currentBackground={3} />
       <Cart />
+      <MailingList />
     </>
   );
 }

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef, useCallback } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import gsap from "gsap";
@@ -20,6 +20,16 @@ export default function Home() {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [currentBackground, setCurrentBackground] = useState(0);
   const [loaded, setLoaded] = useState(0);
+
+  useEffect(() => {
+    document.documentElement.classList.add("noScroll");
+    document.body.classList.add("noScroll");
+
+    return () => {
+      document.documentElement.classList.remove("noScroll");
+      document.body.classList.remove("noScroll");
+    };
+  }, []);
 
   const changeSlide = useCallback((index) => {
     if (animating.current) {
@@ -173,13 +183,20 @@ export default function Home() {
         }`}
       >
         <Image
-          className="invert"
+          className="md:hidden invert"
+          src={`/images/logo-skull-small.gif`}
+          width={255}
+          height={277}
+          alt="G59 Records"
+        />
+        <Image
+          className="hidden md:block invert"
           src={`/images/logo-skull.gif`}
           width={774}
           height={840}
           alt="G59 Records"
         />
-        <div className="lowercase text-yellow-100">Loading...</div>
+        <div className="lowercase text-yellow-100 mt-2">Loading...</div>
       </div>
       <div className="select-none">
         <Background currentBackground={currentBackground} />

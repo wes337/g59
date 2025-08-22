@@ -1,9 +1,10 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import Image from "next/image";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
-import { formatPriceInUSD } from "@/utils";
+import { formatPriceInUSD, randomNumberBetween } from "@/utils";
 import Link from "next/link";
 
 gsap.registerPlugin(useGSAP);
@@ -56,9 +57,15 @@ export default function Product({ product, collection, index }) {
 }
 
 function MobileProduct({ product, collection }) {
+  const [randomGrunge, setRandomGrunge] = useState(0);
+
   const soldOut = !product.variants.some(
     ({ availableForSale }) => !!availableForSale
   );
+
+  useEffect(() => {
+    setRandomGrunge(randomNumberBetween(0, 4));
+  }, []);
 
   return (
     <Link
@@ -74,10 +81,10 @@ function MobileProduct({ product, collection }) {
       <div className="relative">
         <Image src={product.images[0]} width={1500} height={1800} alt="" />
         <Image
-          className="absolute top-0 left-0 h-full w-full scale-x-[1.08] scale-y-[1.125] mix-blend-overlay pointer-events-none z-[-1] opacity-75"
-          src={`/images/frame-white.png`}
-          width={3840}
-          height={2160}
+          className="absolute top-0 left-0 h-full w-full scale-x-[1.05] scale-y-[1.05] mix-blend-overlay pointer-events-none z-[-1] opacity-50"
+          src={`/images/backgrounds/grunge-${randomGrunge}.png`}
+          width={1500}
+          height={1800}
           alt=""
         />
       </div>
