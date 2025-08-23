@@ -104,11 +104,9 @@ export default function Home() {
           clearTimeout(timeout.current);
         }
 
-        animating.current = false;
-
         timeout.current = setTimeout(() => {
           animating.current = false;
-        }, 600);
+        }, 200);
       },
     });
     gsap.to(`${currentId} .icon`, {

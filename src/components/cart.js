@@ -8,12 +8,14 @@ import { formatPriceInUSD } from "@/utils";
 import Shopify from "@/shopify";
 import Cache from "@/cache";
 import { MdShoppingCart, MdClose, MdDelete } from "react-icons/md";
+import { FaPlus, FaMinus } from "react-icons/fa";
 
 export default function Cart() {
   const pathname = usePathname();
   const [cart, setCart] = useState(null);
   const [cartItems, setCartItems] = useState([]);
   const [open, setOpen] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const totalItemsInCart = useMemo(() => {
     let total = 0;
@@ -84,9 +86,9 @@ export default function Cart() {
     }
 
     const onAddToCart = async (event) => {
-      const merchandiseId = event.detail;
+      const { merchandiseId, quantity } = event.detail;
       const updatedCart = await Shopify.addToCart(cart.id, [
-        { merchandiseId, quantity: 1 },
+        { merchandiseId, quantity },
       ]);
       setCart(updatedCart);
       setOpen(true);
@@ -104,9 +106,11 @@ export default function Cart() {
   }
 
   const onRemoveFromCart = async (cartItem) => {
-    if (!cart) {
+    if (!cart || loading) {
       return;
     }
+
+    setLoading(true);
 
     if (cartItem.quantity === 1) {
       await Shopify.removeFromCart(cart.id, [cartItem.id]);
@@ -116,10 +120,30 @@ export default function Cart() {
 
     const cartItems = await Shopify.getCartItems(cart.id);
     setCartItems(cartItems);
+
+    setLoading(false);
+  };
+
+  const onChangeQuantity = async (cartItem, quantity) => {
+    if (!cart || loading) {
+      return;
+    }
+
+    setLoading(true);
+
+    if (quantity > 30) {
+      quantity = 30;
+    }
+
+    await Shopify.updateQuantity(cart.id, cartItem.id, Math.max(quantity, 1));
+    const cartItems = await Shopify.getCartItems(cart.id);
+    setCartItems(cartItems);
+
+    setLoading(false);
   };
 
   const onClickCheckout = () => {
-    if (!cart) {
+    if (!cart || loading) {
       return;
     }
 
@@ -190,12 +214,15 @@ export default function Cart() {
                 height={717}
               />
             </div>
-            <div className="mt-[100px] md:mt-0 p-4">
+            <div className="mt-[80px] md:mt-0 p-4">
               {cartItems.map((cartItem) => (
                 <CartItem
                   key={cartItem.id}
                   cartItem={cartItem}
                   onRemoveFromCart={() => onRemoveFromCart(cartItem)}
+                  onChangeQuantity={(quantity) =>
+                    onChangeQuantity(cartItem, quantity)
+                  }
                 />
               ))}
             </div>
@@ -212,7 +239,7 @@ export default function Cart() {
               </div>
               <div>
                 <button
-                  className="cursor-pointer w-full flex items-center font-sans text-3xl text-center justify-center gap-2 bg-white/10 p-8 md:p-4 drop-shadow-[2px_2px_0px_black] hover:scale-[1.05]"
+                  className="cursor-pointer w-full flex items-center font-sans text-3xl text-center justify-center gap-2 bg-white/10 p-8 drop-shadow-[2px_2px_0px_black] hover:scale-[1.05]"
                   onClick={onClickCheckout}
                 >
                   <span className="uppercase font-bold text-yellow-300 text-shadow-[2px_2px_0px_black]">
@@ -229,7 +256,7 @@ export default function Cart() {
   );
 }
 
-function CartItem({ cartItem, onRemoveFromCart }) {
+function CartItem({ cartItem, onRemoveFromCart, onChangeQuantity }) {
   return (
     <div className="flex gap-2 p-2 h-full bg-white/5">
       <div className="relative w-[100px] h-auto shadow-[2px_2px_0px_black]">
@@ -240,9 +267,6 @@ function CartItem({ cartItem, onRemoveFromCart }) {
           height={120}
           alt=""
         />
-        <div className="absolute bottom-0 left-0 bg-black/50 w-[24px] text-center text-md tracking-wide text-shadow-[2px_2px_0px_black]">
-          {cartItem.quantity}x
-        </div>
       </div>
       <div className="relative flex flex-col bg-white/5 w-full p-2 text-shadow-[2px_2px_0px_black] shadow-[4px_4px_0px_black]">
         <div className="text-2xl tracking-wide">
@@ -254,12 +278,33 @@ function CartItem({ cartItem, onRemoveFromCart }) {
         <div className="font-sans font-bold tracking-wide mt-1 uppercase opacity-75">
           Size: {cartItem.variantTitle}
         </div>
-        <button
-          className="cursor-pointer absolute bottom-0 right-0 p-2 bg-black/50 hover:bg-white/5"
-          onClick={onRemoveFromCart}
-        >
-          <MdDelete />
-        </button>
+        <div className="flex mt-2">
+          <div className="flex items-center justify-center text-center h-full w-max">
+            <button
+              className="flex items-center justify-center text-center w-[32px] h-full cursor-pointer bg-black/50 hover:bg-white/5"
+              onClick={() => onChangeQuantity(cartItem.quantity - 1)}
+              disabled={cartItem.quantity === 1}
+            >
+              <FaMinus size={12} />
+            </button>
+            <div className="flex items-center justify-center w-[40px] h-full text-center bg-black/50">
+              {cartItem.quantity}
+            </div>
+            <button
+              className="flex items-center justify-center text-center w-[32px] h-full cursor-pointer bg-black/50 hover:bg-white/5"
+              onClick={() => onChangeQuantity(cartItem.quantity + 1)}
+              disabled={cartItem.quantity >= 30}
+            >
+              <FaPlus size={12} />
+            </button>
+          </div>
+          <button
+            className="cursor-pointer ml-auto p-2 bg-black/50 hover:bg-white/5"
+            onClick={onRemoveFromCart}
+          >
+            <MdDelete />
+          </button>
+        </div>
       </div>
     </div>
   );

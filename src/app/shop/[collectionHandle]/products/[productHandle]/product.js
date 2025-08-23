@@ -5,11 +5,13 @@ import { createPortal } from "react-dom";
 import Image from "next/image";
 import { formatPriceInUSD, randomNumberBetween } from "@/utils";
 import { MdClose, MdZoomIn } from "react-icons/md";
+import { FaPlus, FaMinus } from "react-icons/fa";
 import SizeChartIcon from "@/components/size-chart-icon";
 
 export default function Product({ product }) {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [randomGrunge, setRandomGrunge] = useState(0);
+  const [quantity, setQuantity] = useState(1);
   const [showFullImage, setShowFullImage] = useState(false);
   const [showSizeChart, setShowSizeChart] = useState(false);
   const [selectedVariant, setSelectedVariant] = useState(null);
@@ -58,12 +60,17 @@ export default function Product({ product }) {
       return;
     }
 
-    const event = new CustomEvent("addtocart", { detail: selectedVariant });
+    const event = new CustomEvent("addtocart", {
+      detail: { merchandiseId: selectedVariant, quantity },
+    });
+
     document.dispatchEvent(event);
 
     if (product.variants.length > 1) {
       setSelectedVariant(null);
     }
+
+    setQuantity(1);
   };
 
   return (
@@ -149,7 +156,7 @@ export default function Product({ product }) {
               {formatPriceInUSD(product.price)}
             </div>
             {soldOut && (
-              <div className="lowercase tracking-wide text-4xl mt-4 text-center bg-white/10 w-full md:max-w-[400px] p-2 text-shadow-[4px_4px_0px_black]">
+              <div className="lowercase tracking-wide text-4xl mt-4 text-center bg-white/10 w-full md:max-w-[512px] p-2 text-shadow-[4px_4px_0px_black]">
                 Sold Out
               </div>
             )}
@@ -158,7 +165,7 @@ export default function Product({ product }) {
                 <div className="lowercase text-md text-shadow-[2px_2px_0px_black] mb-1">
                   Select Size
                 </div>
-                <div className="flex gap-2 md:max-w-[400px]">
+                <div className="flex gap-2 md:max-w-[512px]">
                   {product.variants.map((variant) => {
                     const soldOut = !variant.availableForSale;
                     const selected = selectedVariant === variant.id;
@@ -190,9 +197,40 @@ export default function Product({ product }) {
               </div>
             )}
             {!soldOut && (
-              <div>
+              <div className="flex gap-2 w-full max-w-[512px]">
+                <div className="flex items-center justify-center text-shadow-[2px_2px_0px_black] drop-shadow-[2px_2px_0px_black]">
+                  <button
+                    className="flex items-center justify-center w-[48px] md:w-[56px] h-full cursor-pointer bg-white/10 hover:text-yellow-200"
+                    onClick={() =>
+                      setQuantity((quantity) => Math.max(quantity - 1, 1))
+                    }
+                  >
+                    <FaMinus size={18} />
+                  </button>
+                  <input
+                    className="flex items-center justify-center text-center w-[64px] md:w-[80px] h-full text-2xl bg-white/5"
+                    value={quantity}
+                    onInput={(event) => {
+                      const quantity = Number(event.target.value);
+
+                      if (isNaN(quantity)) {
+                        return;
+                      }
+
+                      setQuantity(Math.min(quantity, 30));
+                    }}
+                  />
+                  <button
+                    className="flex items-center justify-center w-[48px] md:w-[56px] h-full cursor-pointer bg-white/10 hover:text-yellow-200"
+                    onClick={() =>
+                      setQuantity((quantity) => Math.min(quantity + 1, 30))
+                    }
+                  >
+                    <FaPlus size={18} />
+                  </button>
+                </div>
                 <button
-                  className="cursor-pointer w-full md:max-w-[400px] flex items-center font-sans text-3xl text-center justify-center gap-2 bg-white/10 p-4 drop-shadow-[2px_2px_0px_black] hover:scale-[1.05]"
+                  className="cursor-pointer w-full flex items-center font-sans text-lg md:text-3xl text-center justify-center gap-2 bg-white/10 p-2 md:p-4 drop-shadow-[2px_2px_0px_black] hover:scale-[1.05]"
                   onClick={onAddToCart}
                 >
                   <span className="uppercase font-bold text-shadow-[2px_2px_0px_black]">
