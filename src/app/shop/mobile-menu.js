@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
@@ -50,24 +51,30 @@ export default function MobileMenu({ menuItems }) {
 
   return (
     <div className="flex md:hidden">
-      {back ? (
-        <button
-          className="fixed top-0 left-0 m-2 text-white z-25 drop-shadow-[2px_2px_0px_black] bg-black/50 cursor-pointer"
-          onClick={() => router.back()}
-        >
-          <MdArrowBack size={40} />
-        </button>
-      ) : (
-        <button
-          className="fixed top-0 left-0 m-2 text-white z-25 drop-shadow-[2px_2px_0px_black] bg-black/50 cursor-pointer"
-          onClick={() => setOpen(true)}
-        >
-          <MdMenu size={40} />
-        </button>
-      )}
+      {back
+        ? createPortal(
+            <button
+              className="fixed top-0 left-0 m-2 text-white z-25 drop-shadow-[2px_2px_0px_black] bg-black/50 cursor-pointer"
+              onClick={() => router.back()}
+            >
+              <MdArrowBack size={40} />
+            </button>,
+            document.body
+          )
+        : createPortal(
+            <button
+              className={`fixed top-0 m-2 text-white z-25 drop-shadow-[2px_2px_0px_black] bg-black/50 cursor-pointer ${
+                open ? "left-[-100%]" : "left-0"
+              } transition-all duration-250`}
+              onClick={() => setOpen(true)}
+            >
+              <MdMenu size={40} />
+            </button>,
+            document.body
+          )}
       {createPortal(
         <div
-          className={`fixed top-0 w-full h-full z-11 bg-black sm:hidden ${
+          className={`fixed top-0 w-full h-full z-12 bg-black sm:hidden ${
             open ? "left-0" : "left-[-200%]"
           } transition-all duration-200`}
         >
@@ -109,6 +116,38 @@ export default function MobileMenu({ menuItems }) {
                 </Link>
               );
             })}
+            <div className="h-[64px] w-full mb-[-16px] mt-[-16px]">
+              <Image
+                className="h-full w-full object-cover"
+                src={`/images/wires-line-2.png`}
+                width={1000}
+                height={153}
+                alt=""
+              />
+            </div>
+            <Link
+              className={`group relative lowercase text-2xl leading-12 cursor-pointer hover:text-yellow-300 w-full text-center ${
+                pathname === "/shop/look" ? "text-yellow-300" : ""
+              }`}
+              href={`/shop/look`}
+              onClick={() => setOpen(false)}
+              prefetch
+            >
+              <div
+                className={`group-hover:bg-white/10 ${
+                  pathname === "/shop/look" ? "bg-white/5" : ""
+                }`}
+              >
+                Look Book
+              </div>
+            </Link>
+            <Link
+              className={`group relative lowercase text-2xl leading-12 cursor-pointer hover:text-yellow-300 w-full text-center`}
+              href={`https://www.g59recordsmerchandise.com/account`}
+              onClick={() => setOpen(false)}
+            >
+              <div className={`group-hover:bg-white/10`}>My Account</div>
+            </Link>
           </div>
           <div
             className={`fixed left-0 w-full text-center text-sm lowercase ${
