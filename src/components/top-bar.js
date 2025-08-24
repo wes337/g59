@@ -11,6 +11,25 @@ export function TopBar() {
   const pathname = usePathname();
   const [scroll, setScroll] = useState(0);
   const [hover, setHover] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
+  useEffect(() => {
+    const onMobileMenuOpen = () => {
+      setMobileMenuOpen(true);
+    };
+
+    const onMobileMenuClose = () => {
+      setMobileMenuOpen(false);
+    };
+
+    document.addEventListener("mobilemenuopen", onMobileMenuOpen);
+    document.addEventListener("mobilemenuclose", onMobileMenuClose);
+
+    return () => {
+      document.removeEventListener("mobilemenuopen", onMobileMenuOpen);
+      document.removeEventListener("mobilemenuclose", onMobileMenuClose);
+    };
+  }, []);
 
   useEffect(() => {
     const onScroll = () => {
@@ -25,7 +44,7 @@ export function TopBar() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  const showSmallLogo = scroll >= TOP_BAR_HEIGHT;
+  const showSmallLogo = mobileMenuOpen || scroll >= TOP_BAR_HEIGHT;
 
   return (
     <>

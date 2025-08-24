@@ -27,9 +27,15 @@ export default function MobileMenu({ menuItems }) {
     if (open) {
       document.documentElement.classList.add("noScroll");
       document.body.classList.add("noScroll");
+
+      const event = new CustomEvent("mobilemenuopen");
+      document.dispatchEvent(event);
     } else {
       document.documentElement.classList.remove("noScroll");
       document.body.classList.remove("noScroll");
+
+      const event = new CustomEvent("mobilemenuclose");
+      document.dispatchEvent(event);
     }
   }, [open]);
 
@@ -86,7 +92,7 @@ export default function MobileMenu({ menuItems }) {
           >
             <MdClose size={48} />
           </button>
-          <div className="mt-[172px]">
+          <div className="mt-[112px]">
             {menuItems.map((menuItem) => {
               let active = pathname.includes(
                 `/shop/${menuItem.resource.handle}`
@@ -116,7 +122,7 @@ export default function MobileMenu({ menuItems }) {
                 </Link>
               );
             })}
-            <div className="h-[64px] w-full mb-[-16px] mt-[-16px]">
+            <div className="h-[40px] w-full mb-[-8px] mt-[-8px]">
               <Image
                 className="h-full w-full object-cover"
                 src={`/images/wires-line-2.png`}
