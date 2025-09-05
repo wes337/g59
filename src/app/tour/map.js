@@ -26,7 +26,7 @@ export default function TourMap(props) {
           return (
             <button
               key={tour.city}
-              className={`group cursor-pointer absolute z-10 hover:z-25 w-[4%] hover:scale-[1.1] transition-all duration-100 ${
+              className={`group cursor-pointer absolute z-10 hover:z-25 w-[5%] hover:scale-[1.1] transition-all duration-100 ${
                 isOver ? "opacity-95" : ""
               }`}
               style={{
