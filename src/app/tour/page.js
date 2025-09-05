@@ -1,7 +1,8 @@
 import axios from "axios";
 import { Background } from "@/components/background";
-import Tour from "./tour";
 import Wire from "@/components/wire";
+import Tour from "./tour";
+import TourMap from "./map";
 
 async function getTours() {
   const response = await axios.get(
@@ -25,11 +26,14 @@ export default async function ToursPage() {
 
   return (
     <>
-      <div className="md:w-[95vw] md:max-w-[1100px] m-auto mt-[172px] flex flex-col gap-6 z-10 relative">
-        <div className="absolute w-full h-full bg-black z-0" />
-        {tours.map((tour, index) => {
-          return <Tour key={tour.id} tour={tour} index={index} />;
-        })}
+      <div className="md:w-[95vw] md:max-w-[1100px] m-auto mt-[172px]">
+        <TourMap />
+        <div className="flex flex-col gap-6 z-10 relative">
+          <div className="absolute w-full h-full bg-black/75 z-0" />
+          {tours.map((tour, index) => {
+            return <Tour key={tour.id} tour={tour} index={index} />;
+          })}
+        </div>
       </div>
       <Background currentBackground={0} />
       <Wire wire={1} />
