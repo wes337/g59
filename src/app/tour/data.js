@@ -40,9 +40,9 @@ export const TOUR_DATES = [
   { date: "10/08", city: "Simpsonville", state: "SC", left: 78, top: 60 },
   { date: "10/10", city: "Houston", state: "TX", left: 52, top: 78 },
   { date: "10/11", city: "New Orleans", state: "LA", left: 62, top: 82 },
-  // { date: "08/29", city: "Vancouver", state: "BC" },
-  // { date: "09/26", city: "Montreal", state: "QC" },
-  // { date: "09/27", city: "Toronto", state: "ON" },
+  { date: "08/29", city: "Vancouver", state: "BC", left: 5, top: 0 },
+  { date: "09/26", city: "Montreal", state: "QC", left: 80, top: 15 },
+  { date: "09/27", city: "Toronto", state: "ON", left: 77, top: 23 },
 ];
 
 export const TOURS = TOUR_DATES.map((tour) => ({

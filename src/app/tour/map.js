@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import Image from "next/image";
 import { TOURS } from "./data";
 
@@ -9,7 +10,9 @@ function isDateInPast(date) {
   return inputDate < now;
 }
 
-export default function TourMap(props) {
+export default function TourMap() {
+  const [hover, setHover] = useState("");
+
   return (
     <div className="flex items-center h-auto w-full relative bg-black/50">
       <Image
@@ -26,9 +29,9 @@ export default function TourMap(props) {
           return (
             <button
               key={tour.city}
-              className={`group absolute z-10 hover:z-25 w-[3%] hover:scale-[1.1] transition-all duration-100 ${
+              className={`group absolute z-10 hover:z-25 w-[5%] md:w-[3%] hover:scale-[1.15] transition-all duration-100 ${
                 isOver ? "brightness-85" : "cursor-pointer"
-              }`}
+              } ${hover && hover !== tour.city ? "opacity-75" : ""}`}
               style={{
                 top: `${tour.top}%`,
                 left: `${tour.left}%`,
@@ -44,6 +47,8 @@ export default function TourMap(props) {
 
                 document.dispatchEvent(event);
               }}
+              onPointerEnter={() => setHover(tour.city)}
+              onPointerLeave={() => setHover("")}
             >
               {isOver && (
                 <Image
@@ -55,13 +60,13 @@ export default function TourMap(props) {
                 />
               )}
               <Image
-                className="drop-shadow-[0_0_2px_#fde047] group-hover:drop-shadow-[0_0_4px_#fde047]"
-                src={`/images/icons/skull.png`}
+                className="drop-shadow-[0_0_2px_black] group-hover:drop-shadow-[0_0_4px_#fde047]"
+                src={`/images/icons/skull-2.png`}
                 width={314}
                 height={412}
                 alt=""
               />
-              <div className="z-2 opacity-0 group-hover:opacity-100 absolute top-[-100%] md:top-[-50%] left-[50%] translate-x-[-50%] p-2 whitespace-nowrap bg-black font-sans font-bold text-sm text-yellow-300">
+              <div className="z-2 opacity-0 group-hover:opacity-100 absolute top-[-100%] left-[50%] translate-x-[-50%] p-2 whitespace-nowrap bg-black font-sans font-bold text-sm text-yellow-300">
                 {tour.city}, {tour.state}
               </div>
             </button>
