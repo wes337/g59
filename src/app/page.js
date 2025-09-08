@@ -176,7 +176,7 @@ export default function Home() {
   return (
     <>
       <div
-        className={`fixed top-0 left-0 w-full h-full flex flex-col items-center justify-center bg-black z-20 pointer-events-none ${
+        className={`fixed top-0 left-0 w-full h-full flex flex-col items-center justify-center bg-black z-35 pointer-events-none ${
           loaded >= SLIDES.length ? "fadeOut" : ""
         }`}
       >

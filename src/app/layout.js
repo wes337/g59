@@ -2,6 +2,7 @@ import Script from "next/script";
 import { Geist, Geist_Mono } from "next/font/google";
 import { TopBar } from "@/components/top-bar";
 import { Footer } from "@/components/footer";
+import Game from "@/components/game";
 import "@/app/globals.css";
 
 const geistSans = Geist({
@@ -28,6 +29,7 @@ export default function RootLayout({ children }) {
         <TopBar />
         {children}
         <Footer />
+        <Game />
       </body>
       <Script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/MotionPathPlugin.min.js" />
     </html>
