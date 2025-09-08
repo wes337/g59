@@ -49,12 +49,17 @@ export function preloadImages(urls) {
   return Promise.all(promises);
 }
 
-export const playSoundEffect = (soundEffect, quiet) => {
+export const playSoundEffect = (soundEffect, volume) => {
   return new Promise((resolve) => {
     try {
       const url = `/sounds/${soundEffect}`;
       const audio = new Audio(url);
-      audio.volume = quiet ? 0.5 : 0.75;
+      audio.volume = volume || 0.75;
+
+      audio.onended = () => {
+        audio.remove();
+        resolve();
+      };
 
       const playPromise = audio.play().catch(() => {
         // Do nothing
@@ -62,17 +67,10 @@ export const playSoundEffect = (soundEffect, quiet) => {
       });
 
       if (playPromise !== undefined) {
-        audio
-          .play()
-          .then(() => {
-            audio.remove();
-            resolve();
-          })
-
-          .catch(() => {
-            // Do nothing
-            resolve();
-          });
+        audio.play().catch(() => {
+          // Do nothing
+          resolve();
+        });
       }
     } catch {
       // Do nothing

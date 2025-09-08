@@ -4,22 +4,30 @@ import { useState, useEffect } from "react";
 import { randomNumberBetween } from "@/utils";
 
 export default function Static() {
+  const [ready, setReady] = useState(false);
   const [opacity, setOpacity] = useState("opacity-90");
 
   useEffect(() => {
     const interval = setInterval(() => {
       const random = randomNumberBetween(1, 3);
-      setOpacity(random === 3 ? "opacity-50" : "opacity-33");
+      setOpacity((currentOpacity) => {
+        if (currentOpacity === "opacity-100") {
+          return currentOpacity;
+        }
+
+        return random === 3 ? "opacity-50" : "opacity-33";
+      });
     }, 2000);
 
     return () => {
       clearInterval(interval);
     };
-  });
+  }, []);
 
   useEffect(() => {
     const onShowStatic = () => {
       setOpacity("opacity-100");
+      setReady(true);
     };
 
     const onHideStatic = () => {
@@ -36,6 +44,10 @@ export default function Static() {
   }, []);
 
   useEffect(() => {
+    if (!ready) {
+      return;
+    }
+
     const canvas = document.getElementById("static");
 
     if (!canvas) {
@@ -43,6 +55,11 @@ export default function Static() {
     }
 
     const context = canvas.getContext("gl") || canvas.getContext("2d");
+
+    if (!context) {
+      return;
+    }
+
     const scaleFactor = 2.5;
     let samples = [];
     let sampleIndex = 0;
@@ -150,11 +167,13 @@ export default function Static() {
       window.removeEventListener("resize", onResize);
       cancelAnimationFrame(animationFrame);
     };
-  }, []);
+  }, [ready]);
 
   return (
     <div
-      className={`absolute top-0 left-0 w-full h-full z-30 pointer-events-none ${opacity} transition-all duration-200`}
+      className={`absolute top-0 left-0 w-full h-full z-1 pointer-events-none ${opacity} transition-all duration-200 ${
+        opacity !== "opacity-100" ? "mix-blend-screen" : "brightness-75"
+      } scale-[1.1]`}
     >
       <canvas
         id="static"
