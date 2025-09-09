@@ -225,7 +225,7 @@ export default function Game() {
         top: 55,
         left: 92,
         onClick: () => {
-          playSoundEffect(`pickup-${randomNumberBetween(2, 3)}.mp3`, 1);
+          playSoundEffect(`mystery.wav`, 0.5);
           setSelectedItem("producer-list");
         },
       },
@@ -285,7 +285,7 @@ export default function Game() {
         left: 40,
         onClick: () => {
           playSoundEffect("click-medium.mp3");
-          startMusic("song-2.mp3");
+          startMusic("song-2-quiet.mp3");
         },
       },
       {
@@ -296,7 +296,7 @@ export default function Game() {
         left: 30,
         onClick: () => {
           playSoundEffect("click-medium.mp3");
-          startMusic("song-2.mp3");
+          startMusic("song-2-quiet.mp3");
         },
       },
       {
@@ -544,7 +544,7 @@ export default function Game() {
     });
   }, []);
 
-  const startMusic = (track = "song-1.mp3", volume = 0.1) => {
+  const startMusic = (track = "song-1-quiet.mp3", volume = 1) => {
     if (!musicRef.current) {
       const music = new Audio(`/sounds/${track}`);
       music.volume = volume;
@@ -785,7 +785,80 @@ export default function Game() {
             alt=""
           />
         </div>
+        <div className="fixed bottom-[10%] md:bottom-[13%] left-0 flex items-center justify-center gap-8 h-[15vh] md:h-[12vh] w-full z-55 bg-black/50 md:bg-transparent">
+          <button
+            className={`group relative w-auto h-full cursor-pointer drop-shadow-[2px_2px_2px_black] ${
+              currentRoom === "room-3" ? "opacity-50" : ""
+            }`}
+            onClick={() => {
+              switch (currentRoom) {
+                case "room-1":
+                  playSoundEffect("click-hard.mp3", 0.5);
+                  gotoRoom("room-3");
+                  break;
+                case "room-2":
+                  playSoundEffect("click-hard.mp3", 0.5);
+                  gotoRoom("room-1");
+                  break;
+                default:
+                  playSoundEffect("click-hard.mp3", 0.75);
+                  break;
+              }
+            }}
+          >
+            <Image
+              className="w-full h-full object-contain drop-shadow-[2px_2px_2px_black]"
+              src={`/images/game/left-arrow.png`}
+              width={512}
+              height={419}
+              alt=""
+            />
+            <Image
+              className="absolute top-0 left-0 w-full h-full object-contain z-1 opacity-0 group-hover:opacity-100 group-active:opacity-100 drop-shadow-[2px_2px_2px_black]"
+              src={`/images/game/left-arrow-hover.png`}
+              width={512}
+              height={419}
+              alt=""
+            />
+          </button>
+          <button
+            className={`group relative w-auto h-full cursor-pointer drop-shadow-[2px_2px_2px_black] ${
+              currentRoom === "room-2" ? "opacity-50" : ""
+            }`}
+            onClick={() => {
+              switch (currentRoom) {
+                case "room-1":
+                  playSoundEffect("click-hard.mp3", 0.5);
+                  gotoRoom("room-2");
+                  break;
+                case "room-3":
+                  playSoundEffect("click-hard.mp3", 0.5);
+                  gotoRoom("room-1");
+                  break;
+                default:
+                  playSoundEffect("click-hard.mp3", 0.75);
+                  break;
+              }
+            }}
+          >
+            <Image
+              className="w-full h-full object-contain drop-shadow-[2px_2px_2px_black]"
+              src={`/images/game/right-arrow.png`}
+              width={512}
+              height={419}
+              alt=""
+            />
+            <Image
+              className="absolute top-0 left-0 w-full h-full object-contain z-1 opacity-0 group-hover:opacity-100 group-active:opacity-100 drop-shadow-[2px_2px_2px_black]"
+              src={`/images/game/right-arrow-hover.png`}
+              width={512}
+              height={419}
+              alt=""
+            />
+          </button>
+        </div>
       </div>
+
       {selectedItem && (
         <div
           className={`fixed top-0 left-0 flex items-center justify-center w-full h-full ${
@@ -828,7 +901,7 @@ export default function Game() {
                     <button
                       className="w-full text-2xl md:text-4xl leading-none text-white hover:text-yellow-300 text-center p-2 lowercase bg-black/75 z-1 cursor-pointer"
                       onClick={() => {
-                        changeMusicVolume(0.03);
+                        changeMusicVolume(0.75);
                         playSoundEffect(`${selectedItem}.mp3`, 1);
                         setGameOver(true);
                       }}
