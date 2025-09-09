@@ -785,7 +785,7 @@ export default function Game() {
             alt=""
           />
         </div>
-        <div className="fixed bottom-[5%] md:bottom-[13%] left-0 flex items-center justify-center gap-8 h-[15vh] md:h-[12vh] w-full z-55 bg-black/50 md:bg-transparent">
+        <div className="fixed bottom-[-15%] md:bottom-[13%] left-0 flex items-center justify-center gap-8 h-[112px] md:h-[12vh] w-full z-55 bg-black/50 md:bg-transparent">
           <button
             className={`group relative w-auto h-full cursor-pointer drop-shadow-[2px_2px_2px_black] ${
               currentRoom === "room-3" ? "opacity-50" : ""
