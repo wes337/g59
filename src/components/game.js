@@ -113,7 +113,7 @@ const ITEMS = {
     useText: "Pry with it",
     cancelText: "Wrong tool",
     usedText:
-      "The Phillips head finds the soft spot between ribs with mechanical precision. You twist involuntarily, driving it deeper. The handle juts out like a failed key to a lock you'll never open.",
+      "The Phillips head finds that soft spot between your ribs with. You twist involuntarily, driving it deeper. The handle juts out like a failed key to a lock you'll never open.",
   },
   "suicide-saga-cassette": {
     useText: "Press play",
@@ -634,7 +634,7 @@ export default function Game() {
 
     setTimeout(() => {
       flickerStatic(1000);
-    }, 500);
+    }, 1000);
   };
 
   const onCloseItem = () => {
