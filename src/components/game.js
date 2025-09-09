@@ -15,7 +15,7 @@ const ITEMS = {
   },
   hammer: {
     useText: "Smash",
-    cancelText: "Put it down",
+    cancelText: "Heavy thoughts",
     usedText:
       "The weight of iron meets skull with a sickening crunch. Vision fractures into crimson fragments. The tool clatters to the floor, your final symphony echoing in the empty room.",
   },
@@ -26,14 +26,14 @@ const ITEMS = {
       "The fungi's toxins creep through your veins like cold fingers. Your organs shut down one by one as you convulse on the floor. Nature's cruelest joke leaves you decomposing beside your last fatal meal.",
   },
   noose: {
-    useText: "Hang",
+    useText: "Try it on",
     cancelText: "Not today",
     usedText:
       "The rope tightens. The world narrows to a pinpoint of fading light. Your last sensation is the creaking of hemp against wood, a metronome counting your final moments.",
   },
   "pick-axe": {
     useText: "Get to work",
-    cancelText: "Never mind",
+    cancelText: "Too lazy",
     usedText:
       "Steel punctures flesh with wet efficiency. You stare at the wooden handle protruding from your chest, comprehension dawning too late. Blood pools, reflecting your dimming eyes.",
   },
@@ -48,6 +48,87 @@ const ITEMS = {
   },
   "soulseek-saga-vinyl": {
     cancelText: "Nice",
+  },
+  ak47: {
+    useText: "Check if it's loaded",
+    cancelText: "Guns are dangerous",
+    usedText:
+      "The rifle's mechanism was more sensitive than expected. The deafening burst tears through you instantly. Shell casings rain down like metallic tears, the room painted in violence and regret",
+  },
+  "bolt-cutters": {
+    useText: "Test the grip",
+    cancelText: "These look serious",
+    usedText:
+      "The heavy jaws snap shut with industrial force, catching more than intended. Metal meets bone with disturbing ease. You crumple, watching the tool's handles form a V-shape mocking your final error.",
+  },
+  "broken-glass": {
+    useText: "Examine closely",
+    cancelText: "Seven years bad luck",
+    usedText:
+      "The shards glitter beautifully before painting themselves red. Your reflection fractures across a dozen crimson pieces. The floor becomes a mosaic of poor choices and spilled life.",
+  },
+  scorpion: {
+    useText: "Pet him",
+    cancelText: "Back away slowly",
+    usedText:
+      "The arachnid's tail whips forward. Neurotoxin floods your system, muscles seizing in waves of agony. You join the countless victims of nature's eight-legged executioner.",
+  },
+  "seppuku-saga-cassette": {
+    useText: "Listen",
+    cancelText: "Put it back",
+    usedText:
+      "The tape's warped audio guides you through ancient ritual. Your dedication to historical accuracy proves fatal. The cassette player continues its tinny narration to an audience no longer listening.",
+  },
+  shotgun: {
+    useText: "Look down the barrel",
+    cancelText: "Put it down",
+    usedText:
+      "The blast echoes through empty corridors. Smoke drifts from both barrels like departing souls. Your last sight is the ornate engravings on the stock—beautiful craftsmanship, terrible outcome.",
+  },
+  "broken-cd": {
+    useText: "Handle the shards",
+    cancelText: "Too sharp",
+    usedText:
+      "The disc fragments slice deep, each piece finding its own path through flesh. Rainbow reflections dance across spreading crimson. Your data has been permanently corrupted.",
+  },
+  "ancient-drink": {
+    useText: "Take a sip",
+    cancelText: "Smells off",
+    usedText:
+      "The ancient brew tastes of dust and bitter endings. Your insides revolt, then surrender. Whatever civilization created this poison, you've joined them in extinction.",
+  },
+  razorblade: {
+    useText: "Test the edge",
+    cancelText: "Too risky",
+    usedText:
+      "The blade whispers through skin like signing a contract in red ink. Gravity pulls crimson ribbons downward. The metal gleams, satisfied with its singular purpose fulfilled.",
+  },
+  "voodoo-doll": {
+    useText: "Stick the pin",
+    cancelText: "Bad juju",
+    usedText:
+      "The pin sinks into fabric, but the pain blooms in your chest. The doll grins with button eyes as you realize too late—it was already bound to you. Karma has a twisted sense of humor.",
+  },
+  screwdriver: {
+    useText: "Pry with it",
+    cancelText: "Wrong tool",
+    usedText:
+      "The Phillips head finds the soft spot between ribs with mechanical precision. You twist involuntarily, driving it deeper. The handle juts out like a failed key to a lock you'll never open.",
+  },
+  "suicide-saga-cassette": {
+    useText: "Press play",
+    cancelText: "Rewind",
+    usedText:
+      "The tape hisses instructions you follow with hypnotic obedience. Side A ends with your ending. The auto-reverse clicks, but there's no one left to hear Side B.",
+  },
+  "rusty-nails": {
+    useText: "Grab a handful",
+    cancelText: "Tetanus risk",
+    usedText:
+      "The corroded metal punctures palm and purpose alike. Rust flakes mix with blood, creating abstract art from your poor judgment. Lockjaw sets in before regret fully forms.",
+  },
+  "causeway-chain": {
+    cancelText: "Ok",
   },
 };
 
@@ -173,33 +254,227 @@ export default function Game() {
     ],
     "room-2": [
       {
-        id: "back-room-1",
+        id: "back-1",
         width: 20,
-        height: 100,
+        height: 45,
         top: 0,
         left: 0,
         onClick: () => gotoRoom("room-1"),
       },
       {
+        id: "back-2",
+        width: 20,
+        height: 25,
+        top: 75,
+        left: 0,
+        onClick: () => gotoRoom("room-1"),
+      },
+      {
+        id: "back-3",
+        width: 12,
+        height: 20,
+        top: 80,
+        left: 20,
+        onClick: () => gotoRoom("room-1"),
+      },
+      {
         id: "laptop",
-        width: 40,
-        height: 75,
-        top: 10,
-        left: 33,
+        width: 30,
+        height: 50,
+        top: 12,
+        left: 40,
         onClick: () => {
           playSoundEffect("click-medium.mp3");
           startMusic("song-2.mp3");
+        },
+      },
+      {
+        id: "laptop-2",
+        width: 35,
+        height: 20,
+        top: 54,
+        left: 30,
+        onClick: () => {
+          playSoundEffect("click-medium.mp3");
+          startMusic("song-2.mp3");
+        },
+      },
+      {
+        id: "ancient-drink",
+        width: 8,
+        height: 12,
+        top: 70,
+        left: 90,
+        onClick: () => {
+          playSoundEffect(`pickup-${randomNumberBetween(2, 3)}.mp3`, 1);
+          setSelectedItem("ancient-drink");
+        },
+      },
+      {
+        id: "suicide-saga-cassette",
+        width: 9,
+        height: 12,
+        top: 82,
+        left: 84,
+        onClick: () => {
+          playSoundEffect(`pickup-${randomNumberBetween(2, 3)}.mp3`, 1);
+          setSelectedItem("suicide-saga-cassette");
+        },
+      },
+      {
+        id: "voodoo-doll",
+        width: 12,
+        height: 12,
+        top: 77,
+        left: 57.5,
+        onClick: () => {
+          playSoundEffect(`pickup-${randomNumberBetween(2, 3)}.mp3`, 1);
+          setSelectedItem("voodoo-doll");
+        },
+      },
+      {
+        id: "broken-cd",
+        width: 9,
+        height: 10.5,
+        top: 48.5,
+        left: 0,
+        onClick: () => {
+          playSoundEffect(`pickup-${randomNumberBetween(2, 3)}.mp3`, 1);
+          setSelectedItem("broken-cd");
+        },
+      },
+      {
+        id: "razorblade",
+        width: 5,
+        height: 7,
+        top: 59,
+        left: 13,
+        onClick: () => {
+          playSoundEffect(`pickup-${randomNumberBetween(2, 3)}.mp3`, 1);
+          setSelectedItem("razorblade");
+        },
+      },
+      {
+        id: "rusty-nails-1",
+        width: 9,
+        height: 10.5,
+        top: 62,
+        left: 2,
+        onClick: () => {
+          playSoundEffect(`pickup-${randomNumberBetween(2, 3)}.mp3`, 1);
+          setSelectedItem("rusty-nails");
+        },
+      },
+      {
+        id: "rusty-nails-2",
+        width: 6,
+        height: 6,
+        top: 89,
+        left: 76.5,
+        onClick: () => {
+          playSoundEffect(`pickup-${randomNumberBetween(2, 3)}.mp3`, 1);
+          setSelectedItem("rusty-nails");
+        },
+      },
+      {
+        id: "screwdriver",
+        width: 18,
+        height: 11,
+        top: 85,
+        left: 35,
+        onClick: () => {
+          playSoundEffect(`pickup-${randomNumberBetween(2, 3)}.mp3`, 1);
+          setSelectedItem("screwdriver");
         },
       },
     ],
     "room-3": [
       {
         id: "back-room-1",
-        width: 20,
+        width: 25,
         height: 100,
         top: 0,
-        left: 80,
+        left: 85,
         onClick: () => gotoRoom("room-1"),
+      },
+      {
+        id: "ak47",
+        width: 8,
+        height: 35,
+        top: 61,
+        left: 8,
+        onClick: () => {
+          playSoundEffect(`pickup-${randomNumberBetween(2, 3)}.mp3`, 0.75);
+          playSoundEffect("ak47-rack.mp3", 1);
+          setSelectedItem("ak47");
+        },
+      },
+      {
+        id: "bolt-cutters",
+        width: 11,
+        height: 10,
+        top: 85,
+        left: 73.5,
+        onClick: () => {
+          playSoundEffect(`pickup-${randomNumberBetween(2, 3)}.mp3`, 1);
+          setSelectedItem("bolt-cutters");
+        },
+      },
+      {
+        id: "broken-glass",
+        width: 11,
+        height: 8,
+        top: 89,
+        left: 37,
+        onClick: () => {
+          playSoundEffect(`pickup-${randomNumberBetween(2, 3)}.mp3`, 1);
+          setSelectedItem("broken-glass");
+        },
+      },
+      {
+        id: "causeway-chain",
+        width: 8,
+        height: 8,
+        top: 72,
+        left: 46,
+        onClick: () => {
+          playSoundEffect("mystery.wav", 0.5);
+          setSelectedItem("causeway-chain");
+        },
+      },
+      {
+        id: "shotgun",
+        width: 16,
+        height: 8,
+        top: 8,
+        left: 52,
+        onClick: () => {
+          playSoundEffect(`pickup-${randomNumberBetween(2, 3)}.mp3`, 0.75);
+          playSoundEffect("shotgun-cock.mp3", 1);
+          setSelectedItem("shotgun");
+        },
+      },
+      {
+        id: "scorpion",
+        width: 9,
+        height: 8,
+        top: 27,
+        left: 39,
+        onClick: () => {
+          playSoundEffect(`pickup-${randomNumberBetween(2, 3)}.mp3`, 1);
+          setSelectedItem("scorpion");
+        },
+      },
+      {
+        id: "seppuku-saga-cassette",
+        width: 4,
+        height: 5,
+        top: 69.5,
+        left: 30,
+        onClick: () => {
+          playSoundEffect(`pickup-${randomNumberBetween(2, 3)}.mp3`, 1);
+          setSelectedItem("seppuku-saga-cassette");
+        },
       },
     ],
   };
@@ -296,6 +571,14 @@ export default function Game() {
     musicRef.current.volume = 0;
   };
 
+  const changeMusicVolume = (volume) => {
+    if (!musicRef.current) {
+      return;
+    }
+
+    musicRef.current.volume = volume;
+  };
+
   useEffect(() => {
     if (!show) {
       stopMusic();
@@ -358,7 +641,7 @@ export default function Game() {
     const gameItem = document.getElementById("game-item");
     gameItem.classList.remove("slideUpFast");
     gameItem.classList.add("slideDownFast");
-    playSoundEffect(`putdown-${randomNumberBetween(1, 2)}.wav`);
+    playSoundEffect(`putdown-${randomNumberBetween(1, 2)}.wav`, 0.5);
 
     setTimeout(() => {
       setSelectedItem(null);
@@ -545,7 +828,8 @@ export default function Game() {
                     <button
                       className="w-full text-2xl md:text-4xl leading-none text-white hover:text-yellow-300 text-center p-2 lowercase bg-black/75 z-1 cursor-pointer"
                       onClick={() => {
-                        playSoundEffect(`${selectedItem}.mp3`);
+                        changeMusicVolume(0.03);
+                        playSoundEffect(`${selectedItem}.mp3`, 1);
                         setGameOver(true);
                       }}
                     >
