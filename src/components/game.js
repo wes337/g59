@@ -15,32 +15,44 @@ const ITEMS = {
   "drain-cleaner": {
     useText: "Drink it",
     cancelText: "I'm not thirsty",
+    usedText:
+      "The caustic liquid burns away everything you were. Your last thought is regret. The room falls silent except for the drip of the faucet marking time you no longer have.",
   },
   hammer: {
     useText: "Smash",
     cancelText: "Put it down",
+    usedText:
+      "The weight of iron meets skull with a sickening crunch. Vision fractures into crimson fragments. The tool clatters to the floor, your final symphony echoing in the empty room.",
   },
   mushrooms: {
     useText: "Eat them",
     cancelText: "Nah",
+    usedText:
+      "The fungi's toxins creep through your veins like cold fingers. Your organs shut down one by one as you convulse on the floor. Nature's cruelest joke leaves you decomposing beside your last fatal meal.",
   },
   noose: {
     useText: "Hang",
     cancelText: "Not today",
+    usedText:
+      "The rope tightens. The world narrows to a pinpoint of fading light. Your last sensation is the creaking of hemp against wood, a metronome counting your final moments.",
   },
   "pick-axe": {
     useText: "Get to work",
     cancelText: "Never mind",
+    usedText:
+      "Steel punctures flesh with wet efficiency. You stare at the wooden handle protruding from your chest, comprehension dawning too late. Blood pools, reflecting your dimming eyes.",
   },
   "spike-bat": {
     useText: "Swing it",
     cancelText: "Leave it",
+    usedText:
+      "The spikes find their mark with brutal precision. You collapse, pinned by your own foolishness. The bat stands like a monument to poor decisions, painted with your blood.",
   },
   "producer-list": {
-    cancelText: "what the fuck?",
+    cancelText: "What the fuck?",
   },
   "soulseek-saga-vinyl": {
-    cancelText: "nice",
+    cancelText: "Nice",
   },
 };
 
@@ -49,6 +61,7 @@ export default function Game() {
   const [mounted, setMounted] = useState(false);
   const [currentRoom, setCurrentRoom] = useState("room-1");
   const [selectedItem, setSelectedItem] = useState(null);
+  const [gameOver, setGameOver] = useState(false);
   const musicRef = useRef(null);
   const staticTimeout = useRef(null);
   const doorTimeout = useRef(null);
@@ -203,6 +216,10 @@ export default function Game() {
       assets.push("/images/game/frame-desktop.png");
     }
 
+    Object.keys(ITEMS).forEach((item) => {
+      assets.push(`/images/game/${item}.png`);
+    });
+
     await preloadImages(assets);
   };
 
@@ -291,12 +308,17 @@ export default function Game() {
     gameBackdrop.classList.remove("fadeIn");
     gameBackdrop.classList.add("fadeOut");
 
+    setSelectedItem(null);
+
     setTimeout(() => {
       setShow(false);
+      setGameOver(false);
     }, 1000);
   };
 
   const onOpenGame = () => {
+    setGameOver(false);
+    setSelectedItem(null);
     setCurrentRoom("room-1");
     playSoundEffect("open.mp3");
     setShow(true);
@@ -412,7 +434,7 @@ export default function Game() {
         </div>
         <div className="hidden md:block fixed top-0 left-0 w-full h-full z-50 pointer-events-none">
           <Image
-            className="min-[1921px]:hidden w-full h-full object-fill pointer-events-none select-none drop-shadow-lg"
+            className="min-[1921px]:hidden w-full h-full object-fill md:object-contain lg:object-fill pointer-events-none select-none drop-shadow-lg"
             src={`/images/game/frame-desktop.png`}
             width={1920}
             height={993}
@@ -447,12 +469,21 @@ export default function Game() {
         </div>
       </div>
       {selectedItem && (
-        <div className="fixed top-0 left-0 flex items-center justify-center w-full h-full bg-black/50 z-50">
+        <div
+          className={`fixed top-0 left-0 flex items-center justify-center w-full h-full ${
+            gameOver ? "bg-red-900/25" : "bg-black/50"
+          } z-50 transition-all duration-200`}
+        >
           <div
             id="game-item"
-            className="flex flex-col items-center translate-y-[-25%] md:translate-y-[0%] slideUpFast"
+            className="flex flex-col items-center justify-center slideUpFast"
           >
-            <div className="max-w-[50vw] md:max-w-[25vw]">
+            {gameOver && (
+              <div className="z-1 lowercase text-4xl md:text-5xl text-center w-full drop-shadow-[2px_2px_0px_black] text-yellow-300">
+                You Killed Yourself!
+              </div>
+            )}
+            <div className="max-w-[70vw] md:max-w-[50vw] lg:max-w-[25vw]">
               <Image
                 className="drop-shadow-2xl"
                 src={`/images/game/${selectedItem}.png`}
@@ -461,7 +492,7 @@ export default function Game() {
                 alt=""
               />
             </div>
-            <div className="relative flex gap-2 p-6 w-[250px] md:w-[460px] md:py-12">
+            <div className="relative flex gap-2 p-6 w-[80vw] md:w-[460px] 2xl:w-[600px] md:py-12">
               <Image
                 className="absolute top-0 left-0 w-full h-full object-fill"
                 src={`/images/game/box.png`}
@@ -469,18 +500,41 @@ export default function Game() {
                 height={553}
                 alt=""
               />
-              {ITEMS[selectedItem]?.useText && (
-                <button className="w-full text-2xl md:text-4xl leading-none text-white hover:text-yellow-300 text-center p-2 lowercase bg-black/75 z-1 cursor-pointer">
-                  {ITEMS[selectedItem].useText}
-                </button>
+              {gameOver ? (
+                <div className="z-1 lowercase text-lg md:text-2xl p-4 text-justify font-light w-full drop-shadow-[2px_2px_0px_black] bg-black/50 leading-7 tracking-wider -mt-8">
+                  {ITEMS[selectedItem].usedText}
+                </div>
+              ) : (
+                <>
+                  {ITEMS[selectedItem].useText && (
+                    <button
+                      className="w-full text-2xl md:text-4xl leading-none text-white hover:text-yellow-300 text-center p-2 lowercase bg-black/75 z-1 cursor-pointer"
+                      onClick={() => {
+                        playSoundEffect(`${selectedItem}.mp3`);
+                        setGameOver(true);
+                      }}
+                    >
+                      {ITEMS[selectedItem].useText}
+                    </button>
+                  )}
+                  <button
+                    className="w-full text-2xl md:text-4xl leading-none text-white hover:text-yellow-300 text-center p-2 lowercase bg-black/75 z-1 cursor-pointer"
+                    onClick={onCloseItem}
+                  >
+                    {ITEMS[selectedItem]?.cancelText || "Ok"}
+                  </button>
+                </>
               )}
-              <button
-                className="w-full text-2xl md:text-4xl leading-none text-white hover:text-yellow-300 text-center p-2 lowercase bg-black/75 z-1 cursor-pointer"
-                onClick={onCloseItem}
-              >
-                {ITEMS[selectedItem]?.cancelText || "Ok"}
-              </button>
             </div>
+            {gameOver && (
+              <button
+                className="flex items-center justify-center text-5xl bg-red-900 w-full p-4 leading-none cursor-pointer fadeIn text-shadow-[2px_2px_0px_black]"
+                style={{ animationDelay: "1s", animationDuration: "2s" }}
+                onClick={onCloseGame}
+              >
+                Game Over
+              </button>
+            )}
           </div>
         </div>
       )}
