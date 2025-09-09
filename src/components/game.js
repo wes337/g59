@@ -3,12 +3,7 @@
 import { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
-import {
-  playSoundEffect,
-  preloadImages,
-  isSmallScreen,
-  randomNumberBetween,
-} from "@/utils";
+import { playSoundEffect, preloadImages, randomNumberBetween } from "@/utils";
 import Static from "@/components/static";
 
 const ITEMS = {
@@ -62,9 +57,11 @@ export default function Game() {
   const [currentRoom, setCurrentRoom] = useState("room-1");
   const [selectedItem, setSelectedItem] = useState(null);
   const [gameOver, setGameOver] = useState(false);
+  const [highlightItems, setHighlightItems] = useState(false);
   const musicRef = useRef(null);
   const staticTimeout = useRef(null);
   const doorTimeout = useRef(null);
+  const highlightItemsTimeout = useRef(null);
   const pathname = usePathname();
 
   const CLICK_AREAS = {
@@ -208,13 +205,13 @@ export default function Game() {
   };
 
   const preloadGameAssets = async () => {
-    const assets = ["/images/game/room-1-lg.png"];
-
-    if (isSmallScreen()) {
-      assets.push(`/images/game/frame-mobile.png`);
-    } else {
-      assets.push("/images/game/frame-desktop.png");
-    }
+    const assets = [
+      "/images/game/room-1-lg.png",
+      "/images/game/room-2-lg.png",
+      "/images/game/room-3-lg.png",
+      "/images/game/frame-mobile.png",
+      "/images/game/frame-desktop.png",
+    ];
 
     Object.keys(ITEMS).forEach((item) => {
       assets.push(`/images/game/${item}.png`);
@@ -236,6 +233,35 @@ export default function Game() {
       document.dispatchEvent(event);
     }, duration);
   };
+
+  const flashHighlightItems = () => {
+    setHighlightItems(true);
+
+    highlightItemsTimeout.current = setTimeout(() => {
+      setHighlightItems(false);
+    }, 1000);
+  };
+
+  useEffect(() => {
+    if (!show || !mounted || selectedItem || !currentRoom) {
+      return;
+    }
+
+    const interval = setInterval(async () => {
+      flashHighlightItems();
+    }, 16000);
+
+    const timeout = setTimeout(() => flashHighlightItems(), 3000);
+
+    return () => {
+      clearInterval(interval);
+      clearTimeout(timeout);
+
+      if (highlightItemsTimeout.current) {
+        clearTimeout(highlightItemsTimeout.current);
+      }
+    };
+  }, [show, mounted, selectedItem, currentRoom]);
 
   useEffect(() => {
     preloadGameAssets().then(() => {
@@ -413,11 +439,20 @@ export default function Game() {
               playSoundEffect("click-soft.mp3", 0.75);
             }}
           >
+            <Image
+              className={`fixed w-full h-full object-fill select-none pointer-events-none ${
+                highlightItems ? "opacity-100" : "opacity-10"
+              } transition-all duration-300`}
+              src={`/images/game/${currentRoom}-highlight.png`}
+              width={3840}
+              height={2160}
+              alt=""
+            />
             {CLICK_AREAS[currentRoom].map((area) => {
               return (
                 <button
                   key={area.id}
-                  className="absolute  hover:bg-white/5 cursor-pointer z-5 pointer-events-auto"
+                  className="absolute hover:bg-white/5 cursor-pointer z-5 pointer-events-auto"
                   style={{
                     position: "absolute",
                     cursor: "pointer",
