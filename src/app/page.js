@@ -186,6 +186,7 @@ export default function Home() {
           width={255}
           height={277}
           alt="G59 Records"
+          unoptimized
         />
         <Image
           className="hidden md:block invert"
@@ -193,6 +194,7 @@ export default function Home() {
           width={774}
           height={840}
           alt="G59 Records"
+          unoptimized
         />
         <div className="lowercase text-yellow-100 mt-2">Loading...</div>
       </div>
