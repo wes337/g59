@@ -513,6 +513,7 @@ export default function Game() {
       }
 
       setIntroDone(true);
+      flickerStatic(1000);
     };
 
     introTimeout.current = setTimeout(() => setIntroDone(true), 6000);
@@ -545,10 +546,6 @@ export default function Game() {
     playSoundEffect("open.mp3");
     setShow(true);
     playIntroVideo();
-
-    setTimeout(() => {
-      flickerStatic(1000);
-    }, 1000);
   };
 
   const onCloseItem = () => {
