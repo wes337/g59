@@ -75,10 +75,17 @@ export default function Static() {
       scanSize = canvas.offsetHeight / scaleFactor / 3;
       samples = [];
 
-      for (var i = 0; i < SAMPLE_COUNT; i++)
-        samples.push(
-          generateRandomSample(context, canvas.width, canvas.height)
+      for (var i = 0; i < SAMPLE_COUNT; i++) {
+        const randomSample = generateRandomSample(
+          context,
+          canvas.width,
+          canvas.height
         );
+
+        if (randomSample) {
+          samples.push(randomSample);
+        }
+      }
     };
 
     const interpolate = (x, x0, y0, x1, y1) => {
@@ -86,42 +93,46 @@ export default function Static() {
     };
 
     const generateRandomSample = (context, w, h) => {
-      const intensity = [];
-      const factor = h / 50;
-      const trans = 1 - Math.random() * 0.05;
-      const intensityCurve = [];
+      try {
+        const intensity = [];
+        const factor = h / 50;
+        const trans = 1 - Math.random() * 0.05;
+        const intensityCurve = [];
 
-      for (var i = 0; i < Math.floor(h / factor) + factor; i++) {
-        intensityCurve.push(Math.floor(Math.random() * 15));
+        for (var i = 0; i < Math.floor(h / factor) + factor; i++) {
+          intensityCurve.push(Math.floor(Math.random() * 15));
+        }
+
+        for (var i = 0; i < h; i++) {
+          var value = interpolate(
+            i / factor,
+            Math.floor(i / factor),
+            intensityCurve[Math.floor(i / factor)],
+            Math.floor(i / factor) + 1,
+            intensityCurve[Math.floor(i / factor) + 1]
+          );
+
+          intensity.push(value);
+        }
+
+        var imageData = context.createImageData(w, h);
+
+        for (var i = 0; i < w * h; i++) {
+          var k = i * 4;
+          var color = Math.floor(36 * Math.random());
+
+          color += intensity[Math.floor(i / w)];
+          imageData.data[k] =
+            imageData.data[k + 1] =
+            imageData.data[k + 2] =
+              color;
+          imageData.data[k + 3] = Math.round(255 * trans);
+        }
+
+        return imageData;
+      } catch {
+        return null;
       }
-
-      for (var i = 0; i < h; i++) {
-        var value = interpolate(
-          i / factor,
-          Math.floor(i / factor),
-          intensityCurve[Math.floor(i / factor)],
-          Math.floor(i / factor) + 1,
-          intensityCurve[Math.floor(i / factor) + 1]
-        );
-
-        intensity.push(value);
-      }
-
-      var imageData = context.createImageData(w, h);
-
-      for (var i = 0; i < w * h; i++) {
-        var k = i * 4;
-        var color = Math.floor(36 * Math.random());
-
-        color += intensity[Math.floor(i / w)];
-        imageData.data[k] =
-          imageData.data[k + 1] =
-          imageData.data[k + 2] =
-            color;
-        imageData.data[k + 3] = Math.round(255 * trans);
-      }
-
-      return imageData;
     };
 
     const render = () => {

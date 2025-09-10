@@ -4,144 +4,22 @@ import { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { playSoundEffect, preloadImages, randomNumberBetween } from "@/utils";
+import { GAME_ITEMS } from "@/game";
 import Static from "@/components/static";
-
-const ITEMS = {
-  "drain-cleaner": {
-    useText: "Drink it",
-    cancelText: "I'm not thirsty",
-    usedText:
-      "The caustic liquid burns away everything you were. Your last thought is regret. The room falls silent except for the drip of the faucet marking time you no longer have.",
-  },
-  hammer: {
-    useText: "Smash",
-    cancelText: "Heavy thoughts",
-    usedText:
-      "The weight of iron meets skull with a sickening crunch. Vision fractures into crimson fragments. The tool clatters to the floor, your final symphony echoing in the empty room.",
-  },
-  mushrooms: {
-    useText: "Eat them",
-    cancelText: "Nah",
-    usedText:
-      "The fungi's toxins creep through your veins like cold fingers. Your organs shut down one by one as you convulse on the floor. Nature's cruelest joke leaves you decomposing beside your last fatal meal.",
-  },
-  noose: {
-    useText: "Try it on",
-    cancelText: "Not today",
-    usedText:
-      "The rope tightens. The world narrows to a pinpoint of fading light. Your last sensation is the creaking of hemp against wood, a metronome counting your final moments.",
-  },
-  "pick-axe": {
-    useText: "Get to work",
-    cancelText: "Too lazy",
-    usedText:
-      "Steel punctures flesh with wet efficiency. You stare at the wooden handle protruding from your chest, comprehension dawning too late. Blood pools, reflecting your dimming eyes.",
-  },
-  "spike-bat": {
-    useText: "Swing it",
-    cancelText: "Leave it",
-    usedText:
-      "The spikes find their mark with brutal precision. You collapse, pinned by your own foolishness. The bat stands like a monument to poor decisions, painted with your blood.",
-  },
-  "producer-list": {
-    cancelText: "What the fuck?",
-  },
-  "soulseek-saga-vinyl": {
-    cancelText: "Nice",
-  },
-  ak47: {
-    useText: "Check if it's loaded",
-    cancelText: "Guns are dangerous",
-    usedText:
-      "The rifle's mechanism was more sensitive than expected. The deafening burst tears through you instantly. Shell casings rain down like metallic tears, the room painted in violence and regret",
-  },
-  "bolt-cutters": {
-    useText: "Test the grip",
-    cancelText: "These look serious",
-    usedText:
-      "The heavy jaws snap shut with industrial force, catching more than intended. Metal meets bone with disturbing ease. You crumple, watching the tool's handles form a V-shape mocking your final error.",
-  },
-  "broken-glass": {
-    useText: "Examine closely",
-    cancelText: "Seven years bad luck",
-    usedText:
-      "The shards glitter beautifully before painting themselves red. Your reflection fractures across a dozen crimson pieces. The floor becomes a mosaic of poor choices and spilled life.",
-  },
-  scorpion: {
-    useText: "Pet him",
-    cancelText: "Back away slowly",
-    usedText:
-      "The arachnid's tail whips forward. Neurotoxin floods your system, muscles seizing in waves of agony. You join the countless victims of nature's eight-legged executioner.",
-  },
-  "seppuku-saga-cassette": {
-    useText: "Listen",
-    cancelText: "Put it back",
-    usedText:
-      "The tape's warped audio guides you through ancient ritual. Your dedication to historical accuracy proves fatal. The cassette player continues its tinny narration to an audience no longer listening.",
-  },
-  shotgun: {
-    useText: "Look down the barrel",
-    cancelText: "Put it down",
-    usedText:
-      "The blast echoes through empty corridors. Smoke drifts from both barrels like departing souls. Your last sight is the ornate engravings on the stock—beautiful craftsmanship, terrible outcome.",
-  },
-  "broken-cd": {
-    useText: "Handle the shards",
-    cancelText: "Too sharp",
-    usedText:
-      "The disc fragments slice deep, each piece finding its own path through flesh. Rainbow reflections dance across spreading crimson. Your data has been permanently corrupted.",
-  },
-  "ancient-drink": {
-    useText: "Take a sip",
-    cancelText: "Smells off",
-    usedText:
-      "The ancient brew tastes of dust and bitter endings. Your insides revolt, then surrender. Whatever civilization created this poison, you've joined them in extinction.",
-  },
-  razorblade: {
-    useText: "Test the edge",
-    cancelText: "Too risky",
-    usedText:
-      "The blade whispers through skin like signing a contract in red ink. Gravity pulls crimson ribbons downward. The metal gleams, satisfied with its singular purpose fulfilled.",
-  },
-  "voodoo-doll": {
-    useText: "Stick the pin",
-    cancelText: "Bad juju",
-    usedText:
-      "The pin sinks into fabric, but the pain blooms in your chest. The doll grins with button eyes as you realize too late—it was already bound to you. Karma has a twisted sense of humor.",
-  },
-  screwdriver: {
-    useText: "Pry with it",
-    cancelText: "Wrong tool",
-    usedText:
-      "The Phillips head finds that soft spot between your ribs with. You twist involuntarily, driving it deeper. The handle juts out like a failed key to a lock you'll never open.",
-  },
-  "suicide-saga-cassette": {
-    useText: "Press play",
-    cancelText: "Rewind",
-    usedText:
-      "The tape hisses instructions you follow with hypnotic obedience. Side A ends with your ending. The auto-reverse clicks, but there's no one left to hear Side B.",
-  },
-  "rusty-nails": {
-    useText: "Grab a handful",
-    cancelText: "Tetanus risk",
-    usedText:
-      "The corroded metal punctures palm and purpose alike. Rust flakes mix with blood, creating abstract art from your poor judgment. Lockjaw sets in before regret fully forms.",
-  },
-  "causeway-chain": {
-    cancelText: "Ok",
-  },
-};
 
 export default function Game() {
   const [show, setShow] = useState(false);
+  const [introDone, setIntroDone] = useState(false);
   const [mounted, setMounted] = useState(false);
   const [currentRoom, setCurrentRoom] = useState("room-1");
   const [selectedItem, setSelectedItem] = useState(null);
   const [gameOver, setGameOver] = useState(false);
   const [highlightItems, setHighlightItems] = useState(false);
+  const [_currentMusic, setCurrentMusic] = useState("song-1-quiet.mp3");
   const musicRef = useRef(null);
   const staticTimeout = useRef(null);
   const doorTimeout = useRef(null);
+  const introTimeout = useRef(null);
   const highlightItemsTimeout = useRef(null);
   const pathname = usePathname();
 
@@ -285,7 +163,7 @@ export default function Game() {
         left: 40,
         onClick: () => {
           playSoundEffect("click-medium.mp3");
-          startMusic("song-2-quiet.mp3");
+          toggleMusic();
         },
       },
       {
@@ -296,7 +174,7 @@ export default function Game() {
         left: 30,
         onClick: () => {
           playSoundEffect("click-medium.mp3");
-          startMusic("song-2-quiet.mp3");
+          toggleMusic();
         },
       },
       {
@@ -488,7 +366,7 @@ export default function Game() {
       "/images/game/frame-desktop.png",
     ];
 
-    Object.keys(ITEMS).forEach((item) => {
+    Object.keys(GAME_ITEMS).forEach((item) => {
       assets.push(`/images/game/${item}.png`);
     });
 
@@ -579,6 +457,18 @@ export default function Game() {
     musicRef.current.volume = volume;
   };
 
+  const toggleMusic = () => {
+    setCurrentMusic((currentMusic) => {
+      if (currentMusic === "song-1-quiet.mp3") {
+        startMusic("song-2-quiet.mp3");
+        return "song-2-quiet.mp3";
+      }
+
+      startMusic("song-1-quiet.mp3");
+      return "song-1-quiet.mp3";
+    });
+  };
+
   useEffect(() => {
     if (!show) {
       stopMusic();
@@ -587,7 +477,7 @@ export default function Game() {
     }
   }, [show]);
 
-  if (pathname !== "/" || !mounted) {
+  if (pathname !== "/") {
     return null;
   }
 
@@ -604,6 +494,28 @@ export default function Game() {
     doorTimeout.current = setTimeout(() => {
       setCurrentRoom(room);
     }, 500);
+  };
+
+  const playIntroVideo = () => {
+    if (introDone.current) {
+      clearTimeout(introDone.current);
+    }
+
+    setIntroDone(false);
+    const video = document.getElementById("game-intro");
+    video.currentTime = 0;
+    video.volume = 0;
+    video.muted = true;
+    video.play();
+    video.onended = () => {
+      if (introDone.current) {
+        clearTimeout(introDone.current);
+      }
+
+      setIntroDone(true);
+    };
+
+    introTimeout.current = setTimeout(() => setIntroDone(true), 6000);
   };
 
   const onCloseGame = () => {
@@ -628,9 +540,11 @@ export default function Game() {
   const onOpenGame = () => {
     setGameOver(false);
     setSelectedItem(null);
+    setCurrentMusic("song-1-quiet.mp3");
     setCurrentRoom("room-1");
     playSoundEffect("open.mp3");
     setShow(true);
+    playIntroVideo();
 
     setTimeout(() => {
       flickerStatic(1000);
@@ -648,11 +562,43 @@ export default function Game() {
     }, 600);
   };
 
+  const onClickLeftArrow = () => {
+    switch (currentRoom) {
+      case "room-1":
+        playSoundEffect("click-hard.mp3", 0.5);
+        gotoRoom("room-3");
+        break;
+      case "room-2":
+        playSoundEffect("click-hard.mp3", 0.5);
+        gotoRoom("room-1");
+        break;
+      default:
+        playSoundEffect("click-hard.mp3", 0.75);
+        break;
+    }
+  };
+
+  const onClickRightArrow = () => {
+    switch (currentRoom) {
+      case "room-1":
+        playSoundEffect("click-hard.mp3", 0.5);
+        gotoRoom("room-2");
+        break;
+      case "room-3":
+        playSoundEffect("click-hard.mp3", 0.5);
+        gotoRoom("room-1");
+        break;
+      default:
+        playSoundEffect("click-hard.mp3", 0.75);
+        break;
+    }
+  };
+
   return (
     <>
       {show ? (
         <button
-          className={`fixed top-0 right-0 p-4 cursor-pointer text-4xl hover:text-yellow-500 z-40 ${
+          className={`fixed top-0 right-0 p-4 cursor-pointer text-4xl md:text-7xl hover:text-yellow-500 z-40 text-shadow-[4px_2px_0px_black] ${
             selectedItem ? "hidden" : ""
           }`}
           onClick={onCloseGame}
@@ -662,8 +608,11 @@ export default function Game() {
         </button>
       ) : (
         <button
-          className="fixed bottom-0 right-0 p-4 cursor-pointer text-4xl hover:text-yellow-500 z-30"
+          className={`fixed bottom-0 right-0 p-4 cursor-pointer text-4xl md:text-7xl hover:text-yellow-500 z-30 text-shadow-[4px_2px_0px_black] ${
+            !mounted ? "hidden" : ""
+          }`}
           onClick={onOpenGame}
+          disabled={!mounted}
         >
           G
         </button>
@@ -682,8 +631,22 @@ export default function Game() {
       >
         <div className="fixed bottom-0 md:bottom-auto md:top-[50%] left-[50%] translate-x-[-50%] translate-y-[-40%] md:translate-y-[-52.5%] w-full md:w-auto h-auto z-45 pointer-events-none">
           <Static />
+          <div
+            className={`absolute top-0 left-0 w-full h-full z-1 select-none pointer-events-none z-2 bg-red-300 ${
+              introDone ? "opacity-0" : "opacity-100"
+            } transition-opacity duration-500`}
+          >
+            <video
+              id="game-intro"
+              className="object-cover h-full w-full"
+              src={`/images/game/intro.mp4`}
+              autoPlay
+              muted
+              playsInline
+            />
+          </div>
           <Image
-            className="absolute w-full h-full z-1 select-none pointer-events-none scale-[1.3] md:scale-[1.2] brightness-25"
+            className="absolute w-full h-full z-3 select-none pointer-events-none scale-[1.3] md:scale-[1.2] brightness-25"
             src={`/images/game/inner-frame-lg.png`}
             width={1984}
             height={1080}
@@ -717,7 +680,7 @@ export default function Game() {
           />
           <div
             id="clickArea"
-            className="absolute top-0 left-0 w-full h-full z-5 pointer-events-auto"
+            className="absolute top-0 left-0 w-full h-full z-2 pointer-events-auto"
             onPointerDown={() => {
               playSoundEffect("click-soft.mp3", 0.75);
             }}
@@ -790,21 +753,7 @@ export default function Game() {
             className={`group relative w-auto h-full cursor-pointer drop-shadow-[2px_2px_2px_black] ${
               currentRoom === "room-3" ? "opacity-50" : ""
             }`}
-            onClick={() => {
-              switch (currentRoom) {
-                case "room-1":
-                  playSoundEffect("click-hard.mp3", 0.5);
-                  gotoRoom("room-3");
-                  break;
-                case "room-2":
-                  playSoundEffect("click-hard.mp3", 0.5);
-                  gotoRoom("room-1");
-                  break;
-                default:
-                  playSoundEffect("click-hard.mp3", 0.75);
-                  break;
-              }
-            }}
+            onClick={onClickLeftArrow}
           >
             <Image
               className="w-full h-full object-contain drop-shadow-[2px_2px_2px_black]"
@@ -825,21 +774,7 @@ export default function Game() {
             className={`group relative w-auto h-full cursor-pointer drop-shadow-[2px_2px_2px_black] ${
               currentRoom === "room-2" ? "opacity-50" : ""
             }`}
-            onClick={() => {
-              switch (currentRoom) {
-                case "room-1":
-                  playSoundEffect("click-hard.mp3", 0.5);
-                  gotoRoom("room-2");
-                  break;
-                case "room-3":
-                  playSoundEffect("click-hard.mp3", 0.5);
-                  gotoRoom("room-1");
-                  break;
-                default:
-                  playSoundEffect("click-hard.mp3", 0.75);
-                  break;
-              }
-            }}
+            onClick={onClickRightArrow}
           >
             <Image
               className="w-full h-full object-contain drop-shadow-[2px_2px_2px_black]"
@@ -858,7 +793,6 @@ export default function Game() {
           </button>
         </div>
       </div>
-
       {selectedItem && (
         <div
           className={`fixed top-0 left-0 flex items-center justify-center w-full h-full ${
@@ -870,7 +804,7 @@ export default function Game() {
             className="flex flex-col items-center justify-center slideUpFast"
           >
             {gameOver && (
-              <div className="z-1 lowercase text-4xl md:text-5xl text-center w-full drop-shadow-[2px_2px_0px_black] text-yellow-300">
+              <div className="z-1 lowercase text-4xl md:text-5xl xl:text-6xl text-center w-full drop-shadow-[4px_2px_0px_black] text-yellow-300">
                 You Killed Yourself!
               </div>
             )}
@@ -893,34 +827,34 @@ export default function Game() {
               />
               {gameOver ? (
                 <div className="z-1 lowercase text-lg md:text-2xl p-4 text-justify font-light w-full drop-shadow-[2px_2px_0px_black] bg-black/50 leading-7 tracking-wider -mt-8">
-                  {ITEMS[selectedItem].usedText}
+                  {GAME_ITEMS[selectedItem].usedText}
                 </div>
               ) : (
                 <>
-                  {ITEMS[selectedItem].useText && (
+                  {GAME_ITEMS[selectedItem].useText && (
                     <button
-                      className="w-full text-2xl md:text-4xl leading-none text-white hover:text-yellow-300 text-center p-2 lowercase bg-black/75 z-1 cursor-pointer"
+                      className="w-full text-2xl md:text-4xl leading-none text-white hover:text-yellow-300 text-center p-2 lowercase bg-black/75 z-1 cursor-pointer text-shadow-[4px_2px_0px_black]"
                       onClick={() => {
                         changeMusicVolume(0.75);
                         playSoundEffect(`${selectedItem}.mp3`, 1);
                         setGameOver(true);
                       }}
                     >
-                      {ITEMS[selectedItem].useText}
+                      {GAME_ITEMS[selectedItem].useText}
                     </button>
                   )}
                   <button
-                    className="w-full text-2xl md:text-4xl leading-none text-white hover:text-yellow-300 text-center p-2 lowercase bg-black/75 z-1 cursor-pointer"
+                    className="w-full text-2xl md:text-4xl leading-none text-white hover:text-yellow-300 text-center p-2 lowercase bg-black/75 z-1 cursor-pointer text-shadow-[4px_2px_0px_black]"
                     onClick={onCloseItem}
                   >
-                    {ITEMS[selectedItem]?.cancelText || "Ok"}
+                    {GAME_ITEMS[selectedItem]?.cancelText || "Ok"}
                   </button>
                 </>
               )}
             </div>
             {gameOver && (
               <button
-                className="flex items-center justify-center text-5xl bg-red-900 w-full p-4 leading-none cursor-pointer fadeIn text-shadow-[2px_2px_0px_black]"
+                className="flex items-center justify-center text-5xl bg-red-900 w-full p-4 leading-none cursor-pointer fadeIn shadow-[0_0_4px_black] text-shadow-[4px_2px_0px_black]"
                 style={{ animationDelay: "1s", animationDuration: "2s" }}
                 onClick={onCloseGame}
               >
