@@ -2,7 +2,11 @@
 
 import { useState } from "react";
 import Image from "next/image";
+import gsap from "gsap";
+import { useGSAP } from "@gsap/react";
 import { TOURS } from "./data";
+
+gsap.registerPlugin(useGSAP);
 
 function isDateInPast(date) {
   const inputDate = new Date(date);
@@ -23,18 +27,22 @@ export default function TourMap() {
         alt=""
       />
       <div className="absolute w-full h-full">
-        {TOURS.map((tour) => {
+        {TOURS.map((tour, index) => {
           const isOver = isDateInPast(tour.date);
 
           return (
             <button
+              id={`tour-button-${index}`}
               key={tour.city}
               className={`group absolute z-10 hover:z-25 w-[5%] md:w-[3%] hover:scale-[1.15] transition-all duration-100 ${
                 isOver ? "brightness-85" : "cursor-pointer"
-              } ${hover && hover !== tour.city ? "opacity-75" : ""}`}
+              } ${
+                hover && hover !== tour.city ? "opacity-75" : ""
+              } bounceIn drop-shadow-[0_0_4px_white] hover:drop-shadow-[0_0_4px_#fde047]`}
               style={{
                 top: `${tour.top}%`,
                 left: `${tour.left}%`,
+                animationDelay: `${index * 0.03}s`,
               }}
               onClick={() => {
                 if (isOver) {
