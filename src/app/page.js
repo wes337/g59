@@ -39,6 +39,10 @@ export default function Home() {
     animating.current = true;
 
     setCurrentSlide(index);
+
+    timeout.current = setTimeout(() => {
+      animating.current = false;
+    }, 500);
   }, []);
 
   const gotoNextSlide = useCallback(() => {
@@ -57,6 +61,10 @@ export default function Home() {
 
       return nextSlide;
     });
+
+    timeout.current = setTimeout(() => {
+      animating.current = false;
+    }, 500);
   }, []);
 
   const gotoPreviousSlide = useCallback(() => {
@@ -75,6 +83,10 @@ export default function Home() {
 
       return previousSlide;
     });
+
+    timeout.current = setTimeout(() => {
+      animating.current = false;
+    }, 500);
   }, []);
 
   useGSAP(() => {
@@ -206,13 +218,6 @@ export default function Home() {
               key={slide.name}
               index={index}
               slide={slide}
-              onClick={() => {}}
-              onOpenPhoto={() => {
-                animating.current = true;
-              }}
-              onClosePhoto={() => {
-                animating.current = false;
-              }}
               onLoad={() => setLoaded((loaded) => loaded + 1)}
             />
           );
@@ -282,11 +287,7 @@ function Slide(props) {
   };
 
   return (
-    <div
-      id={`slide-${props.index}`}
-      className="select-none"
-      onClick={props.onClick}
-    >
+    <div id={`slide-${props.index}`} className="select-none">
       <div className="bg fixed top-[50%] left-[50%] w-[66vw] h-[66vh] brightness-60 select-none">
         <Image
           className="w-full h-full object-cover"
