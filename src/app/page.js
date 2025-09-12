@@ -106,7 +106,7 @@ export default function Home() {
 
         timeout.current = setTimeout(() => {
           animating.current = false;
-        }, 200);
+        }, 500);
       },
     });
     gsap.to(`${currentId} .icon`, {
@@ -318,7 +318,9 @@ function Slide(props) {
         </h2>
         {customName() && (
           <Image
-            className="absolute top-0 md:top-[-15%] left-0 w-full h-full object-contain drop-shadow-[0_0_8px_black]"
+            className={`absolute top-0 md:top-[-15%] left-0 w-full h-full object-contain drop-shadow-[0_0_8px_black] ${
+              props.slide.name === "shakewell" ? "translate-y-[-12px]" : ""
+            }`}
             src={`/images/artists/${props.slide.name}-logo.png`}
             width={1022}
             height={411}
