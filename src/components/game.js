@@ -8,6 +8,7 @@ import { GAME_ITEMS } from "@/game";
 import Static from "@/components/static";
 
 export default function Game() {
+  const [pulseButton, setPulseButton] = useState(false);
   const [show, setShow] = useState(false);
   const [introDone, setIntroDone] = useState(false);
   const [mounted, setMounted] = useState(false);
@@ -22,6 +23,36 @@ export default function Game() {
   const introTimeout = useRef(null);
   const highlightItemsTimeout = useRef(null);
   const pathname = usePathname();
+
+  useEffect(() => {
+    let timeout;
+
+    const pulse = () => {
+      setPulseButton(true);
+
+      timeout = setTimeout(() => {
+        setPulseButton(false);
+      }, 2000);
+    };
+
+    const interval = setInterval(() => {
+      const random = randomNumberBetween(1, 3);
+
+      if (random === 1) {
+        pulse();
+      }
+    }, 3000);
+
+    pulse();
+
+    return () => {
+      clearInterval(interval);
+
+      if (timeout) {
+        clearTimeout(timeout);
+      }
+    };
+  }, []);
 
   const CLICK_AREAS = {
     "room-1": [
@@ -607,7 +638,11 @@ export default function Game() {
         <button
           className={`fixed bottom-0 right-0 p-4 cursor-pointer text-4xl md:text-7xl hover:text-yellow-500 z-30 text-shadow-[4px_2px_0px_black] ${
             !mounted ? "hidden" : ""
-          }`}
+          } ${
+            pulseButton
+              ? "pulse text-yellow-500 text-5xl md:text-8xl -rotate-15"
+              : ""
+          } transition-all duration-200`}
           onClick={onOpenGame}
           disabled={!mounted}
         >

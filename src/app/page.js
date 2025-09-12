@@ -236,6 +236,8 @@ function Slide(props) {
     switch (props.slide.name) {
       case "chetta":
         return "/images/artists/chetta-logo.png";
+      case "shakewell":
+        return "/images/artists/shakewell-logo.png";
       default:
         return "";
     }
@@ -244,11 +246,17 @@ function Slide(props) {
   const customFont = () => {
     switch (props.slide.name) {
       case "night lovell":
-        return "font-night lowercase";
+        return "font-night uppercase";
       case "germ":
         return "font-germ uppercase";
       case "chetta":
         return "opacity-0";
+      case "shakewell":
+        return "opacity-0";
+      case "duckboy":
+        return "font-college uppercase tracking-tighter";
+      case "lonely boy":
+        return "font-aston capitalize";
       default:
         return "font-kraut lowercase";
     }
@@ -257,11 +265,17 @@ function Slide(props) {
   const textSize = () => {
     switch (props.slide.name) {
       case "chetta":
-        return "text-[7rem] md:text-[10rem]";
+        return "text-[7rem] md:text-[12rem]";
       case "night lovell":
+        return "text-[3.5rem] md:text-[5rem] xl:text-[7rem]";
+      case "duckboy":
         return "text-[3.5rem] md:text-[5rem] xl:text-[7rem]";
       case "germ":
         return "text-[5rem] md:text-[9rem]";
+      case "shakewell":
+        return "text-[7rem] md:text-[12rem]";
+      case "lonely boy":
+        return "text-[3rem] md:text-[4rem] xl:text-[6rem] text-shadow-[0_0_2px_black]";
       default:
         return "text-[4rem] md:text-[7rem] lg:text-[7rem] xl:text-[8rem]";
     }
@@ -298,13 +312,13 @@ function Slide(props) {
       </div>
       <div className="name fixed top-[25%] left-[50%] md:top-[50%] md:left-[33%] xl:top-[48%] drop-shadow-lg z-6">
         <h2
-          className={`${customFont()} ${textSize()} text-white text-shadow-[0_4px_8px_rgb(0_0_0_/_0.75)] hover:scale-[1.1] transition-all duration-200 whitespace-nowrap`}
+          className={`${customFont()} ${textSize()} text-white text-shadow-[0_0_8px_black] hover:scale-[1.1] transition-all duration-200 whitespace-nowrap`}
         >
           {props.slide.name}
         </h2>
         {customName() && (
           <Image
-            className="absolute top-0 left-0 w-full h-full object-contain"
+            className="absolute top-0 md:top-[-15%] left-0 w-full h-full object-contain drop-shadow-[0_0_8px_black]"
             src={`/images/artists/${props.slide.name}-logo.png`}
             width={1022}
             height={411}

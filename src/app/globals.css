@@ -15,6 +15,16 @@
   src: url("/fonts/jhcaudemars.otf") format("opentype");
 }
 
+@font-face {
+  font-family: "college";
+  src: url("/fonts/college.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "aston";
+  src: url("/fonts/aston.ttf") format("truetype");
+}
+
 :root {
   --background: #000000;
   --foreground: #ededed;
@@ -28,6 +38,8 @@
   --font-night: Impact, sans-serif;
   --font-germ: "jhcaudemars", sans-serif;
   --font-sans: var(--font-geist-sans);
+  --font-aston: "aston", serif;
+  --font-college: "college", monospace;
 }
 
 html,
@@ -210,4 +222,30 @@ body {
 .bounceIn {
   transform: scale3d(0.01, 0.01, 0.01);
   animation: bounceIn 1s cubic-bezier(0.215, 0.61, 0.355, 1) forwards;
+}
+
+@keyframes pulse {
+  0% {
+    opacity: 0.75;
+  }
+  20% {
+    opacity: 1;
+  }
+  40% {
+    opacity: 0.75;
+  }
+  60% {
+    opacity: 1;
+  }
+  80% {
+    opacity: 0.75;
+  }
+  100% {
+    opacity: 0.75;
+  }
+}
+
+.pulse {
+  opacity: 1;
+  animation: pulse 1s ease infinite;
 }
