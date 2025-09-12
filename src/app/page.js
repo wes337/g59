@@ -270,7 +270,7 @@ function Slide(props) {
   const textSize = () => {
     switch (props.slide.name) {
       case "chetta":
-        return "max-[420px]:text-[6rem] text-[7rem] md:text-[12rem]";
+        return "max-[420px]:text-[6.4rem] text-[7rem] md:text-[12rem]";
       case "night lovell":
         return "text-[3.5rem] md:text-[5rem] xl:text-[7rem]";
       case "duckboy":
