@@ -10,6 +10,11 @@
   src: url("/fonts/stencil.ttf") format("truetype");
 }
 
+@font-face {
+  font-family: "jhcaudemars";
+  src: url("/fonts/jhcaudemars.otf") format("opentype");
+}
+
 :root {
   --background: #000000;
   --foreground: #ededed;
@@ -20,6 +25,8 @@
   --color-foreground: var(--foreground);
   --font-kraut: "kraut", sans-serif;
   --font-stencil: "stencil", sans-serif;
+  --font-night: Impact, sans-serif;
+  --font-germ: "jhcaudemars", sans-serif;
   --font-sans: var(--font-geist-sans);
 }
 

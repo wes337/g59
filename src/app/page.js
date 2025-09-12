@@ -232,6 +232,41 @@ export default function Home() {
 function Slide(props) {
   const wide = ["shakewell"].includes(props.slide.name);
 
+  const customName = () => {
+    switch (props.slide.name) {
+      case "chetta":
+        return "/images/artists/chetta-logo.png";
+      default:
+        return "";
+    }
+  };
+
+  const customFont = () => {
+    switch (props.slide.name) {
+      case "night lovell":
+        return "font-night lowercase";
+      case "germ":
+        return "font-germ uppercase";
+      case "chetta":
+        return "opacity-0";
+      default:
+        return "font-kraut lowercase";
+    }
+  };
+
+  const textSize = () => {
+    switch (props.slide.name) {
+      case "chetta":
+        return "text-[7rem] md:text-[10rem]";
+      case "night lovell":
+        return "text-[3.5rem] md:text-[5rem] xl:text-[7rem]";
+      case "germ":
+        return "text-[5rem] md:text-[9rem]";
+      default:
+        return "text-[4rem] md:text-[7rem] lg:text-[7rem] xl:text-[8rem]";
+    }
+  };
+
   return (
     <div
       id={`slide-${props.index}`}
@@ -263,10 +298,19 @@ function Slide(props) {
       </div>
       <div className="name fixed top-[25%] left-[50%] md:top-[50%] md:left-[33%] xl:top-[48%] drop-shadow-lg z-6">
         <h2
-          className={`text-white text-[4rem] md:text-[7rem] lg:text-[7rem] xl:text-[8rem] text-shadow-[0_4px_8px_rgb(0_0_0_/_0.75)] hover:scale-[1.1] transition-all duration-200 whitespace-nowrap`}
+          className={`${customFont()} ${textSize()} text-white text-shadow-[0_4px_8px_rgb(0_0_0_/_0.75)] hover:scale-[1.1] transition-all duration-200 whitespace-nowrap`}
         >
           {props.slide.name}
         </h2>
+        {customName() && (
+          <Image
+            className="absolute top-0 left-0 w-full h-full object-contain"
+            src={`/images/artists/${props.slide.name}-logo.png`}
+            width={1022}
+            height={411}
+            alt={props.slide.name}
+          />
+        )}
       </div>
       <div className="socials flex gap-4 md:gap-8 lg:gap-10 fixed top-[32%] left-[50%] md:top-[58%] md:left-[33%] z-10">
         <SocialMediaButton
