@@ -8,7 +8,6 @@ import { GAME_ITEMS } from "@/game";
 import Static from "@/components/static";
 
 export default function Game() {
-  const [pulseButton, setPulseButton] = useState(false);
   const [show, setShow] = useState(false);
   const [introDone, setIntroDone] = useState(false);
   const [mounted, setMounted] = useState(false);
