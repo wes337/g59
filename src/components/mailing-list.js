@@ -38,7 +38,7 @@ export default function MailingList() {
       } transition-all duration-300ms`}
     >
       <div
-        className={`relative p-4 max-w-[400px] bg-white border-2 text-black drop-shadow-[0px_4px_8px_black] ${
+        className={`relative p-4 max-w-[420px] bg-white border-2 text-black drop-shadow-[0px_4px_8px_black] ${
           show ? "translate-y-[0%]" : "translate-y-[300%]"
         } transition-all delay-150 duration-500ms`}
       >

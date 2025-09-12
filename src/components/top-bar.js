@@ -58,7 +58,7 @@ export function TopBar() {
         <NavLink label="Shop" href="/shop" />
       </div>
       <div
-        className={`fixed top-0 left-[50%] max-[400px]:top-[-4%] translate-x-[-50%] w-auto h-[148px] z-15 overflow-hidden transition-all duration-200 ${
+        className={`fixed top-0 left-[50%] max-[420px]:top-[-4%] translate-x-[-50%] w-auto h-[148px] z-15 overflow-hidden transition-all duration-200 ${
           showSmallLogo ? "scale-[0.8] top-[-5%]" : ""
         }`}
         onPointerEnter={() => setHover(true)}
@@ -82,11 +82,11 @@ export function TopBar() {
         </div>
       </div>
       <Image
-        className={`fixed h-[64px] w-auto top-[70px] max-[400px]:top-[calc(70px-4%)] left-[50%] translate-x-[-50%] drop-shadow-lg spinner z-16 pointer-events-none transition-all duration-200 ${
+        className={`fixed h-[64px] w-auto top-[70px] max-[420px]:top-[calc(70px-4%)] left-[50%] translate-x-[-50%] drop-shadow-lg spinner z-16 pointer-events-none transition-all duration-200 ${
           hover && !showSmallLogo ? "scale-[1.1]" : ""
         } ${
           showSmallLogo
-            ? "scale-[0.8] max-[400px]:translate-y-[-10%] max-[450px]:translate-y-[-79%] max-[1100px]:translate-y-[-90%]  translate-y-[-70%] min-[1900px]:translate-y-[-82.5%] min-[2000px]:translate-y-[-70px]"
+            ? "scale-[0.8] max-[420px]:translate-y-[-10%] max-[450px]:translate-y-[-79%] max-[1100px]:translate-y-[-90%]  translate-y-[-70%] min-[1900px]:translate-y-[-82.5%] min-[2000px]:translate-y-[-70px]"
             : ""
         } ${hover && showSmallLogo ? "scale-[0.85]" : ""}`}
         src={`/images/chain-skull.png`}
