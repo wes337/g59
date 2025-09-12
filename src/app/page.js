@@ -265,7 +265,7 @@ function Slide(props) {
   const textSize = () => {
     switch (props.slide.name) {
       case "chetta":
-        return "max-[380px]:text-[6rem] text-[7rem] md:text-[12rem]";
+        return "max-[400px]:text-[6rem] text-[7rem] md:text-[12rem]";
       case "night lovell":
         return "text-[3.5rem] md:text-[5rem] xl:text-[7rem]";
       case "duckboy":
@@ -273,7 +273,7 @@ function Slide(props) {
       case "germ":
         return "text-[5rem] md:text-[9rem]";
       case "shakewell":
-        return "max-[380px]:text-[5rem] text-[7rem] md:text-[12rem]";
+        return "max-[400px]:text-[5rem] text-[7rem] md:text-[12rem]";
       case "lonely boy":
         return "text-[3rem] md:text-[4rem] xl:text-[6rem] text-shadow-[0_0_2px_black]";
       default:
