@@ -1,6 +1,9 @@
 import Shopify from "@/shopify";
 import LookBook from "./lookbook";
 
+export const revalidate = 0;
+export const dynamic = "force-dynamic";
+
 export default async function LookPage() {
   const { results: pages } = await Shopify.getPages();
   const page = pages.find(({ handle }) => handle === "preview");

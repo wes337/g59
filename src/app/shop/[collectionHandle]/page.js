@@ -1,8 +1,8 @@
 import Script from "next/script";
 import Products from "../products";
 
-// export const revalidate = 0;
-// export const dynamic = "force-dynamic";
+export const revalidate = 0;
+export const dynamic = "force-dynamic";
 
 export default async function Page({ params }) {
   const { collectionHandle } = await params;
