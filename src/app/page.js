@@ -121,9 +121,9 @@ export default function Home() {
       ease: "sine.inOut",
     });
     gsap.to(`${currentId} .socials`, {
-      yPercent: 0,
+      yPercent: -50,
       xPercent: -50,
-      ease: "sine.inOut",
+      ease: "elastic.inOut",
     });
     gsap.to(`${currentId} .bio`, {
       yPercent: 0,
@@ -310,7 +310,7 @@ function Slide(props) {
           onLoad={props.onLoad}
         />
       </div>
-      <div className="name fixed top-[25%] left-[50%] md:top-[50%] md:left-[33%] xl:top-[48%] drop-shadow-lg z-6">
+      <div className="name fixed top-[25%] left-[50%] md:top-[50%] md:left-[35%] xl:top-[48%] drop-shadow-lg z-6">
         <h2
           className={`${customFont()} ${textSize()} text-white text-shadow-[0_0_8px_black] hover:scale-[1.1] transition-all duration-200 whitespace-nowrap`}
         >
@@ -328,7 +328,7 @@ function Slide(props) {
           />
         )}
       </div>
-      <div className="socials flex gap-4 md:gap-8 lg:gap-10 fixed top-[32%] left-[50%] md:top-[58%] md:left-[33%] z-10">
+      <div className="socials flex flex-col gap-5 md:gap-8 lg:gap-10 fixed top-[50%] left-[7%] md:top-[50%] md:left-[7.5%] z-10">
         <SocialMediaButton
           name="YouTube"
           href={props.slide.youtube}
@@ -371,7 +371,7 @@ function Slide(props) {
           />
         )}
       </div>
-      <div className="bio flex items-center justify-center text-center md:p-4 fixed top-[71%] md:top-[66%] left-[50%] w-full md:w-[32vw] md:left-[33%] h-[64px] z-5 drop-shadow-lg bg-black/33 md:bg-transparent">
+      <div className="bio flex items-center justify-center text-center md:p-4 fixed top-[71%] md:top-[66%] left-[50%] w-full md:w-[32vw] md:left-[35%] h-[64px] z-5 drop-shadow-lg bg-black/33 md:bg-transparent">
         <div className="text-lg md:text-[2rem] text-shadow-[0_4px_4px_rgb(0_0_0_/_0.75)] whitespace-nowrap">
           {props.slide.bio}
         </div>
