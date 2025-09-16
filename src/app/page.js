@@ -106,7 +106,7 @@ export default function Home() {
 
         timeout.current = setTimeout(() => {
           animating.current = false;
-        }, 500);
+        }, 200);
       },
     });
     gsap.to(`${currentId} .icon`, {
@@ -413,7 +413,12 @@ function Selector(props) {
                 ? "scale-[1.15] md:scale-[1.25]"
                 : "opacity-50 md:opacity-90"
             }`}
-            onClick={() => props.changeSlide(index)}
+            onClick={() => {
+              if (props.currentSlide === index) {
+                return;
+              }
+              props.changeSlide(index);
+            }}
           >
             <div className="absolute bg-black w-[66%] h-[66%] z-[-1] left-[50%] translate-x-[-50%] translate-y-[25%] md:translate-y-[40%]" />
             <Image
