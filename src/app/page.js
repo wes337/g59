@@ -273,11 +273,11 @@ function Slide(props) {
       case "germ":
         return "text-[5rem] md:text-[9rem]";
       case "shakewell":
-        return "max-[420px]:text-[5rem] text-[7rem] md:text-[12rem]";
+        return "max-[420px]:text-[5rem] text-[7rem] md:text-[12rem] 2xl:text-[15rem]";
       case "lonely boy":
         return "text-[3rem] md:text-[4rem] xl:text-[6rem] text-shadow-[0_0_2px_black]";
       default:
-        return "text-[4rem] md:text-[7rem] lg:text-[7rem] xl:text-[8rem]";
+        return "text-[4rem] md:text-[7rem] lg:text-[7rem] xl:text-[8rem] 2xl:text-[10rem]";
     }
   };
 
@@ -371,7 +371,7 @@ function Slide(props) {
           />
         )}
       </div>
-      <div className="bio flex items-center justify-center text-center md:p-4 fixed top-[71%] md:top-[66%] left-[50%] w-full md:w-[32vw] md:left-[35%] h-[64px] z-5 drop-shadow-lg bg-black/33 md:bg-transparent">
+      <div className="bio flex items-center justify-center text-center md:p-4 fixed top-[71%] md:top-[57.5%] left-[50%] w-full md:w-[32vw] md:left-[35%] h-[64px] z-5 drop-shadow-lg bg-black/33 md:bg-transparent">
         <div className="text-lg md:text-[2rem] text-shadow-[0_4px_4px_rgb(0_0_0_/_0.75)] whitespace-nowrap">
           {props.slide.bio}
         </div>
