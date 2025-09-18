@@ -277,7 +277,7 @@ function Slide(props) {
       case "lonely boy":
         return "text-[3rem] md:text-[4rem] xl:text-[6rem] text-shadow-[0_0_2px_black]";
       default:
-        return "text-[4rem] md:text-[7rem] lg:text-[7rem] xl:text-[8rem] 2xl:text-[10rem]";
+        return "text-[4rem] md:text-[7rem] lg:text-[7rem] xl:text-[8rem] 2xl:text-[9rem]";
     }
   };
 
