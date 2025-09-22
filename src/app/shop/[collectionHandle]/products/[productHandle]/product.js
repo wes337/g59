@@ -76,10 +76,10 @@ export default function Product({ product }) {
   return (
     <>
       <div className="flex flex-col w-full md:w-auto">
-        <div className="flex flex-col w-full md:flex-row gap-8 md:bg-white/25">
+        <div className="flex flex-col w-full md:flex-row gap-8 md:bg-black/75">
           <div className="relative w-full h-[50vh] md:w-[52.5vw] md:h-[70vh] md:bg-white/10">
             <button
-              className="absolute cursor-pointer top-0 right-0 m-2 bg-black/25 z-6 hover:text-yellow-300 hover:bg-black/50"
+              className="absolute cursor-pointer top-0 right-0 m-2 drop-shadow-[2px_2px_0px_black] bg-black/25 z-6 hover:text-yellow-300 hover:bg-black/50"
               onClick={() => setShowFullImage(true)}
             >
               <MdZoomIn size={40} />
@@ -138,7 +138,7 @@ export default function Product({ product }) {
                 />
               );
             })}
-            <div className="absolute w-full h-full top-0 left-0 z-[-1] scale-x-[2] bg-white md:scale-x-[1]">
+            <div className="absolute w-full h-full top-0 left-0 z-[-1] scale-x-[2] bg-black md:scale-x-[1]">
               <Image
                 className="w-full h-full opacity-25"
                 src={`/images/backgrounds/grunge-${randomGrunge}.png`}
@@ -152,15 +152,19 @@ export default function Product({ product }) {
             <div className="lowercase text-2xl md:text-5xl xl:text-7xl text-yellow-300 text-shadow-[4px_4px_0px_black]">
               {product.title}
             </div>
-            <div className="text-5xl">{formatPriceInUSD(product.price)}</div>
+            <div className="text-5xl text-shadow-[4px_4px_0px_black]">
+              {formatPriceInUSD(product.price)}
+            </div>
             {soldOut && (
-              <div className="lowercase tracking-wide text-4xl mt-4 text-left bg-white/10 w-full md:max-w-[512px] p-2">
+              <div className="lowercase tracking-wide text-4xl mt-4 text-center bg-white/10 w-full md:max-w-[512px] p-2 text-shadow-[4px_4px_0px_black]">
                 Sold Out
               </div>
             )}
             {!soldOut && product.variants.length > 1 && (
               <div>
-                <div className="lowercase text-md mb-1">Select Size</div>
+                <div className="lowercase text-md text-shadow-[2px_2px_0px_black] mb-1">
+                  Select Size
+                </div>
                 <div className="flex gap-2 md:max-w-[512px]">
                   {product.variants.map((variant) => {
                     const soldOut = !variant.availableForSale;
@@ -169,7 +173,7 @@ export default function Product({ product }) {
                     return (
                       <button
                         key={variant.id}
-                        className={`font-bold border-1 border-transparent flex items-center justify-center text-center text-lg tracking-tighter leading-none font-sans p-2 w-full ${
+                        className={`font-bold border-1 border-transparent flex items-center justify-center text-center text-lg text-shadow-[2px_2px_0px_black] tracking-tighter leading-none font-sans p-2 w-full ${
                           selected
                             ? "bg-white/25 border-white/50"
                             : "bg-white/10"
@@ -194,9 +198,9 @@ export default function Product({ product }) {
             )}
             {!soldOut && (
               <div className="flex gap-2 w-full max-w-[512px]">
-                <div className="flex items-center justify-center">
+                <div className="flex items-center justify-center text-shadow-[2px_2px_0px_black] drop-shadow-[2px_2px_0px_black]">
                   <button
-                    className="flex items-center justify-center w-[48px] md:w-[56px] h-full cursor-pointer bg-black/10 hover:text-yellow-200"
+                    className="flex items-center justify-center w-[48px] md:w-[56px] h-full cursor-pointer bg-white/10 hover:text-yellow-200"
                     onClick={() =>
                       setQuantity((quantity) => Math.max(quantity - 1, 1))
                     }
@@ -204,7 +208,7 @@ export default function Product({ product }) {
                     <FaMinus size={18} />
                   </button>
                   <input
-                    className="flex items-center justify-center text-center w-[64px] md:w-[80px] h-full text-2xl bg-black/5"
+                    className="flex items-center justify-center text-center w-[64px] md:w-[80px] h-full text-2xl bg-white/5"
                     value={quantity}
                     onInput={(event) => {
                       const quantity = Number(event.target.value);
@@ -217,7 +221,7 @@ export default function Product({ product }) {
                     }}
                   />
                   <button
-                    className="flex items-center justify-center w-[48px] md:w-[56px] h-full cursor-pointer bg-black/10 hover:text-yellow-200"
+                    className="flex items-center justify-center w-[48px] md:w-[56px] h-full cursor-pointer bg-white/10 hover:text-yellow-200"
                     onClick={() =>
                       setQuantity((quantity) => Math.min(quantity + 1, 30))
                     }
@@ -226,10 +230,12 @@ export default function Product({ product }) {
                   </button>
                 </div>
                 <button
-                  className="cursor-pointer w-full flex items-center font-sans text-lg md:text-3xl text-center justify-center gap-2 bg-black/5 p-2 md:p-4 hover:scale-[1.05]"
+                  className="cursor-pointer w-full flex items-center font-sans text-lg md:text-3xl text-center justify-center gap-2 bg-white/10 p-2 md:p-4 drop-shadow-[2px_2px_0px_black] hover:scale-[1.05]"
                   onClick={onAddToCart}
                 >
-                  <span className="uppercase font-bold">Add to Cart</span>
+                  <span className="uppercase font-bold text-shadow-[2px_2px_0px_black]">
+                    Add to Cart
+                  </span>
                 </button>
               </div>
             )}
@@ -246,12 +252,10 @@ export default function Product({ product }) {
             </div>
             {product.sizeChart && (
               <button
-                className="cursor-pointer flex items-center font-sans gap-2 bg-black/10 w-max p-2 hover:scale-[1.05]"
+                className="cursor-pointer flex items-center font-sans gap-2 bg-white/10 w-max p-2 drop-shadow-[2px_2px_0px_black] hover:scale-[1.05]"
                 onClick={() => setShowSizeChart(true)}
               >
-                <span className="invert">
-                  <SizeChartIcon />
-                </span>
+                <SizeChartIcon />
                 <span className="uppercase font-bold">Size Chart</span>
               </button>
             )}

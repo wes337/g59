@@ -14,11 +14,7 @@ export default function Wire({ wire }) {
   }, [pathname]);
 
   return (
-    <div
-      className={`wire-3 fixed z-[-1] bottom-[20%] md:bottom-0 w-[200vw] md:w-full drop-shadow-lg pointer-events-none ${
-        pathname.match("shop") ? "invert" : ""
-      }`}
-    >
+    <div className="wire-3 fixed z-[-1] bottom-[20%] md:bottom-0 w-[200vw] md:w-full drop-shadow-lg pointer-events-none">
       <Image
         className="pointer-events-none"
         style={{

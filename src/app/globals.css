@@ -63,11 +63,6 @@ body {
   overflow-y: hidden;
 }
 
-body.light {
-  background: var(--foreground);
-  color: var(--background);
-}
-
 @keyframes spinner {
   to {
     transform: rotate(360deg);
