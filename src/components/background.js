@@ -1,10 +1,20 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { usePathname } from "next/navigation";
 import Image from "next/image";
 
 export function Background(props) {
+  const pathname = usePathname();
   const [size, setSize] = useState("sm");
+
+  useEffect(() => {
+    if (pathname.match("shop")) {
+      document.body.classList.add("light");
+    } else {
+      document.body.classList.remove("light");
+    }
+  }, [pathname]);
 
   useEffect(() => {
     const onResize = () => {
@@ -28,8 +38,9 @@ export function Background(props) {
     };
   }, []);
 
-  const className =
-    "fixed top-0 left-0 w-full h-full z-0 pointer-events-none opacity-25 object-cover object-bottom";
+  const className = `fixed top-0 left-0 w-full h-full z-0 pointer-events-none opacity-25 object-cover object-bottom ${
+    pathname.match("shop") ? "invert" : ""
+  }`;
 
   return (
     <>

@@ -88,10 +88,10 @@ function MobileProduct({ product, collection }) {
           alt=""
         />
       </div>
-      <div className="text-yellow-300 lowercase text-lg leading-7 text-shadow-[2px_2px_0px_black] bg-black/50">
+      <div className="text-yellow-300 lowercase text-lg leading-7 text-shadow-[2px_2px_0px_black] bg-black/10">
         {product.title}
       </div>
-      <div className="text-white text-2xl tracking-wide mb-2 bg-black/50 text-shadow-[2px_2px_0px_black]">
+      <div className="text-white text-2xl tracking-wide mb-2 bg-black/10 text-shadow-[2px_2px_0px_black]">
         {formatPriceInUSD(product.price)}
       </div>
     </Link>

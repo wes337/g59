@@ -71,7 +71,7 @@ export default function MobileMenu({ menuItems }) {
             <button
               className={`fixed top-0 m-2 text-white z-25 drop-shadow-[2px_2px_0px_black] bg-black/50 cursor-pointer ${
                 open ? "left-[-100%]" : "left-0"
-              } transition-all duration-250`}
+              } transition-all duration-250 md:hidden`}
               onClick={() => setOpen(true)}
             >
               <MdMenu size={40} />
@@ -92,7 +92,7 @@ export default function MobileMenu({ menuItems }) {
           >
             <MdClose size={48} />
           </button>
-          <div className="mt-[112px]">
+          <div className="mt-[112px] text-white">
             {menuItems.map((menuItem) => {
               let active = pathname.includes(
                 `/shop/${menuItem.resource.handle}`

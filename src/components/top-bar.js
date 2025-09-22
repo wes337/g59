@@ -101,11 +101,21 @@ export function TopBar() {
 function NavLink(props) {
   const pathname = usePathname();
 
+  const light = pathname.match("shop");
+
+  const activeStyle = () => {
+    if (!pathname.includes(props.href)) {
+      return "";
+    }
+
+    return light ? "text-yellow-300" : "text-yellow-200";
+  };
+
   return (
     <Link
-      className={`group relative text-3xl md:text-4xl tracking-wide hover:scale-[1.1] transition-all duration-200 drop-shadow-lg hover:text-yellow-300 ${
-        pathname.includes(props.href) ? "text-yellow-200" : ""
-      } translate-y-[-12px] md:translate-y-[0]`}
+      className={`group relative text-3xl md:text-4xl tracking-wide hover:scale-[1.1] transition-all duration-200 ${
+        light ? "text-yellow-400" : "text-white"
+      } hover:text-yellow-300 ${activeStyle()} translate-y-[-12px] md:translate-y-[0] text-shadow-[2px_3px_0_black]`}
       href={props.href}
       prefetch
     >
