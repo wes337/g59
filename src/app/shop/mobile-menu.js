@@ -6,11 +6,19 @@ import { usePathname, useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
 import { createPortal } from "react-dom";
 import { MdMenu, MdClose, MdArrowBack } from "react-icons/md";
+import { useShallow } from "zustand/react/shallow";
+import useGlobalState from "@/state";
 
 export default function MobileMenu({ menuItems }) {
+  const { mobileMenuOpen, setMobileMenuOpen, cartOpen } = useGlobalState(
+    useShallow((state) => ({
+      mobileMenuOpen: state.mobileMenuOpen,
+      setMobileMenuOpen: state.setMobileMenuOpen,
+      cartOpen: state.cartOpen,
+    }))
+  );
   const router = useRouter();
   const pathname = usePathname();
-  const [open, setOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
   const [back, setBack] = useState(false);
 
@@ -20,28 +28,22 @@ export default function MobileMenu({ menuItems }) {
 
   useEffect(() => {
     setBack(pathname.includes("/shop/") && pathname.includes("/products/"));
-    setOpen(false);
+    setMobileMenuOpen(false);
   }, [pathname]);
 
   useEffect(() => {
-    if (open) {
+    if (mobileMenuOpen) {
       document.documentElement.classList.add("noScroll");
       document.body.classList.add("noScroll");
-
-      const event = new CustomEvent("mobilemenuopen");
-      document.dispatchEvent(event);
     } else {
       document.documentElement.classList.remove("noScroll");
       document.body.classList.remove("noScroll");
-
-      const event = new CustomEvent("mobilemenuclose");
-      document.dispatchEvent(event);
     }
-  }, [open]);
+  }, [mobileMenuOpen]);
 
   useEffect(() => {
     const onResize = () => {
-      setOpen(false);
+      setMobileMenuOpen(false);
     };
 
     window.addEventListener("resize", onResize);
@@ -60,7 +62,9 @@ export default function MobileMenu({ menuItems }) {
       {back
         ? createPortal(
             <button
-              className="fixed top-0 left-0 m-2 text-white z-25 drop-shadow-[2px_2px_0px_black] bg-black/50 cursor-pointer"
+              className={`fixed top-0 ${
+                cartOpen ? "left-[-100%]" : "left-0"
+              } m-2 text-white z-25 drop-shadow-[2px_2px_0px_black] bg-black/50 cursor-pointer transition-all duration-250`}
               onClick={() => router.back()}
             >
               <MdArrowBack size={40} />
@@ -69,10 +73,10 @@ export default function MobileMenu({ menuItems }) {
           )
         : createPortal(
             <button
-              className={`fixed top-0 m-2 text-white z-25 drop-shadow-[2px_2px_0px_black] bg-black/50 cursor-pointer ${
-                open ? "left-[-100%]" : "left-0"
+              className={`block md:hidden fixed top-0 m-2 text-white z-25 drop-shadow-[2px_2px_0px_black] bg-black/50 cursor-pointer ${
+                mobileMenuOpen || cartOpen ? "left-[-100%]" : "left-0"
               } transition-all duration-250`}
-              onClick={() => setOpen(true)}
+              onClick={() => setMobileMenuOpen(true)}
             >
               <MdMenu size={40} />
             </button>,
@@ -80,15 +84,15 @@ export default function MobileMenu({ menuItems }) {
           )}
       {createPortal(
         <div
-          className={`fixed top-0 w-full h-full z-12 bg-black sm:hidden ${
-            open ? "left-0" : "left-[-200%]"
+          className={`block md:hidden fixed top-0 w-full h-full z-12 bg-black sm:hidden ${
+            mobileMenuOpen ? "left-0" : "left-[-200%]"
           } transition-all duration-200`}
         >
           <button
             className={`fixed top-0 m-2 text-white z-10 drop-shadow-[2px_2px_0px_black] bg-black/50 cursor-pointer ${
-              open ? "right-0" : "right-[-200%]"
+              mobileMenuOpen ? "right-0" : "right-[-200%]"
             } transition-all duration-300`}
-            onClick={() => setOpen(false)}
+            onClick={() => setMobileMenuOpen(false)}
           >
             <MdClose size={48} />
           </button>
@@ -109,7 +113,7 @@ export default function MobileMenu({ menuItems }) {
                     active ? "text-yellow-300" : ""
                   }`}
                   href={`/shop/${menuItem.resource.handle}`}
-                  onClick={() => setOpen(false)}
+                  onClick={() => setMobileMenuOpen(false)}
                   prefetch
                 >
                   <div
@@ -136,7 +140,7 @@ export default function MobileMenu({ menuItems }) {
                 pathname === "/shop/look" ? "text-yellow-300" : ""
               }`}
               href={`/shop/look`}
-              onClick={() => setOpen(false)}
+              onClick={() => setMobileMenuOpen(false)}
               prefetch
             >
               <div
@@ -150,35 +154,35 @@ export default function MobileMenu({ menuItems }) {
             <Link
               className={`group relative lowercase text-2xl leading-12 cursor-pointer hover:text-yellow-300 w-full text-center`}
               href={`https://www.g59recordsmerchandise.com/account`}
-              onClick={() => setOpen(false)}
+              onClick={() => setMobileMenuOpen(false)}
             >
               <div className={`group-hover:bg-white/10`}>My Account</div>
             </Link>
           </div>
           <div
             className={`fixed left-0 w-full text-center text-sm lowercase ${
-              open ? "bottom-[32px]" : "bottom-[-100px]"
+              mobileMenuOpen ? "bottom-[32px]" : "bottom-[-100px]"
             } transition-all duration-200`}
           >
             <div className="flex gap-4 items-center justify-center m-auto text-center">
               <Link
                 className="text-yellow-100 text-shadow-[2px_2px_0px_black] hover:text-yellow-300"
                 href="/shop/policies/terms-of-service"
-                onClick={() => setOpen(false)}
+                onClick={() => setMobileMenuOpen(false)}
               >
                 Terms
               </Link>
               <Link
                 className="text-yellow-100 text-shadow-[2px_2px_0px_black] hover:text-yellow-300"
                 href="/shop/policies/privacy-policy"
-                onClick={() => setOpen(false)}
+                onClick={() => setMobileMenuOpen(false)}
               >
                 Privacy
               </Link>
               <Link
                 className="text-yellow-100 text-shadow-[2px_2px_0px_black] hover:text-yellow-300"
                 href="/shop/policies/refund-policy"
-                onClick={() => setOpen(false)}
+                onClick={() => setMobileMenuOpen(false)}
               >
                 Refunds
               </Link>

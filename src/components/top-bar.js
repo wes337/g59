@@ -4,6 +4,8 @@ import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
+import { useShallow } from "zustand/react/shallow";
+import useGlobalState from "@/state";
 
 const TOP_BAR_HEIGHT = 172;
 
@@ -11,25 +13,12 @@ export function TopBar() {
   const pathname = usePathname();
   const [scroll, setScroll] = useState(0);
   const [hover, setHover] = useState(false);
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-
-  useEffect(() => {
-    const onMobileMenuOpen = () => {
-      setMobileMenuOpen(true);
-    };
-
-    const onMobileMenuClose = () => {
-      setMobileMenuOpen(false);
-    };
-
-    document.addEventListener("mobilemenuopen", onMobileMenuOpen);
-    document.addEventListener("mobilemenuclose", onMobileMenuClose);
-
-    return () => {
-      document.removeEventListener("mobilemenuopen", onMobileMenuOpen);
-      document.removeEventListener("mobilemenuclose", onMobileMenuClose);
-    };
-  }, []);
+  const { mobileMenuOpen, cartOpen } = useGlobalState(
+    useShallow((state) => ({
+      mobileMenuOpen: state.mobileMenuOpen,
+      cartOpen: state.cartOpen,
+    }))
+  );
 
   useEffect(() => {
     const onScroll = () => {
@@ -44,7 +33,7 @@ export function TopBar() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  const showSmallLogo = mobileMenuOpen || scroll >= TOP_BAR_HEIGHT;
+  const showSmallLogo = cartOpen || mobileMenuOpen || scroll >= TOP_BAR_HEIGHT;
 
   return (
     <>
@@ -58,7 +47,9 @@ export function TopBar() {
         <NavLink label="Shop" href="/shop" />
       </div>
       <div
-        className={`fixed top-0 left-[50%] max-[420px]:top-[-4%] translate-x-[-50%] w-auto h-[148px] z-15 overflow-hidden transition-all duration-200 ${
+        className={`fixed top-0 left-[50%] max-[420px]:top-[-4%] translate-x-[-50%] w-auto h-[148px] ${
+          cartOpen ? "z-25" : "z-15"
+        } overflow-hidden transition-all duration-200 ${
           showSmallLogo ? "scale-[0.8] top-[-5%]" : ""
         }`}
         onPointerEnter={() => setHover(true)}
@@ -82,7 +73,9 @@ export function TopBar() {
         </div>
       </div>
       <Image
-        className={`fixed h-[64px] w-auto top-[70px] max-[420px]:top-[calc(70px-4%)] left-[50%] translate-x-[-50%] drop-shadow-lg spinner z-16 pointer-events-none transition-all duration-200 ${
+        className={`fixed h-[64px] w-auto top-[70px] max-[420px]:top-[calc(70px-4%)] left-[50%] translate-x-[-50%] drop-shadow-lg spinner ${
+          cartOpen ? "z-25" : "z-16"
+        } pointer-events-none transition-all duration-200 ${
           hover && !showSmallLogo ? "scale-[1.1]" : ""
         } ${
           showSmallLogo

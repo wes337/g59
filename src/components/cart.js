@@ -9,12 +9,20 @@ import Shopify from "@/shopify";
 import Cache from "@/cache";
 import { MdShoppingCart, MdClose, MdDelete } from "react-icons/md";
 import { FaPlus, FaMinus } from "react-icons/fa";
+import { useShallow } from "zustand/react/shallow";
+import useGlobalState from "@/state";
 
 export default function Cart() {
   const pathname = usePathname();
+  const { cartOpen, setCartOpen, mobileMenuOpen } = useGlobalState(
+    useShallow((state) => ({
+      cartOpen: state.cartOpen,
+      setCartOpen: state.setCartOpen,
+      mobileMenuOpen: state.mobileMenuOpen,
+    }))
+  );
   const [cart, setCart] = useState(null);
   const [cartItems, setCartItems] = useState([]);
-  const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
 
   const totalItemsInCart = useMemo(() => {
@@ -28,18 +36,18 @@ export default function Cart() {
   }, [cartItems]);
 
   useEffect(() => {
-    setOpen(false);
+    setCartOpen(false);
   }, [pathname]);
 
   useEffect(() => {
-    if (open) {
+    if (cartOpen) {
       document.documentElement.classList.add("noScroll");
       document.body.classList.add("noScroll");
     } else {
       document.documentElement.classList.remove("noScroll");
       document.body.classList.remove("noScroll");
     }
-  }, [open]);
+  }, [cartOpen]);
 
   useEffect(() => {
     const initCart = async () => {
@@ -91,7 +99,7 @@ export default function Cart() {
         { merchandiseId, quantity },
       ]);
       setCart(updatedCart);
-      setOpen(true);
+      setCartOpen(true);
     };
 
     document.addEventListener("addtocart", onAddToCart);
@@ -155,8 +163,10 @@ export default function Cart() {
   return (
     <>
       <button
-        className="fixed top-0 right-0 m-2 md:m-8 text-white z-10 drop-shadow-[2px_2px_0px_black] bg-black/50 cursor-pointer"
-        onClick={() => setOpen(true)}
+        className={`fixed top-0 ${
+          mobileMenuOpen ? "right-[-100%]" : "right-0"
+        } m-2 md:m-8 text-white z-20 drop-shadow-[2px_2px_0px_black] bg-black/50 cursor-pointer transition-all duration-200`}
+        onClick={() => setCartOpen(true)}
       >
         <MdShoppingCart className="p-1 md:p-0" size={40} />
         <div className="absolute bottom-[-4px] md:bottom-[-8px] left-0 mx-1 md:mx-0 text-lg md:text-2xl text-shadow-[2px_2px_0px_black] text-yellow-300">
@@ -167,19 +177,19 @@ export default function Cart() {
         <>
           <div
             className={`fixed top-0 left-0 ${
-              open
-                ? "opacity-100 visible z-10"
+              cartOpen
+                ? "opacity-100 visible z-20"
                 : "opacity-0 invisible pointer-events-none"
             } w-full h-full bg-black/75 hidden md:block transition-all duration-500`}
             onClick={(event) => {
               event.stopPropagation();
-              setOpen(false);
+              setCartOpen(false);
             }}
           />
           <div
-            className={`hidden md:block absolute top-0 h-screen z-10 pointer-events-none ${
-              open
-                ? "left-[calc(33vw+64px)] opacity-100 rotate-92"
+            className={`hidden md:block fixed top-0 h-screen z-21 pointer-events-none ${
+              cartOpen
+                ? "left-[calc(33vw+48px)] opacity-100 rotate-92"
                 : "left-[-200%] opacity-0 rotate-0"
             } transition-all duration-200`}
           >
@@ -192,15 +202,15 @@ export default function Cart() {
             />
           </div>
           <div
-            className={`fixed top-0 w-full h-full md:w-[33vw] z-11 bg-black ${
-              open ? "right-0" : "right-[-200%]"
+            className={`fixed top-0 w-full h-full md:w-[33vw] z-22 bg-black ${
+              cartOpen ? "right-0" : "right-[-200%]"
             } transition-all duration-200`}
           >
             <button
               className={`fixed top-0 m-2 text-white z-10 drop-shadow-[2px_2px_0px_black] bg-black/50 cursor-pointer ${
-                open ? "right-0" : "right-[-200%]"
+                cartOpen ? "right-0" : "right-[-200%]"
               } transition-all duration-300`}
-              onClick={() => setOpen(false)}
+              onClick={() => setCartOpen(false)}
             >
               <MdClose size={48} />
             </button>
@@ -214,7 +224,7 @@ export default function Cart() {
                 height={717}
               />
             </div>
-            <div className="mt-[80px] md:mt-0 p-4">
+            <div className="mt-[64px] md:mt-0 p-4">
               {cartItems.map((cartItem) => (
                 <CartItem
                   key={cartItem.id}
@@ -229,12 +239,12 @@ export default function Cart() {
             <div className="absolute bottom-0 left-0 w-full flex flex-col mt-auto bg-white/5">
               <div className="flex items-center gap-2 w-full p-4 text-white text-shadow-[2px_2px_0px_black]">
                 <div className="lowercase text-xl">Total</div>
-                <div className="font-sans ml-auto text-3xl font-bold">
+                <div className="font-sans ml-auto text-xl md:text-3xl font-bold">
                   {formatPriceInUSD(cart.estimatedCost.totalAmount.amount)}{" "}
                   {cart.estimatedCost.totalAmount.currencyCode}
                 </div>
               </div>
-              <div className="lowercase text-yellow-100 mx-4 pt-4 mb-4 text-xl text-shadow-[2px_2px_0px_black] border-t-1 border-white/25">
+              <div className="lowercase text-yellow-100 mx-4 pt-4 mb-4 text-md text-center md:text-xl text-shadow-[2px_2px_0px_black] border-t-1 border-white/25">
                 Tax included and shipping calculated at checkout
               </div>
               <div>
@@ -258,24 +268,24 @@ export default function Cart() {
 
 function CartItem({ cartItem, onRemoveFromCart, onChangeQuantity }) {
   return (
-    <div className="flex gap-2 p-2 h-full bg-white/5">
-      <div className="relative w-[100px] h-auto shadow-[2px_2px_0px_black]">
+    <div className="flex gap-2 p-2 h-full max-h-[140px] md:max-h-[156px] bg-white/5">
+      <div className="relative w-[100px] h-auto shadow-[2px_2px_0px_black] bg-white/90">
         <Image
-          className="w-full h-full object-cover"
+          className="w-full h-full object-contain"
           src={cartItem.image}
           width={100}
           height={120}
           alt=""
         />
       </div>
-      <div className="relative flex flex-col bg-white/5 w-full p-2 text-shadow-[2px_2px_0px_black] shadow-[4px_4px_0px_black]">
-        <div className="text-2xl tracking-wide">
+      <div className="relative flex flex-col bg-white/5 w-full p-1 md:p-2 text-shadow-[2px_2px_0px_black] shadow-[4px_4px_0px_black]">
+        <div className="text-xl md:text-2xl tracking-wide">
           {formatPriceInUSD(cartItem.price)}
         </div>
-        <div className="text-xl lowercase text-yellow-200 truncate">
+        <div className="text-lg md:text-xl lowercase text-yellow-200 truncate">
           {cartItem.productTitle}
         </div>
-        <div className="font-sans font-bold tracking-wide mt-1 uppercase opacity-75">
+        <div className="font-sans font-bold tracking-wide mt-1 text-sm md:text-md uppercase opacity-75">
           Size: {cartItem.variantTitle}
         </div>
         <div className="flex mt-2">
