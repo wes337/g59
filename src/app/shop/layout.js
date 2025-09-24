@@ -1,3 +1,4 @@
+import { GoogleTagManager } from "@next/third-parties/google";
 import { Background } from "@/components/background";
 import Menu from "./menu";
 import Wire from "@/components/wire";
@@ -19,6 +20,7 @@ export default function ShopLayout({ children }) {
       <Background currentBackground={3} />
       <Cart />
       <MailingList />
+      <GoogleTagManager gtmId="GTM-T3VJM4JP" />
     </>
   );
 }
