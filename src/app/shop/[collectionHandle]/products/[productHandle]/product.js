@@ -58,12 +58,15 @@ export default function Product({ product }) {
     if (!selectedVariant && product.variants.length > 1) {
       setShowSizeError(true);
       return;
-    } else {
-      setSelectedVariant(product.variants[0].id);
     }
 
+    const defaultVariant = product.variants[0].id;
+
     const event = new CustomEvent("addtocart", {
-      detail: { merchandiseId: selectedVariant, quantity },
+      detail: {
+        merchandiseId: selectedVariant || defaultVariant,
+        quantity,
+      },
     });
 
     document.dispatchEvent(event);
