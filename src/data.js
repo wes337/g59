@@ -79,7 +79,7 @@ export const SLIDES = [
     bio: `such a lonely boy.`,
     youtube: "https://www.youtube.com/channel/UCdtCvK-ERe6HD-yS_F9--Ig",
     ig: "https://www.instagram.com/lonelyboy",
-    x: "https://x.com/j_chetta",
+    x: "https://x.com/SuicideChrist",
     spotify: "https://open.spotify.com/artist/5VKvqCyBxqbaXUp8eK0aUy",
     soundcloud: "https://soundcloud.com/scrim",
     tiktok: "https://www.tiktok.com/@lonelyyboyy.1",

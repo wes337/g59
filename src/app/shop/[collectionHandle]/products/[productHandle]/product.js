@@ -55,9 +55,11 @@ export default function Product({ product }) {
       return;
     }
 
-    if (!selectedVariant) {
+    if (!selectedVariant && product.variants.length > 1) {
       setShowSizeError(true);
       return;
+    } else {
+      setSelectedVariant(product.variants[0].id);
     }
 
     const event = new CustomEvent("addtocart", {
