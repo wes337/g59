@@ -202,7 +202,7 @@ export default function Cart() {
             />
           </div>
           <div
-            className={`fixed top-0 w-full h-full md:w-[33vw] z-22 bg-black ${
+            className={`flex flex-col fixed top-0 w-full h-full md:w-[33vw] z-22 bg-black ${
               cartOpen ? "right-0" : "right-[-200%]"
             } transition-all duration-200`}
           >
@@ -224,7 +224,7 @@ export default function Cart() {
                 height={717}
               />
             </div>
-            <div className="mt-[64px] md:mt-0 p-4">
+            <div className="mt-8 md:mt-0 p-4 h-full overflow-y-auto">
               {cartItems.map((cartItem) => (
                 <CartItem
                   key={cartItem.id}
@@ -236,7 +236,7 @@ export default function Cart() {
                 />
               ))}
             </div>
-            <div className="absolute bottom-0 left-0 w-full flex flex-col mt-auto bg-white/5">
+            <div className="w-full flex flex-col mt-auto bg-white/5">
               <div className="flex items-center gap-2 w-full p-4 text-white text-shadow-[2px_2px_0px_black]">
                 <div className="lowercase text-xl">Total</div>
                 <div className="font-sans ml-auto text-xl md:text-3xl font-bold">
