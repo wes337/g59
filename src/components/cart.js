@@ -267,6 +267,17 @@ export default function Cart() {
 }
 
 function CartItem({ cartItem, onRemoveFromCart, onChangeQuantity }) {
+  const sizeLabel = () => {
+    try {
+      return !cartItem.variantTitle ||
+        cartItem.variantTitle.toLowerCase() === "default title"
+        ? "One Size"
+        : cartItem.variantTitle;
+    } catch {
+      return cartItem.variantTitle || "";
+    }
+  };
+
   return (
     <div className="flex gap-2 p-2 h-full max-h-[140px] md:max-h-[156px] bg-white/5">
       <div className="relative w-[100px] h-auto shadow-[2px_2px_0px_black] bg-white/90">
@@ -286,7 +297,7 @@ function CartItem({ cartItem, onRemoveFromCart, onChangeQuantity }) {
           {cartItem.productTitle}
         </div>
         <div className="font-sans font-bold tracking-wide mt-1 text-sm md:text-md uppercase opacity-75">
-          Size: {cartItem.variantTitle}
+          Size: {sizeLabel()}
         </div>
         <div className="flex mt-2">
           <div className="flex items-center justify-center text-center h-full w-max">
