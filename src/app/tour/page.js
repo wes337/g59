@@ -4,6 +4,9 @@ import Wire from "@/components/wire";
 import Tour from "./tour";
 import TourMap from "./map";
 
+export const revalidate = 0;
+export const dynamic = "force-dynamic";
+
 async function getTours() {
   const response = await axios.get(
     "https://cdn.seated.com/api/tour/7a8dfbf3-1b50-4887-940c-7abec1d7406f?include=tour-events"
