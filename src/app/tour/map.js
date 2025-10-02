@@ -4,7 +4,8 @@ import { useState } from "react";
 import Image from "next/image";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
-import { TOURS } from "./data";
+import { CDN_URL } from "@/utils";
+import { TOURS } from "@/data";
 
 gsap.registerPlugin(useGSAP);
 
@@ -21,7 +22,7 @@ export default function TourMap() {
     <div className="flex items-center h-auto w-full relative bg-black/50">
       <Image
         className="w-full h-full object-contain z-5 brightness-50 drop-shadow-[4px_4px_0_#ffffff10]"
-        src={`/images/map.png`}
+        src={`${CDN_URL}/images/map.png`}
         width={1529}
         height={925}
         alt=""
@@ -61,7 +62,7 @@ export default function TourMap() {
               {isOver && (
                 <Image
                   className="invert absolute z-1 drop-shadow-[0_0_4px_black] group-hover:drop-shadow-[0_0_4px_#fde047]"
-                  src={`/images/x.png`}
+                  src={`${CDN_URL}/images/x.png`}
                   width={547}
                   height={662}
                   alt=""
@@ -69,7 +70,7 @@ export default function TourMap() {
               )}
               <Image
                 className="drop-shadow-[0_0_2px_black] group-hover:drop-shadow-[0_0_4px_#fde047]"
-                src={`/images/icons/skull-2.png`}
+                src={`${CDN_URL}/images/icons/skull-2.png`}
                 width={314}
                 height={412}
                 alt=""

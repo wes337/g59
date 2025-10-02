@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Image from "next/image";
+import { CDN_URL } from "@/utils";
 
 export function Background(props) {
   const [size, setSize] = useState("sm");
@@ -35,7 +36,7 @@ export function Background(props) {
     <>
       <Image
         className={`${className} small`}
-        src={`/images/backgrounds/bg-${props.currentBackground}-${size}.png`}
+        src={`${CDN_URL}/images/backgrounds/bg-${props.currentBackground}-${size}.png`}
         alt=""
         width={1920}
         height={1080}

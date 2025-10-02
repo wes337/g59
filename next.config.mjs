@@ -7,6 +7,11 @@ const nextConfig = {
         hostname: "cdn.shopify.com",
         port: "",
       },
+      {
+        protocol: "https",
+        hostname: "w-img.b-cdn.net",
+        port: "",
+      },
     ],
   },
 };

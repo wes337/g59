@@ -1,3 +1,5 @@
+export const CDN_URL = "https://w-img.b-cdn.net/g59";
+
 export const randomNumberBetween = (min, max) => {
   return Math.floor(Math.random() * (max - min + 1) + min);
 };

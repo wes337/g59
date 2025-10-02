@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import { createPortal } from "react-dom";
 import Image from "next/image";
-import { formatPriceInUSD, randomNumberBetween } from "@/utils";
+import { CDN_URL, formatPriceInUSD, randomNumberBetween } from "@/utils";
 import { MdClose, MdZoomIn } from "react-icons/md";
 import { FaPlus, FaMinus } from "react-icons/fa";
 import SizeChartIcon from "@/components/size-chart-icon";
@@ -110,14 +110,14 @@ export default function Product({ product }) {
             )}
             <Image
               className="absolute top-0 left-0 w-full scale-x-[1.2] translate-y-[-48px] z-[-1] pointer-events-none md:hidden"
-              src={`/images/wires-line.png`}
+              src={`${CDN_URL}/images/wires-line.png`}
               width={1000}
               height={273}
               alt=""
             />
             <Image
               className="absolute bottom-0 left-0 w-full scale-x-[-1.2] scale-y-[-1] translate-y-[48px] z-[-1] pointer-events-none md:hidden"
-              src={`/images/wires-line.png`}
+              src={`${CDN_URL}/images/wires-line.png`}
               width={1000}
               height={273}
               alt=""
@@ -146,7 +146,7 @@ export default function Product({ product }) {
             <div className="absolute w-full h-full top-0 left-0 z-[-1] scale-x-[2] bg-black md:scale-x-[1]">
               <Image
                 className="w-full h-full opacity-25"
-                src={`/images/backgrounds/grunge-${randomGrunge}.png`}
+                src={`${CDN_URL}/images/backgrounds/grunge-${randomGrunge}.png`}
                 alt=""
                 width={1500}
                 height={1800}

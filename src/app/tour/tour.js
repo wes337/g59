@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { randomNumberBetween } from "@/utils";
+import { CDN_URL, randomNumberBetween } from "@/utils";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 
@@ -65,7 +65,7 @@ export default function Tour({ tour, index }) {
     >
       <Image
         className="absolute top-0 left-0 w-full h-full object-cover z-[-1] opacity-0 group-hover:opacity-5"
-        src={`/images/backgrounds/grunge-${randomBackground}.png`}
+        src={`${CDN_URL}/images/backgrounds/grunge-${randomBackground}.png`}
         width={1536}
         height={1024}
         alt=""
@@ -98,7 +98,7 @@ export default function Tour({ tour, index }) {
             </span>
             <Image
               className="absolute z-[-1] top-0 left-0 w-full h-full opacity-25 drop-shadow-lg group-hover:opacity-50 transition-all duration-100"
-              src={`/images/wires-hover.png`}
+              src={`${CDN_URL}/images/wires-hover.png`}
               alt=""
               width={1287}
               height={717}
@@ -113,7 +113,7 @@ export default function Tour({ tour, index }) {
           Tickets
           <Image
             className="absolute z-[-1] top-0 left-0 w-full h-full opacity-25 drop-shadow-lg group-hover:opacity-50 transition-all duration-100"
-            src={`/images/border-hover.png`}
+            src={`${CDN_URL}/images/border-hover.png`}
             alt=""
             width={1287}
             height={717}

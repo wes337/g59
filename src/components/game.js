@@ -3,7 +3,12 @@
 import { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
-import { playSoundEffect, preloadImages, randomNumberBetween } from "@/utils";
+import {
+  CDN_URL,
+  playSoundEffect,
+  preloadImages,
+  randomNumberBetween,
+} from "@/utils";
 import { GAME_ITEMS } from "@/game";
 import Static from "@/components/static";
 
@@ -359,15 +364,15 @@ export default function Game() {
 
   const preloadGameAssets = async () => {
     const assets = [
-      "/images/game/room-1-lg.png",
-      "/images/game/room-2-lg.png",
-      "/images/game/room-3-lg.png",
-      "/images/game/frame-mobile.png",
-      "/images/game/frame-desktop.png",
+      `${CDN_URL}/images/game/room-1-lg.png`,
+      `${CDN_URL}/images/game/room-2-lg.png`,
+      `${CDN_URL}/images/game/room-3-lg.png`,
+      `${CDN_URL}/images/game/frame-mobile.png`,
+      `${CDN_URL}/images/game/frame-desktop.png`,
     ];
 
     Object.keys(GAME_ITEMS).forEach((item) => {
-      assets.push(`/images/game/${item}.png`);
+      assets.push(`${CDN_URL}/images/game/${item}.png`);
     });
 
     await preloadImages(assets);
@@ -636,7 +641,7 @@ export default function Game() {
             <video
               id="game-intro"
               className="object-cover h-full w-full"
-              src={`/images/game/intro.mp4`}
+              src={`${CDN_URL}/images/game/intro.mp4`}
               autoPlay
               muted
               playsInline
@@ -644,7 +649,7 @@ export default function Game() {
           </div>
           <Image
             className="absolute w-full h-full z-3 select-none pointer-events-none scale-[1.3] md:scale-[1.2] brightness-25"
-            src={`/images/game/inner-frame-lg.png`}
+            src={`${CDN_URL}/images/game/inner-frame-lg.png`}
             width={1984}
             height={1080}
             alt=""
@@ -652,25 +657,25 @@ export default function Game() {
           <div
             className="min-[1921px]:hidden flickerBackground"
             style={{
-              backgroundImage: `url("/images/game/${currentRoom}-lg.png")`,
+              backgroundImage: `url("${CDN_URL}/images/game/${currentRoom}-lg.png")`,
             }}
           />
           <div
             className="hidden min-[1921px]:block flickerBackground"
             style={{
-              backgroundImage: `url("/images/game/${currentRoom}-xl.png")`,
+              backgroundImage: `url("${CDN_URL}/images/game/${currentRoom}-xl.png")`,
             }}
           />
           <Image
             className="min-[1921px]:hidden w-full h-full object-cover select-none pointer-events-none"
-            src={`/images/game/${currentRoom}-lg.png`}
+            src={`${CDN_URL}/images/game/${currentRoom}-lg.png`}
             width={1920}
             height={1080}
             alt=""
           />
           <Image
             className="hidden min-[1921px]:block w-full h-full object-cover select-none pointer-events-none"
-            src={`/images/game/${currentRoom}-xl.png`}
+            src={`${CDN_URL}/images/game/${currentRoom}-xl.png`}
             width={3600}
             height={2026}
             alt=""
@@ -686,7 +691,7 @@ export default function Game() {
               className={`fixed w-full h-full object-fill select-none pointer-events-none ${
                 highlightItems ? "opacity-100" : "opacity-10"
               } transition-all duration-300`}
-              src={`/images/game/${currentRoom}-highlight.png`}
+              src={`${CDN_URL}/images/game/${currentRoom}-highlight.png`}
               width={3840}
               height={2160}
               alt=""
@@ -713,14 +718,14 @@ export default function Game() {
         <div className="hidden md:block fixed top-0 left-0 w-full h-full z-50 pointer-events-none">
           <Image
             className="min-[1921px]:hidden w-full h-full object-fill md:object-contain lg:object-fill pointer-events-none select-none drop-shadow-lg"
-            src={`/images/game/frame-desktop.png`}
+            src={`${CDN_URL}/images/game/frame-desktop.png`}
             width={1920}
             height={993}
             alt=""
           />
           <Image
             className="hidden min-[1921px]:block w-full h-full object-cover pointer-events-none select-none drop-shadow-lg"
-            src={`/images/game/frame-desktop-xl.png`}
+            src={`${CDN_URL}/images/game/frame-desktop-xl.png`}
             width={3850}
             height={1985}
             alt=""
@@ -729,7 +734,7 @@ export default function Game() {
         <div className="block md:hidden fixed bottom-0 left-[50%] translate-x-[-50%] w-[180%] h-auto z-50 pointer-events-none">
           <Image
             className="w-full h-full object-cover pointer-events-none select-none drop-shadow-lg"
-            src={`/images/game/frame-desktop.png`}
+            src={`${CDN_URL}/images/game/frame-desktop.png`}
             width={1920}
             height={993}
             alt=""
@@ -739,7 +744,7 @@ export default function Game() {
         <div className="block md:hidden fixed bottom-0 left-[50%] translate-y-[92%] translate-x-[-50%] z-49 brightness-120 pointer-events-none w-full h-full">
           <Image
             className="w-full h-full object-cover pointer-events-none select-none drop-shadow-lg"
-            src={`/images/game/frame-mobile.png`}
+            src={`${CDN_URL}/images/game/frame-mobile.png`}
             width={713}
             height={1251}
             alt=""
@@ -754,14 +759,14 @@ export default function Game() {
           >
             <Image
               className="w-full h-full object-contain drop-shadow-[2px_2px_2px_black]"
-              src={`/images/game/left-arrow.png`}
+              src={`${CDN_URL}/images/game/left-arrow.png`}
               width={512}
               height={419}
               alt=""
             />
             <Image
               className="absolute top-0 left-0 w-full h-full object-contain z-1 opacity-0 group-hover:opacity-100 group-active:opacity-100 drop-shadow-[2px_2px_2px_black]"
-              src={`/images/game/left-arrow-hover.png`}
+              src={`${CDN_URL}/images/game/left-arrow-hover.png`}
               width={512}
               height={419}
               alt=""
@@ -775,14 +780,14 @@ export default function Game() {
           >
             <Image
               className="w-full h-full object-contain drop-shadow-[2px_2px_2px_black]"
-              src={`/images/game/right-arrow.png`}
+              src={`${CDN_URL}/images/game/right-arrow.png`}
               width={512}
               height={419}
               alt=""
             />
             <Image
               className="absolute top-0 left-0 w-full h-full object-contain z-1 opacity-0 group-hover:opacity-100 group-active:opacity-100 drop-shadow-[2px_2px_2px_black]"
-              src={`/images/game/right-arrow-hover.png`}
+              src={`${CDN_URL}/images/game/right-arrow-hover.png`}
               width={512}
               height={419}
               alt=""
@@ -808,7 +813,7 @@ export default function Game() {
             <div className="max-w-[70vw] md:max-w-[50vw] lg:max-w-[25vw]">
               <Image
                 className="drop-shadow-2xl"
-                src={`/images/game/${selectedItem}.png`}
+                src={`${CDN_URL}/images/game/${selectedItem}.png`}
                 width={1249}
                 height={1270}
                 alt=""
@@ -817,7 +822,7 @@ export default function Game() {
             <div className="relative flex gap-2 p-6 w-[80vw] md:w-[460px] 2xl:w-[600px] md:py-12">
               <Image
                 className="absolute top-0 left-0 w-full h-full object-fill"
-                src={`/images/game/box.png`}
+                src={`${CDN_URL}/images/game/box.png`}
                 width={1105}
                 height={553}
                 alt=""

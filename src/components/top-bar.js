@@ -6,6 +6,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useShallow } from "zustand/react/shallow";
 import useGlobalState from "@/state";
+import { CDN_URL } from "@/utils";
 
 const TOP_BAR_HEIGHT = 172;
 
@@ -64,7 +65,7 @@ export function TopBar() {
           >
             <Image
               className="w-full h-full object-contain"
-              src={`/images/chain-base.png`}
+              src={`${CDN_URL}/images/chain-base.png`}
               alt=""
               width={1000}
               height={1000}
@@ -82,7 +83,7 @@ export function TopBar() {
             ? "scale-[0.8] max-[420px]:translate-y-[-10%] max-[450px]:translate-y-[-79%] max-[1100px]:translate-y-[-90%]  translate-y-[-70%] min-[1900px]:translate-y-[-82.5%] min-[2000px]:translate-y-[-70px]"
             : ""
         } ${hover && showSmallLogo ? "scale-[0.85]" : ""}`}
-        src={`/images/chain-skull.png`}
+        src={`${CDN_URL}/images/chain-skull.png`}
         alt=""
         width={547}
         height={662}
@@ -107,7 +108,7 @@ function NavLink(props) {
         className={`absolute z-[-1] top-0 left-0 w-full h-full scale-y-[1.2] scale-x-[1.5] opacity-0 ${
           pathname.includes(props.href) ? "opacity-50" : ""
         } drop-shadow-lg group-hover:opacity-50 transition-all duration-100`}
-        src={`/images/border-hover.png`}
+        src={`${CDN_URL}/images/border-hover.png`}
         alt=""
         width={1287}
         height={717}

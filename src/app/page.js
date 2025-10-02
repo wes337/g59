@@ -7,7 +7,7 @@ import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import { InertiaPlugin, Observer } from "gsap/all";
 import { SLIDES } from "@/data";
-import { randomNumberBetween } from "@/utils";
+import { CDN_URL, randomNumberBetween } from "@/utils";
 import { Background } from "@/components/background";
 
 gsap.registerPlugin(useGSAP, Observer, InertiaPlugin);
@@ -182,7 +182,7 @@ export default function Home() {
       >
         <Image
           className="md:hidden invert"
-          src={`/images/logo-skull-small.gif`}
+          src={`${CDN_URL}/images/logo-skull-small.gif`}
           width={255}
           height={277}
           alt="G59 Records"
@@ -190,7 +190,7 @@ export default function Home() {
         />
         <Image
           className="hidden md:block invert"
-          src={`/images/logo-skull.gif`}
+          src={`${CDN_URL}/images/logo-skull.gif`}
           width={774}
           height={840}
           alt="G59 Records"
@@ -219,10 +219,20 @@ export default function Home() {
         })}
         <Selector currentSlide={currentSlide} changeSlide={changeSlide} />
         <div className="wire-1 fixed z-0 bottom-0 md:bottom-[-10%] w-[300vw] md:w-full drop-shadow-lg pointer-events-none">
-          <Image src={`/images/wire-1.png`} width={3840} height={2160} alt="" />
+          <Image
+            src={`${CDN_URL}/images/wire-1.png`}
+            width={3840}
+            height={2160}
+            alt=""
+          />
         </div>
         <div className="wire-3 fixed z-[-1] bottom-[20%] md:bottom-0 w-[200vw] md:w-full drop-shadow-lg pointer-events-none">
-          <Image src={`/images/wire-3.png`} width={3840} height={2160} alt="" />
+          <Image
+            src={`${CDN_URL}/images/wire-3.png`}
+            width={3840}
+            height={2160}
+            alt=""
+          />
         </div>
       </div>
     </>
@@ -233,14 +243,7 @@ function Slide(props) {
   const wide = ["shakewell"].includes(props.slide.name);
 
   const customName = () => {
-    switch (props.slide.name) {
-      case "chetta":
-        return "/images/artists/chetta-logo.png";
-      case "shakewell":
-        return "/images/artists/shakewell-logo.png";
-      default:
-        return "";
-    }
+    return ["chetta", "shakewell"].includes(props.slide.name);
   };
 
   const customFont = () => {
@@ -321,7 +324,7 @@ function Slide(props) {
             className={`absolute top-0 md:top-[-15%] left-0 w-full h-full object-contain drop-shadow-[0_0_8px_black] ${
               props.slide.name === "shakewell" ? "translate-y-[-12px]" : ""
             } group-hover:scale-[1.1] transition-all duration-200`}
-            src={`/images/artists/${props.slide.name}-logo.png`}
+            src={`${CDN_URL}/images/artists/${props.slide.name}-logo.png`}
             width={1022}
             height={411}
             alt={props.slide.name}
@@ -332,42 +335,42 @@ function Slide(props) {
         <SocialMediaButton
           name="YouTube"
           href={props.slide.youtube}
-          src={`/images/icons/youtube-icon.png`}
+          src={`${CDN_URL}/images/icons/youtube-icon.png`}
         />
         <SocialMediaButton
           name="Instagram"
           href={props.slide.ig}
-          src={`/images/icons/ig-icon.png`}
+          src={`${CDN_URL}/images/icons/ig-icon.png`}
         />
         <SocialMediaButton
           name="Spotify"
           href={props.slide.spotify}
-          src={`/images/icons/spotify-icon.png`}
+          src={`${CDN_URL}/images/icons/spotify-icon.png`}
         />
         <SocialMediaButton
           name="SoundCloud"
           href={props.slide.soundcloud}
-          src={`/images/icons/soundcloud-icon.png`}
+          src={`${CDN_URL}/images/icons/soundcloud-icon.png`}
         />
         {props.slide.x && (
           <SocialMediaButton
             name="X"
             href={props.slide.x}
-            src={`/images/icons/x-icon.png`}
+            src={`${CDN_URL}/images/icons/x-icon.png`}
           />
         )}
         {props.slide.tiktok && (
           <SocialMediaButton
             name="TikTok"
             href={props.slide.tiktok}
-            src={`/images/icons/tt-icon.png`}
+            src={`${CDN_URL}/images/icons/tt-icon.png`}
           />
         )}
         {props.slide.web && (
           <SocialMediaButton
             name="Web"
             href={props.slide.web}
-            src={`/images/icons/web-icon.png`}
+            src={`${CDN_URL}/images/icons/web-icon.png`}
           />
         )}
       </div>
@@ -434,7 +437,7 @@ function Selector(props) {
               className={`absolute top-0 z-[-1] w-full h-full object-contain select-none transition-all duration-100 scale-[0.1] group-hover:scale-[1] ${
                 active ? "scale-[1] -rotate-20" : ""
               }`}
-              src={`/images/wires-hover.png`}
+              src={`${CDN_URL}/images/wires-hover.png`}
               width={1000}
               height={412}
               alt=""

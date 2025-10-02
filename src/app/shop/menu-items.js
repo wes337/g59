@@ -5,6 +5,7 @@ import { useGSAP } from "@gsap/react";
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
+import { CDN_URL } from "@/utils";
 
 gsap.registerPlugin(useGSAP);
 
@@ -52,7 +53,7 @@ export default function MenuItems({ menuItems }) {
               className={`h-[24px] w-auto ml-2 ${
                 active ? "opacity-100" : "opacity-0"
               } transition-all duration-200`}
-              src={`/images/chain-skull.png`}
+              src={`${CDN_URL}/images/chain-skull.png`}
               width={547}
               height={662}
               alt=""
@@ -63,7 +64,7 @@ export default function MenuItems({ menuItems }) {
       <div className="h-[40px] w-[175px]">
         <Image
           className="h-full w-full object-cover"
-          src={`/images/wires-line-2.png`}
+          src={`${CDN_URL}/images/wires-line-2.png`}
           width={1000}
           height={153}
           alt=""
@@ -85,7 +86,7 @@ export default function MenuItems({ menuItems }) {
           className={`h-[24px] w-auto ml-2 ${
             pathname === "/shop/look" ? "opacity-100" : "opacity-0"
           } transition-all duration-200`}
-          src={`/images/chain-skull.png`}
+          src={`${CDN_URL}/images/chain-skull.png`}
           width={547}
           height={662}
           alt=""
@@ -101,7 +102,7 @@ export default function MenuItems({ menuItems }) {
         </div>
         <Image
           className={`h-[24px] w-auto ml-2 opacity-0`}
-          src={`/images/chain-skull.png`}
+          src={`${CDN_URL}/images/chain-skull.png`}
           width={547}
           height={662}
           alt=""

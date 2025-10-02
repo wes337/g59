@@ -3,7 +3,7 @@
 import { useState, useLayoutEffect } from "react";
 import { usePathname } from "next/navigation";
 import Image from "next/image";
-import { randomNumberBetween } from "@/utils";
+import { CDN_URL, randomNumberBetween } from "@/utils";
 
 export default function Wire({ wire }) {
   const pathname = usePathname();
@@ -21,7 +21,7 @@ export default function Wire({ wire }) {
           transform: `rotate(${rotate}deg)`,
           transition: "all 0.2s cubic-bezier(0.68, -0.55, 0.265, 1.55)",
         }}
-        src={`/images/wire-${wire}.png`}
+        src={`${CDN_URL}/images/wire-${wire}.png`}
         width={3840}
         height={2160}
         alt=""

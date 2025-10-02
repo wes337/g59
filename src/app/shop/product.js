@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import Image from "next/image";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
-import { formatPriceInUSD, randomNumberBetween } from "@/utils";
+import { CDN_URL, formatPriceInUSD, randomNumberBetween } from "@/utils";
 import Link from "next/link";
 
 gsap.registerPlugin(useGSAP);
@@ -82,7 +82,7 @@ function MobileProduct({ product, collection }) {
         <Image src={product.images[0]} width={1500} height={1800} alt="" />
         <Image
           className="absolute top-0 left-0 h-full w-full scale-x-[1.05] scale-y-[1.05] mix-blend-overlay pointer-events-none z-[-1] opacity-50"
-          src={`/images/backgrounds/grunge-${randomGrunge}.png`}
+          src={`${CDN_URL}/images/backgrounds/grunge-${randomGrunge}.png`}
           width={1500}
           height={1800}
           alt=""

@@ -1,5 +1,6 @@
 import Shopify from "@/shopify";
 import Product from "./product";
+import { CDN_URL } from "@/utils";
 
 export default async function Products({ handle }) {
   const { products, collection } = await Shopify.getCollectionProductsByHandle(
@@ -20,7 +21,9 @@ export default async function Products({ handle }) {
           );
         })}
       </div>
-      <div className="hidden sm:flex absolute w-full h-full z-[-1] scale-[1.025] pointer-events-none bg-white opacity-50 bg-[url(/images/backgrounds/grunge-2.png)] bg-center bg-repeat" />
+      <div
+        className={`hidden sm:flex absolute w-full h-full z-[-1] scale-[1.025] pointer-events-none bg-white opacity-50 bg-[url(${CDN_URL}/images/backgrounds/grunge-2.png)] bg-center bg-repeat`}
+      />
     </>
   );
 }

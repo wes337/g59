@@ -142,7 +142,7 @@ body {
   width: 100%;
   height: 100%;
   animation: flicker 3s infinite alternate;
-  background-image: url("/images/game/room-1-xl.png");
+  background-image: url("https://w-img.b-cdn.net/g59/images/game/room-1-xl.png");
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;

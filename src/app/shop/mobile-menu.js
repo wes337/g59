@@ -7,6 +7,7 @@ import { useState, useEffect } from "react";
 import { createPortal } from "react-dom";
 import { MdMenu, MdClose, MdArrowBack } from "react-icons/md";
 import { useShallow } from "zustand/react/shallow";
+import { CDN_URL } from "@/utils";
 import useGlobalState from "@/state";
 
 export default function MobileMenu({ menuItems }) {
@@ -129,7 +130,7 @@ export default function MobileMenu({ menuItems }) {
             <div className="h-[40px] w-full mb-[-8px] mt-[-8px]">
               <Image
                 className="h-full w-full object-cover"
-                src={`/images/wires-line-2.png`}
+                src={`${CDN_URL}/images/wires-line-2.png`}
                 width={1000}
                 height={153}
                 alt=""

@@ -4,7 +4,7 @@ import { useState, useEffect, useMemo } from "react";
 import { createPortal } from "react-dom";
 import { usePathname } from "next/navigation";
 import Image from "next/image";
-import { formatPriceInUSD } from "@/utils";
+import { CDN_URL, formatPriceInUSD } from "@/utils";
 import Shopify from "@/shopify";
 import Cache from "@/cache";
 import { MdShoppingCart, MdClose, MdDelete } from "react-icons/md";
@@ -195,7 +195,7 @@ export default function Cart() {
           >
             <Image
               className="h-full w-auto object-contain"
-              src={`/images/wires-line.png`}
+              src={`${CDN_URL}/images/wires-line.png`}
               width={1000}
               height={273}
               alt=""
@@ -218,7 +218,7 @@ export default function Cart() {
               Cart
               <Image
                 className={`absolute z-[-1] top-0 left-0 w-[100px] h-full opacity-50 drop-shadow-lg`}
-                src={`/images/border-hover.png`}
+                src={`${CDN_URL}/images/border-hover.png`}
                 alt=""
                 width={1287}
                 height={717}
