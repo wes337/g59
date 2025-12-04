@@ -98,35 +98,40 @@ export default function MobileMenu({ menuItems }) {
             <MdClose size={48} />
           </button>
           <div className="mt-[112px]">
-            {menuItems.map((menuItem) => {
-              let active = pathname.includes(
-                `/shop/${menuItem.resource.handle}`
-              );
+            {menuItems
+              .filter((menuItem) => menuItem && menuItem.resource)
+              .map((menuItem) => {
+                let active = pathname.includes(
+                  `/shop/${menuItem.resource.handle}`
+                );
 
-              if (pathname === "/shop" && menuItem.resource.handle === "all") {
-                active = true;
-              }
+                if (
+                  pathname === "/shop" &&
+                  menuItem.resource.handle === "all"
+                ) {
+                  active = true;
+                }
 
-              return (
-                <Link
-                  key={menuItem.id}
-                  className={`group relative lowercase text-2xl leading-12 cursor-pointer hover:text-yellow-300 w-full text-center ${
-                    active ? "text-yellow-300" : ""
-                  }`}
-                  href={`/shop/${menuItem.resource.handle}`}
-                  onClick={() => setMobileMenuOpen(false)}
-                  prefetch
-                >
-                  <div
-                    className={`group-hover:bg-white/10 ${
-                      active ? "bg-white/5" : ""
+                return (
+                  <Link
+                    key={menuItem.id}
+                    className={`group relative lowercase text-2xl leading-12 cursor-pointer hover:text-yellow-300 w-full text-center ${
+                      active ? "text-yellow-300" : ""
                     }`}
+                    href={`/shop/${menuItem.resource.handle}`}
+                    onClick={() => setMobileMenuOpen(false)}
+                    prefetch
                   >
-                    {menuItem.resource.title}
-                  </div>
-                </Link>
-              );
-            })}
+                    <div
+                      className={`group-hover:bg-white/10 ${
+                        active ? "bg-white/5" : ""
+                      }`}
+                    >
+                      {menuItem.resource.title}
+                    </div>
+                  </Link>
+                );
+              })}
             <div className="h-[40px] w-full mb-[-8px] mt-[-8px]">
               <Image
                 className="h-full w-full object-cover"

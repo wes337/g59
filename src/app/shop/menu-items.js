@@ -27,40 +27,42 @@ export default function MenuItems({ menuItems }) {
 
   return (
     <div className="hidden md:flex flex-col text-right items-end bg-black/75">
-      {menuItems.map((menuItem, index) => {
-        let active = pathname.includes(`/shop/${menuItem.resource.handle}`);
+      {menuItems
+        .filter((menuItem) => menuItem && menuItem.resource)
+        .map((menuItem, index) => {
+          let active = pathname.includes(`/shop/${menuItem.resource.handle}`);
 
-        if (pathname === "/shop" && menuItem.resource.handle === "all") {
-          active = true;
-        }
+          if (pathname === "/shop" && menuItem.resource.handle === "all") {
+            active = true;
+          }
 
-        return (
-          <Link
-            id={`menu-item-${index}`}
-            key={menuItem.id}
-            className={`flex items-center group relative lowercase text-lg xl:text-xl leading-8 cursor-pointer hover:text-yellow-300 h-[40px] w-full text-right drop-shadow-[2px_2px_0px_black]`}
-            href={`/shop/${menuItem.resource.handle}`}
-            prefetch
-          >
-            <div
-              className={`w-max ml-auto group-hover:bg-white/10 ${
-                active ? "text-yellow-200" : ""
-              }`}
+          return (
+            <Link
+              id={`menu-item-${index}`}
+              key={menuItem.id}
+              className={`flex items-center group relative lowercase text-lg xl:text-xl leading-8 cursor-pointer hover:text-yellow-300 h-[40px] w-full text-right drop-shadow-[2px_2px_0px_black]`}
+              href={`/shop/${menuItem.resource.handle}`}
+              prefetch
             >
-              {menuItem.resource.title}
-            </div>
-            <Image
-              className={`h-[24px] w-auto ml-2 ${
-                active ? "opacity-100" : "opacity-0"
-              } transition-all duration-200`}
-              src={`${CDN_URL}/images/chain-skull.png`}
-              width={547}
-              height={662}
-              alt=""
-            />
-          </Link>
-        );
-      })}
+              <div
+                className={`w-max ml-auto group-hover:bg-white/10 ${
+                  active ? "text-yellow-200" : ""
+                }`}
+              >
+                {menuItem.resource.title}
+              </div>
+              <Image
+                className={`h-[24px] w-auto ml-2 ${
+                  active ? "opacity-100" : "opacity-0"
+                } transition-all duration-200`}
+                src={`${CDN_URL}/images/chain-skull.png`}
+                width={547}
+                height={662}
+                alt=""
+              />
+            </Link>
+          );
+        })}
       <div className="h-[40px] w-[175px]">
         <Image
           className="h-full w-full object-cover"
