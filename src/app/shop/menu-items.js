@@ -74,6 +74,20 @@ export default function MenuItems({ menuItems }) {
       </div>
       <Link
         className={`flex items-center group relative lowercase text-lg xl:text-xl leading-8 cursor-pointer hover:text-yellow-300 h-[40px] w-full text-right drop-shadow-[2px_2px_0px_black]`}
+        href="https://g59records.indiemerch.com/"
+        target="_blank"
+      >
+        <div className="w-max ml-auto group-hover:bg-white/10">Music</div>
+        <Image
+          className={`h-[24px] w-auto ml-2 opacity-0 transition-all duration-200`}
+          src={`${CDN_URL}/images/chain-skull.png`}
+          width={547}
+          height={662}
+          alt=""
+        />
+      </Link>
+      <Link
+        className={`flex items-center group relative lowercase text-lg xl:text-xl leading-8 cursor-pointer hover:text-yellow-300 h-[40px] w-full text-right drop-shadow-[2px_2px_0px_black]`}
         href={`/shop/look`}
         prefetch
       >
