@@ -129,6 +129,10 @@ export default function Cart() {
     const cartItems = await Shopify.getCartItems(cart.id);
     setCartItems(cartItems);
 
+    if (cartItems.length === 0) {
+      setCartOpen(false);
+    }
+
     setLoading(false);
   };
 
