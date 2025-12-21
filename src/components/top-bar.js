@@ -51,11 +51,7 @@ function Nav(props) {
     >
       <NavLink label="Tour" href="/tour" />
       <NavLink label="Shop" href="/shop" />
-      <NavLink
-        label="Music"
-        href="https://g59records.indiemerch.com/"
-        external
-      />
+      <NavLink label="Music" href="/music" new />
     </div>
   );
 }
@@ -75,7 +71,14 @@ function NavLink(props) {
       target={props.external ? "_blank" : undefined}
       prefetch
     >
-      <span className="z-1">{props.label}</span>
+      <span className="relative z-1">
+        {props.label}
+        {props.new && (
+          <span className="text-[20px] sm:text-[24px] absolute top-[-33%] right-[-33%] rotate-15 lowercase text-red-500 text-shadow-lg">
+            New!
+          </span>
+        )}
+      </span>
       <Image
         className={`absolute z-[-1] top-0 left-0 w-full h-full scale-y-[1.2] scale-x-[1.5] opacity-0 ${
           pathname.includes(props.href) ? "opacity-50" : ""

@@ -3,25 +3,33 @@ import Cache from "@/cache";
 
 export default class Shopify {
   static client;
-  static domain = "thegreymarket-com.myshopify.com";
-  static storefrontAccessToken = "fe761087eb282c4486be2893aa0063ae";
+  static client2;
 
   static {
     Shopify.client = createStorefrontApiClient({
       apiVersion: "2025-07",
-      storeDomain: Shopify.domain,
-      publicAccessToken: Shopify.storefrontAccessToken,
+      storeDomain: "thegreymarket-com.myshopify.com",
+      publicAccessToken: "fe761087eb282c4486be2893aa0063ae",
+    });
+
+    Shopify.client2 = createStorefrontApiClient({
+      apiVersion: "2025-07",
+      storeDomain: "g59records.indiemerch.com",
+      publicAccessToken: "5f0d7c396a7534e562e8da12684e3905",
     });
   }
 
-  static async getProduct(handle) {
-    const cachedProduct = await Cache.getItem(`product:${handle}`);
+  static async getProduct(handle, music) {
+    const cacheKey = `product:${handle}${music ? ":music" : ""}`;
+    const cachedProduct = await Cache.getItem(cacheKey);
 
     if (cachedProduct) {
       return cachedProduct;
     }
 
-    const { data } = await Shopify.client.request(
+    const client = music ? Shopify.client2 : Shopify.client;
+
+    const { data } = await client.request(
       `query ProductQuery($handle: String!) {
         product(handle: $handle) {
           id
@@ -71,7 +79,7 @@ export default class Shopify {
       }
     );
 
-    const sizeChart = await Shopify.getSizeChart(data.product);
+    const sizeChart = music ? null : await Shopify.getSizeChart(data.product);
 
     const product = {
       id: data.product.id,
@@ -100,24 +108,34 @@ export default class Shopify {
     };
 
     if (product) {
-      Cache.setItem(`product:${handle}`, product, 60);
+      Cache.setItem(cacheKey, product, 60);
     }
 
     return product;
   }
 
-  static async getProducts(first = 100, after = null) {
-    const cachedProducts = await Cache.getItem(
-      `products:${first}${after ? `:${after}` : ""}`
-    );
+  static async getProducts(
+    first = 100,
+    after = null,
+    sortKey = "ID",
+    reverse = false,
+    music = false
+  ) {
+    const cacheKey = `products:${first}${after ? `:${after}` : ""}:${sortKey}${
+      reverse ? ":reverse" : ""
+    }${music ? ":music" : ""}`;
+
+    const cachedProducts = await Cache.getItem(cacheKey);
 
     if (cachedProducts) {
       return cachedProducts;
     }
 
-    const { data } = await Shopify.client.request(
-      `query ProductsQuery($first: Int!, $after: String) {
-        products(first: $first, after: $after) {
+    const client = music ? Shopify.client2 : Shopify.client;
+
+    const { data } = await client.request(
+      `query ProductsQuery($first: Int!, $after: String, $sortKey: ProductSortKeys, $reverse: Boolean) {
+        products(first: $first, after: $after, sortKey: $sortKey, reverse: $reverse) {
           pageInfo {
             hasNextPage
             endCursor
@@ -170,7 +188,7 @@ export default class Shopify {
         }
       }`,
       {
-        variables: { first, after },
+        variables: { first, after, sortKey, reverse },
       }
     );
 
@@ -216,11 +234,7 @@ export default class Shopify {
     };
 
     if (products && products.results && products.results.length > 0) {
-      Cache.setItem(
-        `products:${first}${after ? `:${after}` : ""}`,
-        products,
-        120
-      );
+      Cache.setItem(cacheKey, products, 120);
     }
 
     return products;
@@ -252,8 +266,10 @@ export default class Shopify {
     return src;
   }
 
-  static async getCart(cartId) {
-    const { data } = await Shopify.client.request(
+  static async getCart(cartId, music) {
+    const client = music ? Shopify.client2 : Shopify.client;
+
+    const { data } = await client.request(
       `query CartQuery($cartId: ID!) {
         cart(id: $cartId) {
           id
@@ -308,9 +324,11 @@ export default class Shopify {
     return data.cart;
   }
 
-  static async isCartValid(cartId) {
+  static async isCartValid(cartId, music) {
     try {
-      const { data } = await Shopify.client.request(
+      const client = music ? Shopify.client2 : Shopify.client;
+
+      const { data } = await client.request(
         `query CartQuery($cartId: ID!) {
           cart(id: $cartId) {
             id
@@ -328,8 +346,10 @@ export default class Shopify {
     }
   }
 
-  static async createCart() {
-    const { data } = await Shopify.client.request(`
+  static async createCart(music) {
+    const client = music ? Shopify.client2 : Shopify.client;
+
+    const { data } = await client.request(`
       mutation CreateCart {
         cartCreate {
           cart {
@@ -347,8 +367,10 @@ export default class Shopify {
     return data.cartCreate.cart;
   }
 
-  static async addToCart(cartId, lines) {
-    const { data } = await Shopify.client.request(
+  static async addToCart(cartId, lines, music) {
+    const client = music ? Shopify.client2 : Shopify.client;
+
+    const { data } = await client.request(
       `mutation AddToCart($cartId: ID!, $lines: [CartLineInput!]!) {
         cartLinesAdd(cartId: $cartId, lines: $lines) {
           cart {
@@ -390,13 +412,15 @@ export default class Shopify {
       }
     );
 
-    Cache.setItem("cartId", cartId, 180);
+    Cache.setItem(`cartId${music ? "music" : ""}`, cartId, 180);
 
     return data.cartLinesAdd.cart;
   }
 
-  static async removeFromCart(cartId, lineIds) {
-    const { data } = await Shopify.client.request(
+  static async removeFromCart(cartId, lineIds, music) {
+    const client = music ? Shopify.client2 : Shopify.client;
+
+    const { data } = await client.request(
       `mutation RemoveFromCart($cartId: ID!, $lineIds: [ID!]!) {
         cartLinesRemove(cartId: $cartId, lineIds: $lineIds) {
           cart {
@@ -441,8 +465,10 @@ export default class Shopify {
     return data.cartLinesRemove.cart;
   }
 
-  static async updateQuantity(cartId, lineId, quantity) {
-    const { data } = await Shopify.client.request(
+  static async updateQuantity(cartId, lineId, quantity, music) {
+    const client = music ? Shopify.client2 : Shopify.client;
+
+    const { data } = await client.request(
       `mutation UpdateCartLineQuantity($cartId: ID!, $lines: [CartLineUpdateInput!]!) {
         cartLinesUpdate(cartId: $cartId, lines: $lines) {
           cart {
@@ -490,7 +516,7 @@ export default class Shopify {
     return data.cartLinesUpdate.cart;
   }
 
-  static async emptyCart(cart) {
+  static async emptyCart(cart, music) {
     if (
       !cart ||
       !cart.lines ||
@@ -502,7 +528,9 @@ export default class Shopify {
 
     const lineIds = cart.lines.edges.map((edge) => edge.node.id);
 
-    await Shopify.client.request(
+    const client = music ? Shopify.client2 : Shopify.client;
+
+    await client.request(
       `mutation RemoveFromCart($cartId: ID!, $lineIds: [ID!]!) {
         cartLinesRemove(cartId: $cartId, lineIds: $lineIds) {
           cart {
@@ -545,8 +573,8 @@ export default class Shopify {
     );
   }
 
-  static async getCartItems(cartId) {
-    const cart = await Shopify.getCart(cartId);
+  static async getCartItems(cartId, music) {
+    const cart = await Shopify.getCart(cartId, music);
 
     if (
       !cart ||
@@ -1155,5 +1183,79 @@ export default class Shopify {
     );
 
     return data.shop;
+  }
+
+  static async getCollections(first = 100, after = null, music = false) {
+    const cacheKey = `collections:${first}${after ? `:${after}` : ""}${
+      music ? ":music" : ""
+    }`;
+
+    const cachedCollections = await Cache.getItem(cacheKey);
+
+    if (cachedCollections) {
+      return cachedCollections;
+    }
+
+    const client = music ? Shopify.client2 : Shopify.client;
+
+    const { data } = await client.request(
+      `query CollectionsQuery($first: Int!, $after: String) {
+        collections(first: $first, after: $after) {
+          pageInfo {
+            hasNextPage
+            endCursor
+          }
+          edges {
+            node {
+              id
+              title
+              handle
+              description
+              descriptionHtml
+              image {
+                url
+                altText
+              }
+              productsCount: metafield(namespace: "shopify", key: "products_count") {
+                value
+              }
+            }
+          }
+        }
+      }`,
+      {
+        variables: { first, after },
+      }
+    );
+
+    const results = data.collections.edges
+      .map(({ node }) => ({
+        id: node.id,
+        handle: node.handle,
+        title: node.title,
+        description: node.description,
+        descriptionHtml: node.descriptionHtml,
+        image: node.image?.url || null,
+        imageAlt: node.image?.altText || null,
+        productsCount: node.productsCount?.value
+          ? parseInt(node.productsCount.value, 10)
+          : 0,
+      }))
+      .filter(Boolean);
+
+    const hasMore = data.collections.pageInfo?.hasNextPage || false;
+    const endCursor = data.collections.pageInfo?.endCursor || null;
+
+    const collections = {
+      results,
+      hasMore,
+      endCursor,
+    };
+
+    if (collections.results.length > 0) {
+      Cache.setItem(cacheKey, collections, 120);
+    }
+
+    return collections;
   }
 }

@@ -175,7 +175,7 @@ export default function Home() {
 
   return (
     <>
-      <div className="fixed top-[8px] right-[8px] z-1 pointer-events-none">
+      {/* <div className="fixed top-[8px] right-[8px] z-1 pointer-events-none">
         <Image
           className="h-[40px] md:h-[64px] lg:h-[96px] w-auto translate-x-[8px]"
           src={`${CDN_URL}/images/logos/logo-bandana.png`}
@@ -190,7 +190,7 @@ export default function Home() {
           width={169}
           height={272}
         />
-      </div>
+      </div> */}
       <div
         className={`fixed top-0 left-0 w-full h-full flex flex-col items-center justify-center bg-black z-35 pointer-events-none ${
           loaded >= SLIDES.length ? "fadeOut" : ""
