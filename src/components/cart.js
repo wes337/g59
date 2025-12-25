@@ -12,7 +12,7 @@ import { FaPlus, FaMinus } from "react-icons/fa";
 import { useShallow } from "zustand/react/shallow";
 import useGlobalState from "@/state";
 
-export default function Cart() {
+export default function Cart({ music }) {
   const pathname = usePathname();
   const { cartOpen, setCartOpen, mobileMenuOpen } = useGlobalState(
     useShallow((state) => ({
@@ -51,23 +51,24 @@ export default function Cart() {
 
   useEffect(() => {
     const initCart = async () => {
-      const cachedCartId = await Cache.getItem("cartId");
+      const cacheKey = `cartId${music ? ":music" : ""}`;
+      const cachedCartId = await Cache.getItem(cacheKey);
       const validCart = cachedCartId
-        ? await Shopify.isCartValid(cachedCartId)
+        ? await Shopify.isCartValid(cachedCartId, music)
         : false;
 
       if (validCart) {
-        const existingCart = await Shopify.getCart(cachedCartId);
+        const existingCart = await Shopify.getCart(cachedCartId, music);
         setCart(existingCart);
       } else {
-        const cart = await Shopify.createCart();
-        Cache.setItem("cartId", cart.id, 3600);
+        const cart = await Shopify.createCart(music);
+        Cache.setItem(cacheKey, cart.id, 3600);
         setCart(cart);
       }
     };
 
     initCart();
-  }, []);
+  }, [music]);
 
   useEffect(() => {
     const getCartItems = async () => {
@@ -75,7 +76,7 @@ export default function Cart() {
         return;
       }
 
-      const cartItems = await Shopify.getCartItems(cart.id);
+      const cartItems = await Shopify.getCartItems(cart.id, music);
       setCartItems(cartItems);
     };
 
@@ -86,7 +87,7 @@ export default function Cart() {
     return () => {
       document.removeEventListener("updatecart", getCartItems);
     };
-  }, [cart]);
+  }, [cart, music]);
 
   useEffect(() => {
     if (!cart) {
@@ -95,9 +96,11 @@ export default function Cart() {
 
     const onAddToCart = async (event) => {
       const { merchandiseId, quantity } = event.detail;
-      const updatedCart = await Shopify.addToCart(cart.id, [
-        { merchandiseId, quantity },
-      ]);
+      const updatedCart = await Shopify.addToCart(
+        cart.id,
+        [{ merchandiseId, quantity }],
+        music
+      );
       setCart(updatedCart);
       setCartOpen(true);
     };
@@ -107,7 +110,7 @@ export default function Cart() {
     return () => {
       document.removeEventListener("addtocart", onAddToCart);
     };
-  }, [cart]);
+  }, [cart, music]);
 
   if (!cart || cartItems.length === 0) {
     return null;
@@ -121,12 +124,17 @@ export default function Cart() {
     setLoading(true);
 
     if (cartItem.quantity === 1) {
-      await Shopify.removeFromCart(cart.id, [cartItem.id]);
+      await Shopify.removeFromCart(cart.id, [cartItem.id], music);
     } else {
-      await Shopify.updateQuantity(cart.id, cartItem.id, cartItem.quantity - 1);
+      await Shopify.updateQuantity(
+        cart.id,
+        cartItem.id,
+        cartItem.quantity - 1,
+        music
+      );
     }
 
-    const cartItems = await Shopify.getCartItems(cart.id);
+    const cartItems = await Shopify.getCartItems(cart.id, music);
     setCartItems(cartItems);
 
     if (cartItems.length === 0) {
@@ -147,10 +155,15 @@ export default function Cart() {
       quantity = 30;
     }
 
-    await Shopify.updateQuantity(cart.id, cartItem.id, Math.max(quantity, 1));
-    const cartItems = await Shopify.getCartItems(cart.id);
-    setCartItems(cartItems);
+    await Shopify.updateQuantity(
+      cart.id,
+      cartItem.id,
+      Math.max(quantity, 1),
+      music
+    );
 
+    const cartItems = await Shopify.getCartItems(cart.id, music);
+    setCartItems(cartItems);
     setLoading(false);
   };
 
@@ -159,7 +172,7 @@ export default function Cart() {
       return;
     }
 
-    Cache.removeItem("cartId");
+    Cache.removeItem(`cartId${music ? ":music" : ""}`);
 
     window.location.href = cart.checkoutUrl;
   };
@@ -237,6 +250,7 @@ export default function Cart() {
                   onChangeQuantity={(quantity) =>
                     onChangeQuantity(cartItem, quantity)
                   }
+                  music={music}
                 />
               ))}
             </div>
@@ -270,7 +284,7 @@ export default function Cart() {
   );
 }
 
-function CartItem({ cartItem, onRemoveFromCart, onChangeQuantity }) {
+function CartItem({ cartItem, onRemoveFromCart, onChangeQuantity, music }) {
   const sizeLabel = () => {
     try {
       return !cartItem.variantTitle ||
@@ -300,10 +314,12 @@ function CartItem({ cartItem, onRemoveFromCart, onChangeQuantity }) {
         <div className="text-lg md:text-xl lowercase text-yellow-200 truncate">
           {cartItem.productTitle}
         </div>
-        <div className="font-sans font-bold tracking-wide mt-1 text-sm md:text-md uppercase opacity-75">
-          Size: {sizeLabel()}
-        </div>
-        <div className="flex mt-2">
+        {!music && (
+          <div className="font-sans font-bold tracking-wide mt-1 text-sm md:text-md uppercase opacity-75">
+            Size: {sizeLabel()}
+          </div>
+        )}
+        <div className={`flex ${music ? "mt-5" : "mt-2"}`}>
           <div className="flex items-center justify-center text-center h-full w-max">
             <button
               className="flex items-center justify-center text-center w-[32px] h-full cursor-pointer bg-black/50 hover:bg-white/5"
