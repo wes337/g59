@@ -8,7 +8,7 @@ import { useShallow } from "zustand/react/shallow";
 import useGlobalState from "@/state";
 import { CDN_URL } from "@/utils";
 
-const TOP_BAR_HEIGHT = 172;
+const TOP_BAR_HEIGHT = 10;
 
 export function TopBar() {
   const [scroll, setScroll] = useState(0);
@@ -45,8 +45,8 @@ export function TopBar() {
 function Nav(props) {
   return (
     <div
-      className={`fixed left-0 flex items-center justify-center w-full h-[148px] z-12 gap-8 transition-all duration-200 ${
-        props.hide ? "top-[-25%]" : "top-[16px] md:top-[52px]"
+      className={`fixed left-0 flex items-center justify-center w-full h-[56px] z-12 gap-8 transition-all duration-200 ${
+        props.hide ? "top-[-25%]" : "top-[64px] md:top-[100px]"
       }`}
     >
       <NavLink label="Tour" href="/tour" />
