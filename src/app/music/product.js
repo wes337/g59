@@ -74,7 +74,7 @@ function MobileProduct({ product }) {
       prefetch
     >
       {soldOut && (
-        <div className="absolute top-0 right-0 z-1 text-black lowercase m-2 text-lg tracking-wide bg-black/10 px-2 opacity-75 group-hover:opacity-100">
+        <div className="absolute top-0 right-0 z-1 text-red-500 text-shadow-[1px_1px_0_black] lowercase m-2 text-lg tracking-wide bg-black/10 px-2 opacity-75 group-hover:opacity-100">
           Sold Out
         </div>
       )}

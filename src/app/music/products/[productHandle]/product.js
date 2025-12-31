@@ -35,6 +35,16 @@ export default function Product({ product }) {
     setRandomGrunge(randomNumberBetween(0, 4));
   }, []);
 
+  useEffect(() => {
+    if (showFullImage) {
+      document.documentElement.classList.add("noScroll");
+      document.body.classList.add("noScroll");
+    } else {
+      document.documentElement.classList.remove("noScroll");
+      document.body.classList.remove("noScroll");
+    }
+  }, [showFullImage]);
+
   const gotoNextImage = () => {
     setCurrentImageIndex((currentImageIndex) => {
       const nextImageIndex = currentImageIndex + 1;
@@ -316,7 +326,7 @@ export default function Product({ product }) {
               <MdClose size={48} />
             </button>
             <Image
-              className="w-full min-h-screen object-cover"
+              className="w-full min-h-screen object-contain"
               src={product.images[currentImageIndex]}
               alt=""
               width={1500}

@@ -3,13 +3,7 @@ import Product from "./product";
 import { CDN_URL } from "@/utils";
 
 export default async function Products() {
-  const products = await Shopify.getProducts(
-    100,
-    null,
-    "CREATED_AT",
-    true,
-    true
-  );
+  const products = await Shopify.getProducts(100, null, "TITLE", true, true);
 
   return (
     <>
