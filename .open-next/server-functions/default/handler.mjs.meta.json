@@ -3561,13 +3561,13 @@
       "imports": [],
       "format": "cjs"
     },
-    ".open-next/server-functions/default/.next/server/app/shop/[collectionHandle]/page_client-reference-manifest.js": {
-      "bytes": 26342,
+    ".open-next/server-functions/default/.next/server/app/shop/look/page_client-reference-manifest.js": {
+      "bytes": 26245,
       "imports": [],
       "format": "cjs"
     },
-    ".open-next/server-functions/default/.next/server/app/shop/look/page_client-reference-manifest.js": {
-      "bytes": 26245,
+    ".open-next/server-functions/default/.next/server/app/shop/[collectionHandle]/page_client-reference-manifest.js": {
+      "bytes": 26342,
       "imports": [],
       "format": "cjs"
     },
@@ -3640,14 +3640,14 @@
           "original": "/home/wes/Development/g59/.open-next/server-functions/default/.next/server/app/_global-error/page_client-reference-manifest.js"
         },
         {
-          "path": ".open-next/server-functions/default/.next/server/app/shop/[collectionHandle]/page_client-reference-manifest.js",
-          "kind": "require-call",
-          "original": "/home/wes/Development/g59/.open-next/server-functions/default/.next/server/app/shop/[collectionHandle]/page_client-reference-manifest.js"
-        },
-        {
           "path": ".open-next/server-functions/default/.next/server/app/shop/look/page_client-reference-manifest.js",
           "kind": "require-call",
           "original": "/home/wes/Development/g59/.open-next/server-functions/default/.next/server/app/shop/look/page_client-reference-manifest.js"
+        },
+        {
+          "path": ".open-next/server-functions/default/.next/server/app/shop/[collectionHandle]/page_client-reference-manifest.js",
+          "kind": "require-call",
+          "original": "/home/wes/Development/g59/.open-next/server-functions/default/.next/server/app/shop/[collectionHandle]/page_client-reference-manifest.js"
         },
         {
           "path": ".open-next/server-functions/default/.next/server/app/shop/policies/[policy]/page_client-reference-manifest.js",
@@ -8503,11 +8503,11 @@
         ".open-next/server-functions/default/.next/server/app/_global-error/page_client-reference-manifest.js": {
           "bytesInOutput": 7388
         },
-        ".open-next/server-functions/default/.next/server/app/shop/[collectionHandle]/page_client-reference-manifest.js": {
-          "bytesInOutput": 25412
-        },
         ".open-next/server-functions/default/.next/server/app/shop/look/page_client-reference-manifest.js": {
           "bytesInOutput": 25294
+        },
+        ".open-next/server-functions/default/.next/server/app/shop/[collectionHandle]/page_client-reference-manifest.js": {
+          "bytesInOutput": 25412
         },
         ".open-next/server-functions/default/.next/server/app/shop/policies/[policy]/page_client-reference-manifest.js": {
           "bytesInOutput": 23515
