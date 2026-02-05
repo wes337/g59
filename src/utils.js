@@ -22,7 +22,7 @@ export function toCamelCase(text) {
 export function isSmallScreen() {
   try {
     const rootFontSize = parseFloat(
-      getComputedStyle(document.documentElement).fontSize
+      getComputedStyle(document.documentElement).fontSize,
     );
 
     const breakpoint = 40 * rootFontSize;
@@ -54,7 +54,7 @@ export function preloadImages(urls) {
 export const playSoundEffect = (soundEffect, volume) => {
   return new Promise((resolve) => {
     try {
-      const url = `/sounds/${soundEffect}`;
+      const url = `${CDN_URL}/sounds/${soundEffect}`;
       const audio = new Audio(url);
       audio.volume = volume || 0.75;
 
