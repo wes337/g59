@@ -16,7 +16,7 @@ export function TopBar() {
     useShallow((state) => ({
       mobileMenuOpen: state.mobileMenuOpen,
       cartOpen: state.cartOpen,
-    }))
+    })),
   );
 
   useEffect(() => {
@@ -51,7 +51,7 @@ function Nav(props) {
     >
       <NavLink label="Tour" href="/tour" />
       <NavLink label="Shop" href="/shop" />
-      <NavLink label="Music" href="/music" new />
+      <NavLink label="Music" href="/music" />
     </div>
   );
 }
@@ -98,7 +98,7 @@ function Logo(props) {
   const { cartOpen } = useGlobalState(
     useShallow((state) => ({
       cartOpen: state.cartOpen,
-    }))
+    })),
   );
 
   return (

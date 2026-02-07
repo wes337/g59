@@ -2,6 +2,7 @@ import Script from "next/script";
 import { Geist, Geist_Mono } from "next/font/google";
 import { TopBar } from "@/components/top-bar";
 import { Footer } from "@/components/footer";
+import Pixels from "@/components/pixels";
 import Game from "@/components/game";
 import "@/app/globals.css";
 
@@ -26,6 +27,7 @@ export default function RootLayout({ children }) {
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
+        <Pixels />
         <TopBar />
         {children}
         <Footer />
