@@ -4,7 +4,7 @@ import { useEffect } from "react";
 import { usePathname } from "next/navigation";
 import Script from "next/script";
 
-const META_PIXEL_ID = "1223624589983165";
+const META_PIXEL_ID = "1051098560496871";
 const TIKTOK_PIXEL_ID = "D629M2JC77U8DQFBPEM0add";
 
 export default function Pixels() {

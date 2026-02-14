@@ -429,7 +429,7 @@ export default function Game() {
 
   const startMusic = (track = "song-1-quiet.mp3", volume = 1) => {
     if (!musicRef.current) {
-      const music = new Audio(`/sounds/${track}`);
+      const music = new Audio(`${CDN_URL}/sounds/${track}`);
       music.volume = volume;
       music.loop = true;
       music.play().catch(() => {
@@ -437,7 +437,7 @@ export default function Game() {
       });
       musicRef.current = music;
     } else {
-      musicRef.current.src = `/sounds/${track}`;
+      musicRef.current.src = `${CDN_URL}/sounds/${track}`;
       musicRef.current.volume = volume;
       musicRef.current.play().catch(() => {
         // Do nothing
