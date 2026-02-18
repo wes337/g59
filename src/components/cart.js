@@ -19,7 +19,7 @@ export default function Cart({ music }) {
       cartOpen: state.cartOpen,
       setCartOpen: state.setCartOpen,
       mobileMenuOpen: state.mobileMenuOpen,
-    }))
+    })),
   );
   const [cart, setCart] = useState(null);
   const [cartItems, setCartItems] = useState([]);
@@ -99,7 +99,7 @@ export default function Cart({ music }) {
       const updatedCart = await Shopify.addToCart(
         cart.id,
         [{ merchandiseId, quantity }],
-        music
+        music,
       );
       setCart(updatedCart);
       setCartOpen(true);
@@ -130,7 +130,7 @@ export default function Cart({ music }) {
         cart.id,
         cartItem.id,
         cartItem.quantity - 1,
-        music
+        music,
       );
     }
 
@@ -159,7 +159,7 @@ export default function Cart({ music }) {
       cart.id,
       cartItem.id,
       Math.max(quantity, 1),
-      music
+      music,
     );
 
     const cartItems = await Shopify.getCartItems(cart.id, music);
@@ -174,7 +174,16 @@ export default function Cart({ music }) {
 
     Cache.removeItem(`cartId${music ? ":music" : ""}`);
 
-    window.location.href = cart.checkoutUrl;
+    const checkoutUrl = new URL(cart.checkoutUrl);
+    const savedParams = new URLSearchParams(
+      sessionStorage.getItem("trackingParams") || "",
+    );
+
+    savedParams.forEach((value, key) => {
+      checkoutUrl.searchParams.set(key, value);
+    });
+
+    window.location.href = checkoutUrl.toString();
   };
 
   return (
@@ -278,7 +287,7 @@ export default function Cart({ music }) {
             </div>
           </div>
         </>,
-        document.body
+        document.body,
       )}
     </>
   );

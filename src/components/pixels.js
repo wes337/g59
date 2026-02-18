@@ -11,6 +11,13 @@ export default function Pixels() {
   const pathname = usePathname();
 
   useEffect(() => {
+    const params = window.location.search;
+    if (params) {
+      sessionStorage.setItem("trackingParams", params);
+    }
+  }, []);
+
+  useEffect(() => {
     if (window.fbq) window.fbq("track", "PageView");
     if (window.ttq) window.ttq.page();
   }, [pathname]);
