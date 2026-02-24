@@ -44,9 +44,19 @@
 
 html,
 body {
-  touch-action: manipulation;
-  overscroll-behavior: none;
   overflow-x: hidden;
+}
+
+@media (pointer: coarse) {
+  html,
+  body {
+    overscroll-behavior: none;
+  }
+}
+
+html,
+body {
+  touch-action: manipulation;
 }
 
 @media screen and (min-width: 40rem) {
@@ -60,7 +70,7 @@ body {
   color: var(--foreground);
   font-family: "kraut", Arial, Helvetica, sans-serif;
   min-height: 100vh;
-  overflow-y: auto;
+  overflow-y: hidden;
 }
 
 @keyframes spinner {
