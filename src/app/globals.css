@@ -60,7 +60,7 @@ body {
   color: var(--foreground);
   font-family: "kraut", Arial, Helvetica, sans-serif;
   min-height: 100vh;
-  overflow-y: hidden;
+  overflow-y: auto;
 }
 
 @keyframes spinner {
