@@ -1,8 +1,7 @@
 import Shopify from "@/shopify";
 import Product from "./product";
 
-export const revalidate = 0;
-export const dynamic = "force-dynamic";
+export const revalidate = 60;
 
 export default async function Page({ params }) {
   const { productHandle, collectionHandle } = await params;

@@ -14,6 +14,20 @@ const nextConfig = {
       },
     ],
   },
+  headers: async () => [
+    {
+      source: "/shop/:path*",
+      headers: [{ key: "CDN-Cache-Control", value: "max-age=60" }],
+    },
+    {
+      source: "/music/:path*",
+      headers: [{ key: "CDN-Cache-Control", value: "max-age=60" }],
+    },
+    {
+      source: "/tour",
+      headers: [{ key: "CDN-Cache-Control", value: "max-age=30" }],
+    },
+  ],
 };
 
 export default nextConfig;

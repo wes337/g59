@@ -4,8 +4,7 @@ import Wire from "@/components/wire";
 import Tour from "./tour";
 import TourMap from "./map";
 
-export const revalidate = 0;
-export const dynamic = "force-dynamic";
+export const revalidate = 30;
 
 async function getTours() {
   const response = await axios.get(
