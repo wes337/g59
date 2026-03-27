@@ -9,6 +9,7 @@ import useGlobalState from "@/state";
 import { CDN_URL } from "@/utils";
 
 const TOP_BAR_HEIGHT = 10;
+const TOUR_ANNOUNCE_DATE = Date.UTC(2026, 2, 31, 17, 0, 0); // Mar 31 2026, 10am PT / 1pm ET
 
 export function TopBar() {
   const [scroll, setScroll] = useState(0);
@@ -49,7 +50,7 @@ function Nav(props) {
         props.hide ? "top-[-25%]" : "top-[64px] md:top-[100px]"
       }`}
     >
-      <NavLink label="Tour" href="/tour" />
+      <NavLink label="Tour" href="/tour" new={Date.now() >= TOUR_ANNOUNCE_DATE} />
       <NavLink label="Shop" href="/shop" />
       <NavLink label="Music" href="/music" />
     </div>

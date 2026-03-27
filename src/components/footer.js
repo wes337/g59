@@ -57,7 +57,7 @@ export function Footer() {
           </div>
         )}
         <div className="opacity-75">
-          Copyright © 2025 G59 Records, Inc. All Rights Reserved
+          Copyright © 2026 G59 Records, Inc. All Rights Reserved
         </div>
       </div>
     </>
