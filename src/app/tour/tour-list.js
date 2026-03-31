@@ -39,8 +39,8 @@ function TourRow({ tour, index }) {
       {/* --- MOBILE layout (below md) --- */}
       <div className="flex flex-col p-5 gap-4 md:hidden">
         {/* top: date + location side by side */}
-        <div className="flex items-center gap-3">
-          <div className="flex flex-col items-center justify-center w-[72px] h-[72px] bg-white/[0.04] border border-white/[0.08] shrink-0">
+        <div className="flex items-start gap-3">
+          <div className="flex flex-col items-center justify-center w-[72px] h-[72px] bg-white/[0.04] border border-white/[0.08] shrink-0 mt-1.5">
             <span className="font-stencil text-xs tracking-[0.2em] text-yellow-300/80 leading-none">
               {formatMonth(startsAt)}
             </span>
@@ -49,12 +49,17 @@ function TourRow({ tour, index }) {
             </span>
           </div>
           <div className="flex flex-col min-w-0">
-            <div className="font-sans text-2xl font-bold uppercase tracking-tight truncate">
+            <div className="font-sans text-2xl font-bold uppercase tracking-tight truncate text-yellow-300">
               {attributes["formatted-address"]}
             </div>
             <div className="font-kraut text-base text-white/40 lowercase truncate">
               {attributes["venue-name"]}
             </div>
+            {attributes["details"] && (
+              <div className="font-kraut text-xl text-white lowercase mt-0.5">
+                {attributes["details"]}
+              </div>
+            )}
           </div>
         </div>
         {/* bottom: buttons full width */}
@@ -98,12 +103,17 @@ function TourRow({ tour, index }) {
           </div>
         </div>
         <div className="flex flex-col justify-center px-4 flex-1 min-w-0">
-          <div className="font-sans text-3xl font-bold uppercase tracking-wide truncate">
+          <div className="font-sans text-3xl font-bold uppercase tracking-wide truncate text-yellow-300">
             {attributes["formatted-address"]}
           </div>
           <div className="font-kraut text-lg text-white/40 lowercase truncate">
             {attributes["venue-name"]}
           </div>
+          {attributes["details"] && (
+            <div className="font-kraut text-xl text-white lowercase mt-0.5">
+              {attributes["details"]}
+            </div>
+          )}
         </div>
         {!isPast && (
           <div className="flex items-center gap-2 shrink-0">
