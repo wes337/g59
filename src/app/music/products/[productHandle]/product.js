@@ -15,7 +15,7 @@ export default function Product({ product }) {
   const { cartOpen } = useGlobalState(
     useShallow((state) => ({
       cartOpen: state.cartOpen,
-    }))
+    })),
   );
   const router = useRouter();
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
@@ -27,7 +27,7 @@ export default function Product({ product }) {
   const [showSizeError, setShowSizeError] = useState(false);
 
   const soldOut = !product.variants.some(
-    ({ availableForSale }) => !!availableForSale
+    ({ availableForSale }) => !!availableForSale,
   );
 
   useEffect(() => {
@@ -108,7 +108,7 @@ export default function Product({ product }) {
         >
           <MdArrowBack size={40} />
         </button>,
-        document.body
+        document.body,
       )}
       <div className="flex flex-col w-full md:w-auto">
         <div className="flex flex-col w-full md:flex-row gap-8 md:bg-black/75">
@@ -184,7 +184,7 @@ export default function Product({ product }) {
             </div>
           </div>
           <div className="flex flex-col gap-4 w-full z-1">
-            <div className="lowercase text-2xl md:text-5xl xl:text-7xl text-yellow-300 text-shadow-[4px_4px_0px_black]">
+            <div className="text-2xl md:text-5xl xl:text-7xl text-yellow-300 text-shadow-[4px_4px_0px_black]">
               {product.title}
             </div>
             <div className="text-5xl text-shadow-[4px_4px_0px_black]">
@@ -314,7 +314,7 @@ export default function Product({ product }) {
               height={995}
             />
           </div>,
-          document?.body
+          document?.body,
         )}
       {showFullImage &&
         createPortal(
@@ -333,7 +333,7 @@ export default function Product({ product }) {
               height={1800}
             />
           </div>,
-          document?.body
+          document?.body,
         )}
     </>
   );

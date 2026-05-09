@@ -11,7 +11,7 @@ gsap.registerPlugin(useGSAP);
 
 export default function Product({ product, index }) {
   const soldOut = !product.variants.some(
-    ({ availableForSale }) => !!availableForSale
+    ({ availableForSale }) => !!availableForSale,
   );
 
   useGSAP(() => {
@@ -21,7 +21,7 @@ export default function Product({ product, index }) {
     gsap.fromTo(
       `${id}`,
       { yPercent: 100, ease: "elastic" },
-      { yPercent: 0, ease: "elastic", delay }
+      { yPercent: 0, ease: "elastic", delay },
     );
   }, [index]);
 
@@ -44,7 +44,7 @@ export default function Product({ product, index }) {
           height={1800}
           alt=""
         />
-        <div className="absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] text-yellow-300 opacity-0 group-hover:opacity-100 lowercase text-center leading-5 text-md text-shadow-[1px_1px_2px_rgb(0_0_0_/_0.95)]">
+        <div className="absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] text-yellow-300 opacity-0 group-hover:opacity-100 text-center leading-5 text-md text-shadow-[1px_1px_2px_rgb(0_0_0_/_0.95)]">
           {product.title}
         </div>
         <div className="absolute bottom-0 left-0 w-full text-center z-10 text-black text-2xl tracking-wide opacity-0 group-hover:opacity-100">
@@ -60,7 +60,7 @@ function MobileProduct({ product }) {
   const [randomGrunge, setRandomGrunge] = useState(0);
 
   const soldOut = !product.variants.some(
-    ({ availableForSale }) => !!availableForSale
+    ({ availableForSale }) => !!availableForSale,
   );
 
   useEffect(() => {
@@ -88,7 +88,7 @@ function MobileProduct({ product }) {
           alt=""
         />
       </div>
-      <div className="text-yellow-300 lowercase text-lg leading-7 text-shadow-[2px_2px_0px_black] bg-black/50">
+      <div className="text-yellow-300 text-lg leading-7 text-shadow-[2px_2px_0px_black] bg-black/50">
         {product.title}
       </div>
       <div className="text-white text-2xl tracking-wide mb-2 bg-black/50 text-shadow-[2px_2px_0px_black]">
