@@ -3,7 +3,12 @@
 import { useState, useEffect } from "react";
 import { createPortal } from "react-dom";
 import Image from "next/image";
-import { CDN_URL, formatPriceInUSD, randomNumberBetween } from "@/utils";
+import {
+  CDN_URL,
+  formatPriceInUSD,
+  randomNumberBetween,
+  formatProductTitle,
+} from "@/utils";
 import { MdClose, MdZoomIn } from "react-icons/md";
 import { FaPlus, FaMinus } from "react-icons/fa";
 import SizeChartIcon from "@/components/size-chart-icon";
@@ -155,7 +160,7 @@ export default function Product({ product }) {
           </div>
           <div className="flex flex-col gap-4 w-full z-1">
             <div className="text-2xl md:text-5xl xl:text-7xl text-yellow-300 text-shadow-[4px_4px_0px_black]">
-              {product.title}
+              {formatProductTitle(product.title)}
             </div>
             <div className="text-5xl text-shadow-[4px_4px_0px_black]">
               {formatPriceInUSD(product.price)}

@@ -80,3 +80,11 @@ export const playSoundEffect = (soundEffect, volume) => {
     }
   });
 };
+
+export function formatProductTitle(title) {
+  try {
+    return title.toLowerCase().replace(/g59ig/, "G59");
+  } catch {
+    return title;
+  }
+}
