@@ -75,7 +75,7 @@ export const GAME_ITEMS = {
     useText: "Look down the barrel",
     cancelText: "Put it down",
     usedText:
-      "The blast echoes through empty corridors. Smoke drifts from both barrels like departing souls. Your last sight is the ornate engravings on the stock—beautiful craftsmanship, terrible outcome.",
+      "The blast echoes through empty corridors. Smoke drifts from both barrels like departing souls. Your last sight is the ornate engravings on the stock. Beautiful craftsmanship, terrible outcome.",
   },
   "broken-cd": {
     useText: "Handle the shards",
@@ -99,7 +99,7 @@ export const GAME_ITEMS = {
     useText: "Stick the pin",
     cancelText: "Bad juju",
     usedText:
-      "The pin sinks into fabric, but the pain blooms in your chest. The doll grins with button eyes as you realize too late—it was already bound to you. Karma has a twisted sense of humor.",
+      "The pin sinks into fabric, but the pain blooms in your chest. The doll grins with button eyes as you realize too late that it was already bound to you. Karma has a twisted sense of humor.",
   },
   screwdriver: {
     useText: "Pry with it",
