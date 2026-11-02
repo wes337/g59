@@ -49,19 +49,6 @@ export const SLIDES = [
     soundcloud: "https://soundcloud.com/germone",
   },
   {
-    name: "chetta",
-    icon: `${CDN_URL}/images/artists/chetta-icon.png`,
-    bg: `${CDN_URL}/images/backgrounds/grunge-1.png`,
-    bio: `guess who, bitch.`,
-    youtube: "https://www.youtube.com/@CHETTA",
-    ig: "https://www.instagram.com/j_chetta",
-    x: "https://x.com/j_chetta",
-    spotify: "https://open.spotify.com/artist/7ipVTAf9PqCSddkeYtKw9h",
-    soundcloud: "https://soundcloud.com/j-chetta",
-    tiktok: "https://www.tiktok.com/@j_chetta",
-  },
-
-  {
     name: "duckboy",
     icon: `${CDN_URL}/images/artists/db2-icon.png`,
     bg: `${CDN_URL}/images/backgrounds/grunge-4.png`,

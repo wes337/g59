@@ -259,7 +259,7 @@ function Slide(props) {
   const wide = ["shakewell"].includes(props.slide.name);
 
   const customName = () => {
-    return ["chetta", "shakewell"].includes(props.slide.name);
+    return ["shakewell"].includes(props.slide.name);
   };
 
   const customFont = () => {
@@ -268,8 +268,6 @@ function Slide(props) {
         return "font-night uppercase";
       case "germ":
         return "font-germ uppercase";
-      case "chetta":
-        return "opacity-0";
       case "shakewell":
         return "opacity-0";
       case "duckboy":
@@ -283,8 +281,6 @@ function Slide(props) {
 
   const textSize = () => {
     switch (props.slide.name) {
-      case "chetta":
-        return "max-[420px]:text-[6.4rem] text-[7rem] md:text-[12rem]";
       case "night lovell":
         return "text-[3.5rem] md:text-[5rem] xl:text-[7rem]";
       case "duckboy":
